@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: pdb1048.awardspace.net
--- Generation Time: Feb 01, 2025 at 08:43 PM
--- Server version: 8.0.32
--- PHP Version: 8.1.31
+-- Host: 127.0.0.1:3306
+-- Generation Time: Feb 02, 2025 at 02:00 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `4383021_villagemarket`
+-- Database: `village_market`
 --
-CREATE DATABASE IF NOT EXISTS `4383021_villagemarket` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `4383021_villagemarket`;
+CREATE DATABASE IF NOT EXISTS `village_market` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `village_market`;
 
 -- --------------------------------------------------------
 
@@ -30,9 +30,9 @@ USE `4383021_villagemarket`;
 --
 
 CREATE TABLE `category` (
-  `category_id` int NOT NULL,
+  `category_id` int(11) NOT NULL,
   `category_name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `category`
@@ -54,10 +54,10 @@ INSERT INTO `category` (`category_id`, `category_name`) VALUES
 --
 
 CREATE TABLE `cms_announcement` (
-  `announcement_id` int NOT NULL,
+  `announcement_id` int(11) NOT NULL,
   `announcement` text NOT NULL,
-  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -66,10 +66,10 @@ CREATE TABLE `cms_announcement` (
 --
 
 CREATE TABLE `cms_hero_image` (
-  `hero_id` int NOT NULL,
+  `hero_id` int(11) NOT NULL,
   `hero_image_url` varchar(255) NOT NULL,
-  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -78,11 +78,11 @@ CREATE TABLE `cms_hero_image` (
 --
 
 CREATE TABLE `featured_product` (
-  `fproduct_id` int NOT NULL,
-  `vendor_id` int NOT NULL,
-  `product_id` int NOT NULL,
+  `fproduct_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
   `fproduct_start_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -91,11 +91,11 @@ CREATE TABLE `featured_product` (
 --
 
 CREATE TABLE `featured_vendor` (
-  `fvendor_id` int NOT NULL,
-  `vendor_id` int NOT NULL,
+  `fvendor_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
   `fvendor_start_date` datetime NOT NULL,
   `fvendor_end_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -104,19 +104,19 @@ CREATE TABLE `featured_vendor` (
 --
 
 CREATE TABLE `homepage_content` (
-  `homepage_id` int NOT NULL,
-  `hero_id` int DEFAULT NULL,
-  `announcement_id` int DEFAULT NULL,
-  `next_date` int DEFAULT NULL,
-  `market_location` text,
-  `market_hours` text,
+  `homepage_id` int(11) NOT NULL,
+  `hero_id` int(11) DEFAULT NULL,
+  `announcement_id` int(11) DEFAULT NULL,
+  `next_date` int(11) DEFAULT NULL,
+  `market_location` text DEFAULT NULL,
+  `market_hours` text DEFAULT NULL,
   `contact_phone` varchar(20) DEFAULT NULL,
   `contact_email` varchar(255) DEFAULT NULL,
   `contact_mailing_address` varchar(255) DEFAULT NULL,
   `contact_city` varchar(50) DEFAULT NULL,
-  `contact_state` int DEFAULT NULL,
+  `contact_state` int(11) DEFAULT NULL,
   `contact_zip` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -125,11 +125,11 @@ CREATE TABLE `homepage_content` (
 --
 
 CREATE TABLE `market_attendance` (
-  `attendance_id` int NOT NULL,
-  `vendor_id` int NOT NULL,
-  `market_date_id` int NOT NULL,
-  `is_confirmed` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `attendance_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `market_date_id` int(11) NOT NULL,
+  `is_confirmed` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -138,10 +138,10 @@ CREATE TABLE `market_attendance` (
 --
 
 CREATE TABLE `market_date` (
-  `market_date_id` int NOT NULL,
-  `market_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `is_active` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `market_date_id` int(11) NOT NULL,
+  `market_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -150,9 +150,9 @@ CREATE TABLE `market_date` (
 --
 
 CREATE TABLE `price_unit` (
-  `price_unit_id` int NOT NULL,
+  `price_unit_id` int(11) NOT NULL,
   `unit_name` enum('Pound','Dozen','Unit','Bundle','Gallon') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -161,15 +161,15 @@ CREATE TABLE `price_unit` (
 --
 
 CREATE TABLE `product` (
-  `product_id` int NOT NULL,
+  `product_id` int(11) NOT NULL,
   `product_name` varchar(100) NOT NULL,
-  `product_description` text,
-  `vendor_id` int NOT NULL,
+  `product_description` text DEFAULT NULL,
+  `vendor_id` int(11) NOT NULL,
   `product_image_url` varchar(255) DEFAULT NULL,
-  `date_added` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `is_active` tinyint(1) DEFAULT '1',
-  `category_id` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_active` tinyint(1) DEFAULT 1,
+  `category_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -178,10 +178,10 @@ CREATE TABLE `product` (
 --
 
 CREATE TABLE `product_availability` (
-  `availability_id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `attendance_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `availability_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `attendance_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -190,11 +190,11 @@ CREATE TABLE `product_availability` (
 --
 
 CREATE TABLE `product_price_unit` (
-  `product_price_unit_id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `price_unit_id` int NOT NULL,
+  `product_price_unit_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `price_unit_id` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -203,9 +203,9 @@ CREATE TABLE `product_price_unit` (
 --
 
 CREATE TABLE `role` (
-  `role_id` int NOT NULL,
+  `role_id` int(11) NOT NULL,
   `role_name` enum('vendor','admin','super_admin') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -214,10 +214,21 @@ CREATE TABLE `role` (
 --
 
 CREATE TABLE `state` (
-  `state_id` int NOT NULL,
+  `state_id` int(11) NOT NULL,
   `state_name` varchar(50) NOT NULL,
   `state_abbreviation` char(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `state`
+--
+
+INSERT INTO `state` (`state_id`, `state_name`, `state_abbreviation`) VALUES
+(1, 'North Carolina', 'NC'),
+(2, 'South Carolina', 'SC'),
+(3, 'Georgia', 'GA'),
+(4, 'Tennessee', 'TN'),
+(5, 'Virginia', 'VA');
 
 -- --------------------------------------------------------
 
@@ -226,16 +237,16 @@ CREATE TABLE `state` (
 --
 
 CREATE TABLE `user` (
-  `user_id` int NOT NULL,
+  `user_id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email_address` varchar(255) NOT NULL,
   `password_hashed` varchar(255) NOT NULL,
   `phone_number` varchar(20) DEFAULT NULL,
-  `role_id` int DEFAULT NULL,
-  `registration_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `is_active` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `role_id` int(11) DEFAULT NULL,
+  `registration_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -244,20 +255,20 @@ CREATE TABLE `user` (
 --
 
 CREATE TABLE `vendor` (
-  `vendor_id` int NOT NULL,
-  `user_id` int NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `business_name` varchar(100) NOT NULL,
-  `business_description` text,
+  `business_description` text DEFAULT NULL,
   `street_address` varchar(100) DEFAULT NULL,
   `city` varchar(50) DEFAULT NULL,
-  `state_id` int DEFAULT NULL,
+  `state_id` int(11) DEFAULT NULL,
   `zip_code` varchar(10) DEFAULT NULL,
   `business_phone_number` varchar(20) DEFAULT NULL,
   `business_email_address` varchar(255) DEFAULT NULL,
   `business_image_url` varchar(255) DEFAULT NULL,
   `business_logo_url` varchar(255) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `is_active` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -386,97 +397,97 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `cms_announcement`
 --
 ALTER TABLE `cms_announcement`
-  MODIFY `announcement_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `announcement_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cms_hero_image`
 --
 ALTER TABLE `cms_hero_image`
-  MODIFY `hero_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `hero_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `featured_product`
 --
 ALTER TABLE `featured_product`
-  MODIFY `fproduct_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `fproduct_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `featured_vendor`
 --
 ALTER TABLE `featured_vendor`
-  MODIFY `fvendor_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `fvendor_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `homepage_content`
 --
 ALTER TABLE `homepage_content`
-  MODIFY `homepage_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `homepage_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `market_attendance`
 --
 ALTER TABLE `market_attendance`
-  MODIFY `attendance_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `attendance_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `market_date`
 --
 ALTER TABLE `market_date`
-  MODIFY `market_date_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `market_date_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `price_unit`
 --
 ALTER TABLE `price_unit`
-  MODIFY `price_unit_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `price_unit_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_availability`
 --
 ALTER TABLE `product_availability`
-  MODIFY `availability_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `availability_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_price_unit`
 --
 ALTER TABLE `product_price_unit`
-  MODIFY `product_price_unit_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `product_price_unit_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `role_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `state`
 --
 ALTER TABLE `state`
-  MODIFY `state_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `state_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `vendor_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
