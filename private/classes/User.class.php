@@ -15,9 +15,9 @@ class User extends DatabaseObject
     'first_name',
     'last_name',
     'email_address',
-    'username',
+    'password_hashed',
+    'phone_number',
     'role_id',
-    'hashed_password',
     'registration_date',
     'is_active'
   ];
@@ -26,9 +26,12 @@ class User extends DatabaseObject
   public $first_name;
   public $last_name;
   public $email_address;
-  public $username;
-  public $role_id;
-  protected $hashed_password;
+  public $password_hashed;
+  public $phone_number;
+  protected $role_id;
+  public $registration_date;
+  public $is_active;
+
   public $password;
   public $confirm_password;
   protected $password_required = true;
@@ -41,6 +44,8 @@ class User extends DatabaseObject
   /**
    * User constructor.
    *
+   * Initializes a new user object with optional property values.
+   *
    * @param array $args Associative array of property values.
    */
   public function __construct($args = [])
@@ -48,10 +53,11 @@ class User extends DatabaseObject
     $this->first_name = $args['first_name'] ?? '';
     $this->last_name = $args['last_name'] ?? '';
     $this->email_address = $args['email_address'] ?? '';
-    $this->username = $args['username'] ?? '';
-    $this->role_id = $args['role_id'] ?? self::VENDOR; // Default role is Vendor
+    $this->phone_number = $args['phone_number'] ?? '';
+    $this->role_id = $args['role_id'] ?? self::VENDOR; // Default role: Vendor
     $this->password = $args['password'] ?? '';
     $this->confirm_password = $args['confirm_password'] ?? '';
+    $this->is_active = $args['is_active'] ?? 1; // Default: active
   }
 
   /**
@@ -87,7 +93,7 @@ class User extends DatabaseObject
   /**
    * Get the user's full name.
    *
-   * @return string The user's full name.
+   * @return string The user's full name in "First Last" format.
    */
   public function full_name()
   {
@@ -95,30 +101,32 @@ class User extends DatabaseObject
   }
 
   /**
-   * Hash the user's password and store it in the hashed_password property.
+   * Hash the user's password and store it in the password_hashed property.
    *
    * @return void
    */
   protected function set_hashed_password()
   {
-    $this->hashed_password = password_hash($this->password, PASSWORD_BCRYPT);
+    $this->password_hashed = password_hash($this->password, PASSWORD_BCRYPT);
   }
 
   /**
    * Verify if a provided password matches the stored hashed password.
    *
-   * @param string $password The plain text password to verify.
+   * @param string $password The plain-text password to verify.
    * @return bool True if the password matches, false otherwise.
    */
   public function verify_password($password)
   {
-    return password_verify($password, $this->hashed_password);
+    return password_verify($password, $this->password_hashed);
   }
 
   /**
    * Create a new user record in the database.
    *
-   * @return bool True if the record was created, false otherwise.
+   * Hashes the password before creating the user.
+   *
+   * @return bool True if the record was created successfully, false otherwise.
    */
   public function create()
   {
@@ -129,11 +137,13 @@ class User extends DatabaseObject
   /**
    * Update an existing user record in the database.
    *
-   * @return bool True if the record was updated, false otherwise.
+   * Updates the password hash only if a new password is provided.
+   *
+   * @return bool True if the record was updated successfully, false otherwise.
    */
   public function update()
   {
-    if ($this->password != '') {
+    if (!empty($this->password)) {
       $this->set_hashed_password();
     } else {
       $this->password_required = false;
@@ -144,40 +154,32 @@ class User extends DatabaseObject
   /**
    * Validate the user's properties.
    *
+   * Performs validation checks for required fields and formats.
+   *
    * @return array List of validation errors, if any.
    */
   protected function validate()
   {
     $this->errors = [];
 
+    // Validate First Name
     if (is_blank($this->first_name)) {
       $this->errors[] = "First name cannot be blank.";
-    } elseif (!has_length($this->first_name, ['min' => 2, 'max' => 255])) {
-      $this->errors[] = "First name must be between 2 and 255 characters.";
     }
 
+    // Validate Last Name
     if (is_blank($this->last_name)) {
       $this->errors[] = "Last name cannot be blank.";
-    } elseif (!has_length($this->last_name, ['min' => 2, 'max' => 255])) {
-      $this->errors[] = "Last name must be between 2 and 255 characters.";
     }
 
+    // Validate Email Address
     if (is_blank($this->email_address)) {
       $this->errors[] = "Email cannot be blank.";
-    } elseif (!has_length($this->email_address, ['max' => 255])) {
-      $this->errors[] = "Email must be less than 255 characters.";
     } elseif (!has_valid_email_format($this->email_address)) {
       $this->errors[] = "Email must be a valid format.";
     }
 
-    if (is_blank($this->username)) {
-      $this->errors[] = "Username cannot be blank.";
-    } elseif (!has_length($this->username, ['min' => 8, 'max' => 255])) {
-      $this->errors[] = "Username must be between 8 and 255 characters.";
-    } elseif (!has_unique_username($this->username, $this->user_id ?? 0)) {
-      $this->errors[] = "Username not allowed. Try another.";
-    }
-
+    // Validate Password (if required)
     if ($this->password_required) {
       if (is_blank($this->password)) {
         $this->errors[] = "Password cannot be blank.";
@@ -190,9 +192,10 @@ class User extends DatabaseObject
       } elseif (!preg_match('/[0-9]/', $this->password)) {
         $this->errors[] = "Password must contain at least 1 number.";
       } elseif (!preg_match('/[^A-Za-z0-9\s]/', $this->password)) {
-        $this->errors[] = "Password must contain at least 1 symbol.";
+        $this->errors[] = "Password must contain at least 1 special character.";
       }
 
+      // Validate Confirm Password
       if (is_blank($this->confirm_password)) {
         $this->errors[] = "Confirm password cannot be blank.";
       } elseif ($this->password !== $this->confirm_password) {
@@ -204,15 +207,15 @@ class User extends DatabaseObject
   }
 
   /**
-   * Find a user by their username.
+   * Find a user by their email address.
    *
-   * @param string $username The username to search for.
+   * @param string $email The email address to search for.
    * @return User|false The user object if found, false otherwise.
    */
-  static public function find_by_username($username)
+  static public function find_by_email($email)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE username='" . self::$database->escape_string($username) . "'";
+    $sql .= "WHERE email_address='" . self::$database->escape_string($email) . "' LIMIT 1";
     $obj_array = static::find_by_sql($sql);
     return !empty($obj_array) ? array_shift($obj_array) : false;
   }
