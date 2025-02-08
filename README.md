@@ -4,10 +4,23 @@ This project is a web application for managing a local farmers' market. Vendors 
 
 ## Features Implemented
 
-- User and Vendor registration with validation
-- MySQL transactions to prevent partial registrations (orphaned Users, if Vendor registration fails)
-- Standardized data formatting before storing (emails lowercase; names title case)
-- Accessibility features (landmarks, form labels, structural elements)
+- ** User Authentication System**
+
+  - Role-based access control (RBAC) for Vendors, Admins, and Super Admins
+  - Secure session handling with login & logout functionality
+  - Redirects users based on role to the correct dashboard
+  - Dynamic, personalized dashboards for Admins and Vendors
+  - Standardized session management with `Session` class
+
+- **User and Vendor Registration**
+
+  - Validation to prevent incorrect/incomplete submissions
+  - MySQL transactions to prevent partial registrations (no orphaned user accounts)
+  - Standardized data formatting before storing (emails lowercase; names title case)
+
+- **Accessibility and UI Features**
+  - Structural HTML elements for better screen reader support
+  - Proper use of form labels, ARIA landmarks, and accessible keyboard navigation
 
 ## Database Schema
 
@@ -31,8 +44,27 @@ Alternatively, refer to `sql/village_market.sql` for the full schema setup.
 
 ## Future Development Plans
 
-- User login & authentication system, with RBAC implementation
-- Vendor dashboard for business, attendance, & product management
-- Market attendance tracking
-- Admin dashboard for user/vendor approval and management and overall market management
-- Filterable/searchable view of products and vendors, open to general public
+- **Password Recovery System**
+
+  - Forgot Password functionality with email-based reset
+  - Change Password option for logged-in users
+
+- **"Remember Me" Functionality**
+
+  - Persistent login with secure authentication tokens
+
+- **Vendor Dashboard Functionality**
+
+  - Business profile management
+  - Product management
+  - Market attendance trackin
+
+- **Admin Dashboard Functionality**
+
+  - Vendor approval workflow
+  - Ability to manage and create users, vendors, and products
+  - Homepage content management system (CMS)
+
+- **Public Marketplace View**
+  - Filterable/searchable list of vendors and products
+  - Open to general public for browsing market details
