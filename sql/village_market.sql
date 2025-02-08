@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 02, 2025 at 02:00 AM
+-- Generation Time: Feb 07, 2025 at 11:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -151,7 +151,7 @@ CREATE TABLE `market_date` (
 
 CREATE TABLE `price_unit` (
   `price_unit_id` int(11) NOT NULL,
-  `unit_name` enum('Pound','Dozen','Unit','Bundle','Gallon') NOT NULL
+  `unit_name` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -207,6 +207,15 @@ CREATE TABLE `role` (
   `role_name` enum('vendor','admin','super_admin') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` (`role_id`, `role_name`) VALUES
+(1, 'vendor'),
+(2, 'admin'),
+(3, 'super_admin');
+
 -- --------------------------------------------------------
 
 --
@@ -242,7 +251,7 @@ CREATE TABLE `user` (
   `last_name` varchar(50) NOT NULL,
   `email_address` varchar(255) NOT NULL,
   `password_hashed` varchar(255) NOT NULL,
-  `phone_number` varchar(20) DEFAULT NULL,
+  `phone_number` varchar(10) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `registration_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `is_active` tinyint(1) DEFAULT 1
@@ -263,7 +272,7 @@ CREATE TABLE `vendor` (
   `city` varchar(50) DEFAULT NULL,
   `state_id` int(11) DEFAULT NULL,
   `zip_code` varchar(10) DEFAULT NULL,
-  `business_phone_number` varchar(20) DEFAULT NULL,
+  `business_phone_number` varchar(10) DEFAULT NULL,
   `business_email_address` varchar(255) DEFAULT NULL,
   `business_image_url` varchar(255) DEFAULT NULL,
   `business_logo_url` varchar(255) DEFAULT NULL,
@@ -379,6 +388,7 @@ ALTER TABLE `state`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `email_address` (`email_address`),
+  ADD UNIQUE KEY `unique_email` (`email_address`),
   ADD KEY `role_id` (`role_id`);
 
 --
@@ -469,7 +479,7 @@ ALTER TABLE `product_price_unit`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `state`

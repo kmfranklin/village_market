@@ -3,11 +3,11 @@
 class Session
 {
   private $user_id;
-  public $username;
   private $last_login;
   public $role_id;
   public $first_name;
   public const MAX_LOGIN_AGE = 86400;
+
   public function __construct()
   {
     session_start();
@@ -17,12 +17,11 @@ class Session
   public function login($user)
   {
     if ($user) {
-      session_regenerate_id();
+      session_regenerate_id(true);
       $this->user_id = $_SESSION['user_id'] = $user->user_id;
-      $this->username = $_SESSION['username'] = $user->username;
-      $this->last_login = $_SESSION['last_login'] = time();
-      $this->role_id = $_SESSION['role_id'] = $user->role_id;
       $this->first_name = $_SESSION['first_name'] = $user->first_name;
+      $this->role_id = $_SESSION['role_id'] = $user->role_id;
+      $this->last_login = $_SESSION['last_login'] = time();
     }
     return true;
   }
@@ -34,8 +33,9 @@ class Session
 
   public function logout()
   {
-    unset($_SESSION['user_id'], $_SESSION['username'], $_SESSION['last_login'], $_SESSION['role_id']);
-    unset($this->user_id, $this->username, $this->last_login, $this->role_id);
+    unset($_SESSION['user_id'], $_SESSION['first_name'], $_SESSION['last_login'], $_SESSION['role_id']);
+    unset($this->user_id, $this->first_name, $this->last_login, $this->role_id);
+    session_destroy();
     return true;
   }
 
@@ -43,7 +43,6 @@ class Session
   {
     if (isset($_SESSION['user_id'])) {
       $this->user_id = $_SESSION['user_id'];
-      $this->username = $_SESSION['username'];
       $this->last_login = $_SESSION['last_login'];
       $this->role_id = $_SESSION['role_id'];
       $this->first_name = $_SESSION['first_name'];
@@ -70,6 +69,11 @@ class Session
   public function clear_message()
   {
     unset($_SESSION['message']);
+  }
+
+  public function is_super_admin()
+  {
+    return isset($this->role_id) && (int)$this->role_id === 3;
   }
 
   public function is_admin()

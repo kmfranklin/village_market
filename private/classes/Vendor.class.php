@@ -36,20 +36,20 @@ class Vendor extends DatabaseObject
   public function __construct($args = [])
   {
     $this->user_id = $args['user_id'] ?? '';
-    $this->business_name = $args['business_name'] ?? '';
-    $this->business_description = $args['business_description'] ?? '';
-    $this->street_address = $args['street_address'] ?? '';
-    $this->city = $args['city'] ?? '';
-    $this->state_id = (int) ($args['state_id'] ?? 0);
-    $this->zip_code = $args['zip_code'] ?? '';
-    $this->business_phone_number = $args['business_phone_number'] ?? '';
-    $this->business_email_address = $args['business_email_address'] ?? '';
-    $this->business_image_url = $args['business_image_url'] ?? '';
-    $this->business_logo_url = $args['business_logo_url'] ?? '';
-    $this->is_active = $args['is_active'] ?? 0;
+    $this->business_name = ucwords(strtolower(trim($args['business_name'] ?? '')));
+    $this->business_description = trim($args['business_description'] ?? '');
+    $this->street_address = ucwords(strtolower(trim($args['street_address'] ?? '')));
+    $this->city = ucwords(strtolower(trim($args['city'] ?? '')));
+    $this->state_id = isset($args['state_id']) ? (int) $args['state_id'] : null;
+    $this->zip_code = trim($args['zip_code'] ?? '');
+    $this->business_phone_number = trim($args['business_phone_number'] ?? '');
+    $this->business_email_address = strtolower(trim($args['business_email_address'] ?? ''));
+    $this->business_image_url = trim($args['business_image_url'] ?? '');
+    $this->business_logo_url = trim($args['business_logo_url'] ?? '');
+    $this->is_active = $args['is_active'] ?? 1;
   }
 
-  protected function validate()
+  public function validate()
   {
     $this->errors = [];
 

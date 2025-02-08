@@ -2,7 +2,7 @@
 
 class DatabaseObject
 {
-  static protected $database;
+  static public $database;
   static protected $table_name = "";
   static protected $db_columns = [];
   static protected $primary_key = "id";

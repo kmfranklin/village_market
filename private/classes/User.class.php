@@ -3,6 +3,8 @@
 class User extends DatabaseObject
 {
   static protected $table_name = "user";
+  static protected $primary_key = "user_id";
+
   static protected $db_columns = [
     'user_id',
     'first_name',
@@ -21,7 +23,7 @@ class User extends DatabaseObject
   public $email_address;
   public $password_hashed;
   public $phone_number;
-  protected $role_id;
+  public $role_id;
   public $registration_date;
   public $is_active;
 
@@ -39,10 +41,15 @@ class User extends DatabaseObject
     $this->last_name = $args['last_name'] ?? '';
     $this->email_address = $args['email_address'] ?? '';
     $this->phone_number = $args['phone_number'] ?? '';
-    $this->role_id = $args['role_id'] ?? self::VENDOR;
+    $this->role_id = isset($args['role_id']) ? (int)$args['role_id'] : self::VENDOR;
     $this->password = $args['password'] ?? '';
     $this->confirm_password = $args['confirm_password'] ?? '';
-    $this->is_active = $args['is_active'] ?? 1;
+    $this->registration_date = date('Y-m-d H:i:s');
+    $this->is_active = $args['is_active'] ?? 0;
+
+    if (!empty($this->password)) {
+      $this->hash_password();
+    }
   }
 
   public function is_admin()
@@ -65,7 +72,7 @@ class User extends DatabaseObject
     return $this->first_name . " " . $this->last_name;
   }
 
-  protected function set_hashed_password()
+  protected function hash_password()
   {
     $this->password_hashed = password_hash($this->password, PASSWORD_BCRYPT);
   }
@@ -77,19 +84,19 @@ class User extends DatabaseObject
 
   public function create()
   {
-    $this->set_hashed_password();
+    $this->hash_password();
     return parent::create();
   }
 
   public function update()
   {
     if (!empty($this->password)) {
-      $this->set_hashed_password();
+      $this->hash_password();
     }
     return parent::update();
   }
 
-  protected function validate()
+  public function validate()
   {
     $this->errors = [];
 
@@ -134,8 +141,8 @@ class User extends DatabaseObject
   static public function find_by_email($email)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE email_address='" . self::$database->escape_string($email) . "' LIMIT 1";
-    $obj_array = static::find_by_sql($sql);
-    return !empty($obj_array) ? array_shift($obj_array) : false;
+    $sql .= "WHERE LOWER(email_address) = LOWER(?) LIMIT 1";
+    $stmt = self::$database->prepare($sql);
+    $stmt->execute([strtolower($email)]);
   }
 }
