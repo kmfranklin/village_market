@@ -20,8 +20,9 @@ class Session
       session_regenerate_id(true);
       $this->user_id = $_SESSION['user_id'] = $user->user_id;
       $this->first_name = $_SESSION['first_name'] = $user->first_name;
-      $this->role_id = $_SESSION['role_id'] = $user->role_id;
+      $this->role_id = $_SESSION['role_id'] = $user->role_id; // Ensure role_id is stored
       $this->last_login = $_SESSION['last_login'] = time();
+      echo "Session login successful! User role ID: " . $this->role_id . "<br>";
     }
     return true;
   }
@@ -84,5 +85,10 @@ class Session
   public function is_vendor()
   {
     return isset($this->role_id) && (int)$this->role_id === 1;
+  }
+
+  public function get_user_id()
+  {
+    return $this->user_id;
   }
 }

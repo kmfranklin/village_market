@@ -50,3 +50,17 @@ function is_get_request()
 {
   return $_SERVER['REQUEST_METHOD'] == 'GET';
 }
+
+
+function include_header($session)
+{
+  if ($session->is_super_admin()) {
+    include(SHARED_PATH . '/admin_header.php');
+  } elseif ($session->is_admin()) {
+    include(SHARED_PATH . '/admin_header.php');
+  } elseif ($session->is_vendor()) {
+    include(SHARED_PATH . '/vendor_header.php');
+  } else {
+    include(SHARED_PATH . '/public_header.php');
+  }
+}

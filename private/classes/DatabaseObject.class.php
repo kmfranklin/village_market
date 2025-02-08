@@ -13,9 +13,22 @@ class DatabaseObject
     self::$database = $database;
   }
 
-  static public function find_by_sql($sql)
+  static public function find_by_sql($sql, $params = [])
   {
-    $result = self::$database->query($sql);
+    $stmt = self::$database->prepare($sql);
+    if ($stmt === false) {
+      throw new Exception("Database query failed: " . self::$database->error);
+    }
+
+    if (!empty($params)) {
+      // Dynamically bind parameters
+      $types = str_repeat('s', count($params)); // Assuming all params are strings
+      $stmt->bind_param($types, ...$params);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     if (!$result) {
       return false;
     }
@@ -24,8 +37,8 @@ class DatabaseObject
     while ($record = $result->fetch_assoc()) {
       $object_array[] = static::instantiate($record);
     }
-    $result->free();
 
+    $stmt->close();
     return $object_array;
   }
 
@@ -38,8 +51,9 @@ class DatabaseObject
   static public function find_by_id($id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE " . static::$primary_key . "='" . self::$database->escape_string($id) . "'";
-    $obj_array = static::find_by_sql($sql);
+    $sql .= "WHERE " . static::$primary_key . " = ?";
+    $params = [$id];
+    $obj_array = static::find_by_sql($sql, $params);
     return !empty($obj_array) ? array_shift($obj_array) : false;
   }
 
@@ -88,11 +102,11 @@ class DatabaseObject
     $attributes = $this->sanitized_attributes();
     $attribute_pairs = [];
     foreach ($attributes as $key => $value) {
-      $attribute_pairs[] = "{$key}='{$value}'";
+      $attribute_pairs[] = "{$key} = '{$value}'";
     }
 
     $sql = "UPDATE " . static::$table_name . " SET " . join(", ", $attribute_pairs);
-    $sql .= " WHERE " . static::$primary_key . "='" . self::$database->escape_string($this->{static::$primary_key}) . "' LIMIT 1";
+    $sql .= " WHERE " . static::$primary_key . " = '" . self::$database->escape_string($this->{static::$primary_key}) . "' LIMIT 1";
 
     return self::$database->query($sql);
   }
@@ -100,7 +114,7 @@ class DatabaseObject
   public function delete()
   {
     $sql = "DELETE FROM " . static::$table_name . " ";
-    $sql .= "WHERE " . static::$primary_key . "='" . self::$database->escape_string($this->{static::$primary_key}) . "' ";
+    $sql .= "WHERE " . static::$primary_key . " = '" . self::$database->escape_string($this->{static::$primary_key}) . "' ";
     $sql .= "LIMIT 1";
     return self::$database->query($sql);
   }

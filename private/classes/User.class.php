@@ -141,8 +141,9 @@ class User extends DatabaseObject
   static public function find_by_email($email)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
-    $sql .= "WHERE LOWER(email_address) = LOWER(?) LIMIT 1";
-    $stmt = self::$database->prepare($sql);
-    $stmt->execute([strtolower($email)]);
+    $sql .= "WHERE LOWER(email_address) = LOWER('" . self::$database->escape_string($email) . "') ";
+    $sql .= "LIMIT 1";
+    $obj_array = static::find_by_sql($sql);
+    return !empty($obj_array) ? array_shift($obj_array) : false;
   }
 }

@@ -19,7 +19,7 @@ class Vendor extends DatabaseObject
     'is_active'
   ];
 
-  protected $vendor_id;
+  public $vendor_id;
   public $user_id;
   public $business_name;
   public $business_description;
@@ -103,5 +103,13 @@ class Vendor extends DatabaseObject
     $sql = "SELECT * FROM " . static::$table_name . " WHERE LOWER(business_email_address) = LOWER('" . self::$database->escape_string($email) . "') LIMIT 1";
     $obj_array = static::find_by_sql($sql);
     return !empty($obj_array) ? array_shift($obj_array) : false;
+  }
+
+  public static function find_by_user_id($user_id)
+  {
+    $sql = "SELECT * FROM vendor WHERE user_id = ?";
+    $params = [$user_id];
+    $result = static::find_by_sql($sql, $params);
+    return !empty($result) ? array_shift($result) : false;
   }
 }
