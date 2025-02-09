@@ -1,0 +1,19 @@
+{
+  "name": "kmfranklin/village_market",
+  "description": "A farmers market management application",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kevin Franklin"
+    }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "vendor-dir": "libraries/vendor"
+  },
+  "require": {
+    "phpmailer/phpmailer": "^6.9",
+    "vlucas/phpdotenv": "^5.6"
+  }
+}

@@ -9,3 +9,13 @@
 </head>
 
 <body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="<?php echo url_for('/index.php'); ?>">Home</a></li>
+        <li><a href="<?php echo url_for('/browse-products.php'); ?>">Browse Products</a></li>
+        <li><a href="<?php echo url_for('/browse-vendors.php') ?>">Browse Vendors</a></li>
+        <li><a href="<?php echo url_for('/login.php') ?>">Login</a></li>
+      </ul>
+    </nav>
+  </header>

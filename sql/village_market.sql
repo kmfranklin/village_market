@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 07, 2025 at 11:30 PM
+-- Generation Time: Feb 09, 2025 at 02:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -146,6 +146,20 @@ CREATE TABLE `market_date` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `password_reset`
+--
+
+CREATE TABLE `password_reset` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `price_unit`
 --
 
@@ -254,8 +268,16 @@ CREATE TABLE `user` (
   `phone_number` varchar(10) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `registration_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_active` tinyint(1) DEFAULT 1
+  `is_active` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email_address`, `password_hashed`, `phone_number`, `role_id`, `registration_date`, `is_active`) VALUES
+(8, 'Test', 'Farmer', 'testfarmer@test.com', '$2y$10$9yuuuodR.Txxyd.CeAcv5uJjyT4C6uqnb6YdRu50TbTujafhfS0vy', '9999999999', 1, '2025-02-08 02:59:07', 1),
+(9, 'Test', 'Admin', 'test@admin.com', '$2y$10$X3OZknKawSWtqn1x0fni2eR5b5i0oZt.b488tQYq7m6WsvDhSmcp2', '9999999999', 3, '2025-02-08 03:00:46', 1);
 
 -- --------------------------------------------------------
 
@@ -278,6 +300,14 @@ CREATE TABLE `vendor` (
   `business_logo_url` varchar(255) DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `vendor`
+--
+
+INSERT INTO `vendor` (`vendor_id`, `user_id`, `business_name`, `business_description`, `street_address`, `city`, `state_id`, `zip_code`, `business_phone_number`, `business_email_address`, `business_image_url`, `business_logo_url`, `is_active`) VALUES
+(6, 8, 'Test Farm', '', '123 Test Drive', 'Testville', 1, '28778', '9999999999', 'test@farming.com', '', '', 1),
+(7, 9, 'Test Admin', '', '123 Test Drive', 'Testville', 2, '87954', '9999999999', 'test@admin.com', '', '', 1);
 
 --
 -- Indexes for dumped tables
@@ -341,6 +371,14 @@ ALTER TABLE `market_date`
   ADD PRIMARY KEY (`market_date_id`);
 
 --
+-- Indexes for table `password_reset`
+--
+ALTER TABLE `password_reset`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`),
+  ADD KEY `token` (`token`);
+
+--
 -- Indexes for table `price_unit`
 --
 ALTER TABLE `price_unit`
@@ -388,8 +426,7 @@ ALTER TABLE `state`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `email_address` (`email_address`),
-  ADD UNIQUE KEY `unique_email` (`email_address`),
-  ADD KEY `role_id` (`role_id`);
+  ADD KEY `user_ibfk_1` (`role_id`);
 
 --
 -- Indexes for table `vendor`
@@ -452,6 +489,12 @@ ALTER TABLE `market_date`
   MODIFY `market_date_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `password_reset`
+--
+ALTER TABLE `password_reset`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `price_unit`
 --
 ALTER TABLE `price_unit`
@@ -491,13 +534,13 @@ ALTER TABLE `state`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -533,6 +576,12 @@ ALTER TABLE `market_attendance`
   ADD CONSTRAINT `market_attendance_ibfk_2` FOREIGN KEY (`market_date_id`) REFERENCES `market_date` (`market_date_id`);
 
 --
+-- Constraints for table `password_reset`
+--
+ALTER TABLE `password_reset`
+  ADD CONSTRAINT `password_reset_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
@@ -557,7 +606,7 @@ ALTER TABLE `product_price_unit`
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`);
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vendor`

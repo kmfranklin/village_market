@@ -1,2 +1,5 @@
 /private/db_credentials.php
 
+/libraries/vendor/
+
+/.env

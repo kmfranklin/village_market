@@ -18,6 +18,13 @@ require_once('status_error_functions.php');
 require_once('db_credentials.php');
 require_once('database_functions.php');
 require_once('validation_functions.php');
+require_once __DIR__ . '/../libraries/vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(PROJECT_PATH);
+$dotenv->load();
+
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 function my_autoload($class)
 {
