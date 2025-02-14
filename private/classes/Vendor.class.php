@@ -16,7 +16,6 @@ class Vendor extends DatabaseObject
     'business_email_address',
     'business_image_url',
     'business_logo_url',
-    'is_active'
   ];
 
   public $vendor_id;
@@ -31,7 +30,6 @@ class Vendor extends DatabaseObject
   public $business_email_address;
   public $business_image_url;
   public $business_logo_url;
-  public $is_active;
 
   public function __construct($args = [])
   {
@@ -46,7 +44,6 @@ class Vendor extends DatabaseObject
     $this->business_email_address = strtolower(trim($args['business_email_address'] ?? ''));
     $this->business_image_url = trim($args['business_image_url'] ?? '');
     $this->business_logo_url = trim($args['business_logo_url'] ?? '');
-    $this->is_active = $args['is_active'] ?? 1;
   }
 
   public function validate()
@@ -94,9 +91,12 @@ class Vendor extends DatabaseObject
 
   public static function find_pending_vendors()
   {
-    $sql = "SELECT * FROM " . static::$table_name . " WHERE is_active = 0";
+    $sql = "SELECT v.* FROM vendor v ";
+    $sql .= "JOIN user u ON v.user_id = u.user_id ";
+    $sql .= "WHERE u.account_status = 'pending'";
     return static::find_by_sql($sql);
   }
+
 
   public static function find_by_email($email)
   {

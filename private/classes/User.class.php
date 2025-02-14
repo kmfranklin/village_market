@@ -14,7 +14,7 @@ class User extends DatabaseObject
     'phone_number',
     'role_id',
     'registration_date',
-    'is_active'
+    'account_status'
   ];
 
   public $user_id;
@@ -25,7 +25,7 @@ class User extends DatabaseObject
   public $phone_number;
   public $role_id;
   public $registration_date;
-  public $is_active;
+  public $account_status;
 
   public $password;
   public $confirm_password;
@@ -45,7 +45,7 @@ class User extends DatabaseObject
     $this->password = $args['password'] ?? '';
     $this->confirm_password = $args['confirm_password'] ?? '';
     $this->registration_date = date('Y-m-d H:i:s');
-    $this->is_active = $args['is_active'] ?? 0;
+    $this->account_status = $args['account_status'] ?? 'pending';
 
     if (!empty($this->password)) {
       $this->hash_password();

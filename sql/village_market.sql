@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 09, 2025 at 02:40 AM
+-- Generation Time: Feb 14, 2025 at 03:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -268,16 +268,17 @@ CREATE TABLE `user` (
   `phone_number` varchar(10) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `registration_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_active` tinyint(1) DEFAULT 0
+  `account_status` enum('pending','active','suspended','rejected') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email_address`, `password_hashed`, `phone_number`, `role_id`, `registration_date`, `is_active`) VALUES
-(8, 'Test', 'Farmer', 'testfarmer@test.com', '$2y$10$9yuuuodR.Txxyd.CeAcv5uJjyT4C6uqnb6YdRu50TbTujafhfS0vy', '9999999999', 1, '2025-02-08 02:59:07', 1),
-(9, 'Test', 'Admin', 'test@admin.com', '$2y$10$X3OZknKawSWtqn1x0fni2eR5b5i0oZt.b488tQYq7m6WsvDhSmcp2', '9999999999', 3, '2025-02-08 03:00:46', 1);
+INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `email_address`, `password_hashed`, `phone_number`, `role_id`, `registration_date`, `account_status`) VALUES
+(8, 'Test', 'Farmer', 'testfarmer@test.com', '$2y$10$9yuuuodR.Txxyd.CeAcv5uJjyT4C6uqnb6YdRu50TbTujafhfS0vy', '9999999999', 1, '2025-02-08 02:59:07', 'pending'),
+(9, 'Test', 'Admin', 'test@admin.com', '$2y$10$X3OZknKawSWtqn1x0fni2eR5b5i0oZt.b488tQYq7m6WsvDhSmcp2', '9999999999', 3, '2025-02-08 03:00:46', 'active'),
+(13, 'Kevin', 'Franklin', 'kfranklin134@gmail.com', '$2y$10$yRpnijvSRRy1nkHW5.BAEeglZq3a5BI7cUtv7Qd1MIMPOzeZZczIu', '9999999999', 1, '2025-02-14 01:05:26', 'pending');
 
 -- --------------------------------------------------------
 
@@ -297,17 +298,17 @@ CREATE TABLE `vendor` (
   `business_phone_number` varchar(10) DEFAULT NULL,
   `business_email_address` varchar(255) DEFAULT NULL,
   `business_image_url` varchar(255) DEFAULT NULL,
-  `business_logo_url` varchar(255) DEFAULT NULL,
-  `is_active` tinyint(1) DEFAULT 1
+  `business_logo_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `vendor`
 --
 
-INSERT INTO `vendor` (`vendor_id`, `user_id`, `business_name`, `business_description`, `street_address`, `city`, `state_id`, `zip_code`, `business_phone_number`, `business_email_address`, `business_image_url`, `business_logo_url`, `is_active`) VALUES
-(6, 8, 'Test Farm', '', '123 Test Drive', 'Testville', 1, '28778', '9999999999', 'test@farming.com', '', '', 1),
-(7, 9, 'Test Admin', '', '123 Test Drive', 'Testville', 2, '87954', '9999999999', 'test@admin.com', '', '', 1);
+INSERT INTO `vendor` (`vendor_id`, `user_id`, `business_name`, `business_description`, `street_address`, `city`, `state_id`, `zip_code`, `business_phone_number`, `business_email_address`, `business_image_url`, `business_logo_url`) VALUES
+(6, 8, 'Test Farm', '', '123 Test Drive', 'Testville', 1, '28778', '9999999999', 'test@farming.com', '', ''),
+(7, 9, 'Test Admin', '', '123 Test Drive', 'Testville', 2, '87954', '9999999999', 'test@admin.com', '', ''),
+(9, 13, 'Test Farm', '', '8453 Ugnwsiu Dr', 'Uigih', 1, '99099', '9999999999', 'test@email.com', '', '');
 
 --
 -- Indexes for dumped tables
@@ -534,13 +535,13 @@ ALTER TABLE `state`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables

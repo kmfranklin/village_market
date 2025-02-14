@@ -30,29 +30,30 @@ if (is_post_request()) {
       // Incorrect password
       $errors[] = "Invalid login credentials.";
     } else {
-      // Check account activation
-      if ($user->is_active == 0) {
+      // Check account status
+      if ($user->account_status == 'pending') {
         if ($user->is_vendor()) {
           $errors[] = "Your vendor account has not been approved yet. Please try again later.";
-        } elseif ($user->is_admin() || $user->is_super_admin()) {
-          $errors[] = "Your account has been deactivated. Please contact an Administrator.";
         } else {
           $errors[] = "Your account is inactive. Please contact an Administrator.";
         }
+      } elseif ($user->account_status == 'suspended') {
+        $errors[] = "Your account has been suspended. Please contact an Administrator.";
+      } elseif ($user->account_status == 'rejected') {
+        $errors[] = "Your registration was rejected. You cannot log in. Check your email for details.";
       } else {
-        // Successful login
         $session->login($user);
+      }
 
-        // Redirect based on role
-        if ($user->is_super_admin()) {
-          redirect_to(url_for('/admin/dashboard.php'));
-        } elseif ($user->is_admin()) {
-          redirect_to(url_for('/admin/dashboard.php'));
-        } elseif ($user->is_vendor()) {
-          redirect_to(url_for('/vendors/dashboard.php'));
-        } else {
-          $errors[] = "Unexpected error: Your account role cannot be recognized. Please contact an Administrator.";
-        }
+      // Redirect based on role
+      if ($user->is_super_admin()) {
+        redirect_to(url_for('/admin/dashboard.php'));
+      } elseif ($user->is_admin()) {
+        redirect_to(url_for('/admin/dashboard.php'));
+      } elseif ($user->is_vendor()) {
+        redirect_to(url_for('/vendors/dashboard.php'));
+      } else {
+        $errors[] = "Unexpected error: Your account role cannot be recognized. Please contact an Administrator.";
       }
     }
   }
