@@ -1,15 +1,18 @@
 <?php
 require_once('../../../private/initialize.php');
 
+// Ensure only Admins & Super Admins can access
 if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_admin())) {
   redirect_to(url_for('/login.php'));
 }
 
+// Get vendor ID from URL
 $user_id = $_GET['id'] ?? '';
 if (!$user_id) {
   redirect_to('manage.php');
 }
 
+// Fetch vendor & user details
 $user = User::find_by_id($user_id);
 $vendor = Vendor::find_by_user_id($user_id);
 
@@ -18,25 +21,16 @@ if (!$user || !$vendor) {
   redirect_to('manage.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-  $action = $_POST['action'];
-
-  if ($user->account_status === 'pending') {
-    if ($action === 'approve') {
-      if ($user->approve_vendor()) {
-        $_SESSION['message'] = "Vendor approved successfully!";
-      } else {
-        $_SESSION['message'] = "Error: Unable to approve vendor.";
-      }
-    } elseif ($action === 'reject') {
-      if ($user->reject_vendor()) {
-        $_SESSION['message'] = "Vendor rejected.";
-      } else {
-        $_SESSION['message'] = "Error: Unable to reject vendor.";
-      }
-    }
-  }
-  redirect_to("manage.php");
+// Fetch state name
+$state_name = "Unknown";
+if ($vendor->state_id) {
+  $sql = "SELECT state_name FROM state WHERE state_id = ?";
+  $stmt = DatabaseObject::$database->prepare($sql);
+  $stmt->bind_param("i", $vendor->state_id);
+  $stmt->execute();
+  $stmt->bind_result($state_name);
+  $stmt->fetch();
+  $stmt->close();
 }
 
 $page_title = "Vendor Details: " . h($vendor->business_name);
@@ -73,7 +67,7 @@ include(SHARED_PATH . '/admin_header.php');
     </tr>
     <tr>
       <th>State:</th>
-      <td><?php echo h($vendor->state_id); ?></td>
+      <td><?php echo h($state_name); ?></td>
     </tr>
     <tr>
       <th>ZIP Code:</th>
@@ -96,15 +90,6 @@ include(SHARED_PATH . '/admin_header.php');
       </tr>
     <?php } ?>
   </table>
-
-  <?php if ($user->account_status === 'pending') { ?>
-    <form action="view.php?id=<?php echo h($user->user_id); ?>" method="post">
-      <button type="submit" name="action" value="approve">Approve Vendor</button>
-      <button type="submit" name="action" value="reject">Reject Vendor</button>
-    </form>
-  <?php } else { ?>
-    <p>Status: <strong><?php echo ucfirst(h($user->account_status)); ?></strong></p>
-  <?php } ?>
 
   <br>
   <a href="manage.php">⬅ Back to Vendor Management</a>

@@ -112,6 +112,8 @@ class User extends DatabaseObject
       $this->errors[] = "Email cannot be blank.";
     } elseif (!has_valid_email_format($this->email_address)) {
       $this->errors[] = "Email must be a valid format.";
+    } elseif ($this->email_exists()) {
+      $this->errors[] = "This email address is already registered.";
     }
 
     // Skip password validation when not required
@@ -195,5 +197,14 @@ class User extends DatabaseObject
       return $this->update();
     }
     return false;
+  }
+
+  /**
+   * Checks if an email address exists in the database before attempting to add it
+   */
+  public function email_exists()
+  {
+    $existing_user = static::find_by_email($this->email_address);
+    return $existing_user !== false;
   }
 }

@@ -1,5 +1,4 @@
 <?php
-
 require_once('../../private/initialize.php');
 
 // Fetch states for dropdown
@@ -15,46 +14,46 @@ if ($result) {
 }
 
 $errors = [];
-$args = [];
 $user = new User();
 $vendor = new Vendor();
 
 if (is_post_request()) {
+  $user_args = $_POST['user'];
+  $vendor_args = $_POST['vendor'];
+
   // Convert emails to lowercase before storing
-  $args['email_address'] = strtolower(trim($_POST['email_address'] ?? ''));
-  $args['business_email_address'] = strtolower(trim($_POST['business_email_address'] ?? ''));
+  $user_args['email_address'] = strtolower(trim($user_args['email_address'] ?? ''));
+  $vendor_args['business_email_address'] = strtolower(trim($vendor_args['business_email_address'] ?? ''));
 
   // Capitalize first letter of names and addresses before storing
-  $args['first_name'] = ucwords(strtolower(trim($_POST['first_name'] ?? '')));
-  $args['last_name'] = ucwords(strtolower(trim($_POST['last_name'] ?? '')));
-  $args['business_name'] = ucwords(strtolower(trim($_POST['business_name'] ?? '')));
-  $args['street_address'] = ucwords(strtolower(trim($_POST['street_address'] ?? '')));
-  $args['city'] = ucwords(strtolower(trim($_POST['city'] ?? '')));
+  $user_args['first_name'] = ucwords(strtolower(trim($user_args['first_name'] ?? '')));
+  $user_args['last_name'] = ucwords(strtolower(trim($user_args['last_name'] ?? '')));
+  $vendor_args['business_name'] = ucwords(strtolower(trim($vendor_args['business_name'] ?? '')));
+  $vendor_args['street_address'] = ucwords(strtolower(trim($vendor_args['street_address'] ?? '')));
+  $vendor_args['city'] = ucwords(strtolower(trim($vendor_args['city'] ?? '')));
 
-  $args['password'] = $_POST['password'] ?? '';
-  $args['confirm_password'] = $_POST['confirm_password'] ?? '';
-  $args['phone_number'] = trim($_POST['phone_number'] ?? '');
-  $args['role_id'] = User::VENDOR;
-  $args['state_id'] = isset($_POST['state_id']) ? (int) $_POST['state_id'] : null;
-  $args['zip_code'] = trim($_POST['zip_code'] ?? '');
-  $args['business_phone_number'] = trim($_POST['business_phone_number'] ?? '');
+  $user_args['password'] = $_POST['user']['password'] ?? '';
+  $user_args['confirm_password'] = $_POST['user']['confirm_password'] ?? '';
+  $user_args['phone_number'] = trim($user_args['phone_number'] ?? '');
+  $user_args['role_id'] = User::VENDOR;
+  $vendor_args['state_id'] = isset($vendor_args['state_id']) ? (int)$vendor_args['state_id'] : null;
+  $vendor_args['zip_code'] = trim($vendor_args['zip_code'] ?? '');
+  $vendor_args['business_phone_number'] = trim($vendor_args['business_phone_number'] ?? '');
 
   // Create and validate User
-  $user = new User($args);
+  $user = new User($user_args);
   $errors = array_merge($errors, $user->validate());
 
   // Create and validate Vendor
-  $vendor = new Vendor($args);
+  $vendor = new Vendor($vendor_args);
   $errors = array_merge($errors, $vendor->validate());
 
   if (empty($errors)) {
     DatabaseObject::$database->begin_transaction();
-
     try {
       if ($user->create()) {
-        $args['user_id'] = $user->user_id;
-        $vendor = new Vendor($args);
-
+        $vendor_args['user_id'] = $user->user_id;
+        $vendor = new Vendor($vendor_args);
         if ($vendor->create()) {
           DatabaseObject::$database->commit();
           $session->message('Vendor registration successful! Please wait for admin approval.');
@@ -70,8 +69,6 @@ if (is_post_request()) {
       $errors[] = $e->getMessage();
     }
   }
-} elseif (is_post_request()) {
-  $errors[] = 'User creation failed.';
 }
 
 $page_title = "Vendor Registration";

@@ -48,6 +48,8 @@ $active_vendors = Vendor::find_vendors_by_status('active');
     <?php unset($_SESSION['message']); ?>
   <?php } ?>
 
+  <a href="new.php" class="btn">Add Vendor</a>
+
   <h2>Pending Vendor Approvals</h2>
   <table>
     <thead>
@@ -101,7 +103,7 @@ $active_vendors = Vendor::find_vendors_by_status('active');
           <td><?php echo h($user->full_name()); ?></td>
           <td><?php echo h($user->email_address); ?></td>
           <td>
-            <a href="show.php?id=<?php echo h($user->user_id); ?>">View</a>
+            <a href="view.php?id=<?php echo h($user->user_id); ?>">View</a>
             <a href="edit.php?id=<?php echo h($user->user_id); ?>">Edit</a>
             <a href="suspend.php?id=<?php echo h($user->user_id); ?>">Suspend</a>
             <a href="delete.php?id=<?php echo h($user->user_id); ?>">Delete</a>
