@@ -4,7 +4,7 @@ This project is a web application for managing a local farmers' market. Vendors 
 
 ## Features Implemented
 
-- ** User Authentication System**
+- **User Authentication System**
 
   - Role-based access control (RBAC) for Vendors, Admins, and Super Admins
   - Secure session handling with login & logout functionality
@@ -17,6 +17,15 @@ This project is a web application for managing a local farmers' market. Vendors 
   - Validation to prevent incorrect/incomplete submissions
   - MySQL transactions to prevent partial registrations (no orphaned user accounts)
   - Standardized data formatting before storing (emails lowercase; names title case)
+
+- **Vendor Approval System (Admin Feature)**
+
+  - Vendors do not gain immediate access upon registration
+  - An Admin or Super Admin must review and approve vendor registrations before access is granted
+  - Admin actions instantly update the vendor's account status in the database
+  - Approved vendors can log in to their dashboard, while rejected vendors cannot access the system
+  - Prevents unauthorized users from registering as vendors and adding content to the application
+  - Enhances security by ensuring only verified local businesses can manage vendor listings
 
 - **Forgot Password System**
 
@@ -78,7 +87,6 @@ Alternatively, refer to `sql/village_market.sql` for the full schema setup.
 
 - **Password Recovery System**
 
-  - Forgot Password functionality with email-based reset
   - Change Password option for logged-in users
 
 - **"Remember Me" Functionality**
@@ -93,10 +101,10 @@ Alternatively, refer to `sql/village_market.sql` for the full schema setup.
 
 - **Admin Dashboard Functionality**
 
-  - Vendor approval workflow
   - Ability to manage and create users, vendors, and products
   - Homepage content management system (CMS)
 
 - **Public Marketplace View**
+
   - Filterable/searchable list of vendors and products
   - Open to general public for browsing market details
