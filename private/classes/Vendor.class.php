@@ -89,15 +89,6 @@ class Vendor extends DatabaseObject
     return $this->errors;
   }
 
-  public static function find_pending_vendors()
-  {
-    $sql = "SELECT v.* FROM vendor v ";
-    $sql .= "JOIN user u ON v.user_id = u.user_id ";
-    $sql .= "WHERE u.account_status = 'pending'";
-    return static::find_by_sql($sql);
-  }
-
-
   public static function find_by_email($email)
   {
     $sql = "SELECT * FROM " . static::$table_name . " WHERE LOWER(business_email_address) = LOWER('" . self::$database->escape_string($email) . "') LIMIT 1";
@@ -111,5 +102,10 @@ class Vendor extends DatabaseObject
     $params = [$user_id];
     $result = static::find_by_sql($sql, $params);
     return !empty($result) ? array_shift($result) : false;
+  }
+
+  public static function find_vendors_by_status($status)
+  {
+    return User::find_by_status($status, User::VENDOR);
   }
 }

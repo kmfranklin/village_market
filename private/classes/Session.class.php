@@ -20,7 +20,7 @@ class Session
       session_regenerate_id(true);
       $this->user_id = $_SESSION['user_id'] = $user->user_id;
       $this->first_name = $_SESSION['first_name'] = $user->first_name;
-      $this->role_id = $_SESSION['role_id'] = $user->role_id; // Ensure role_id is stored
+      $this->role_id = $_SESSION['role_id'] = $user->role_id;
       $this->last_login = $_SESSION['last_login'] = time();
       echo "Session login successful! User role ID: " . $this->role_id . "<br>";
     }
@@ -74,18 +74,22 @@ class Session
 
   public function is_super_admin()
   {
-    return isset($this->role_id) && (int)$this->role_id === 3;
+    $user = User::find_by_id($this->user_id);
+    return $user && $user->is_super_admin();
   }
 
   public function is_admin()
   {
-    return isset($this->role_id) && (int)$this->role_id === 2;
+    $user = User::find_by_id($this->user_id);
+    return $user && $user->is_admin();
   }
 
   public function is_vendor()
   {
-    return isset($this->role_id) && (int)$this->role_id === 1;
+    $user = User::find_by_id($this->user_id);
+    return $user && $user->is_vendor();
   }
+
 
   public function get_user_id()
   {

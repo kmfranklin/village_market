@@ -1,7 +1,6 @@
 <?php
 require_once('../private/initialize.php');
 
-// Initialize variables
 $errors = [];
 $email_address = '';
 $password = '';
@@ -10,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $email_address = $_POST['email_address'] ?? '';
   $password = $_POST['password'] ?? '';
 
-  // Validate form input
   if (is_blank($email_address)) {
     $errors[] = "Email address cannot be blank.";
   }

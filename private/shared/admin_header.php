@@ -17,7 +17,7 @@
         <?php if ($session->is_super_admin()): ?>
           <li><a href="<?= url_for('/admin/users.php'); ?>">Manage Admins</a></li>
         <?php endif; ?>
-        <li><a href="<?= url_for('/vendors/manage.php'); ?>">Manage Vendors</a></li>
+        <li><a href="<?= url_for('/admin/vendors/manage.php'); ?>">Manage Vendors</a></li>
         <li><a href="<?= url_for('/logout.php'); ?>">Logout</a></li>
       </ul>
     </nav>

@@ -69,7 +69,7 @@ class User extends DatabaseObject
 
   public function full_name()
   {
-    return $this->first_name . " " . $this->last_name;
+    return "{$this->first_name} {$this->last_name}";
   }
 
   protected function hash_password()
@@ -114,11 +114,12 @@ class User extends DatabaseObject
       $this->errors[] = "Email must be a valid format.";
     }
 
+    // Skip password validation when not required
     if ($this->password_required) {
       if (is_blank($this->password)) {
         $this->errors[] = "Password cannot be blank.";
       } elseif (!has_length($this->password, ['min' => 12])) {
-        $this->errors[] = "Password must contain 12 or more characters.";
+        $this->errors[] = "Password must contain at least 12 characters.";
       } elseif (!preg_match('/[A-Z]/', $this->password)) {
         $this->errors[] = "Password must contain at least 1 uppercase letter.";
       } elseif (!preg_match('/[a-z]/', $this->password)) {
@@ -138,6 +139,15 @@ class User extends DatabaseObject
     return $this->errors;
   }
 
+  public static function find_by_id($user_id)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE user_id = '" . self::$database->escape_string($user_id) . "' ";
+    $sql .= "LIMIT 1";
+    $obj_array = static::find_by_sql($sql);
+    return !empty($obj_array) ? array_shift($obj_array) : false;
+  }
+
   static public function find_by_email($email)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
@@ -145,5 +155,45 @@ class User extends DatabaseObject
     $sql .= "LIMIT 1";
     $obj_array = static::find_by_sql($sql);
     return !empty($obj_array) ? array_shift($obj_array) : false;
+  }
+
+  /**
+   * Finds users by account status, optionally filtering by role
+   */
+  public static function find_by_status($status, $role_id = null)
+  {
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE account_status = '" . self::$database->escape_string($status) . "'";
+
+    if (!is_null($role_id)) {
+      $sql .= " AND role_id = " . self::$database->escape_string($role_id) . " ";
+    }
+    return static::find_by_sql($sql);
+  }
+
+  /**
+   * Approves a vendor by changing their status to active
+   */
+  public function approve_vendor()
+  {
+    if ($this->role_id == self::VENDOR && $this->account_status == 'pending') {
+      $this->account_status = 'active';
+      $this->password_required = false;
+      return $this->update();
+    }
+    return false;
+  }
+
+  /**
+   * Rejects a vendor by changing their status to rejected
+   */
+  public function reject_vendor()
+  {
+    if ($this->role_id == self::VENDOR && $this->account_status == 'pending') {
+      $this->account_status = 'rejected';
+      $this->password_required = false;
+      return $this->update();
+    }
+    return false;
   }
 }
