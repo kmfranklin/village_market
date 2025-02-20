@@ -20,7 +20,6 @@ if (!$user || !$vendor) {
   $_SESSION['message'] = "Vendor not found.";
   redirect_to('manage.php');
 }
-
 // Fetch state name
 $state_name = "Unknown";
 if ($vendor->state_id) {

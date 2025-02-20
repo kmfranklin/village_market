@@ -24,14 +24,16 @@ if (!isset($vendor)) {
 
     <dt><label for="state">State</label></dt>
     <dd>
-      <select name="vendor[state_id]" id="state">
+      <select name="vendor[state_id]">
         <option value="">Select State</option>
-        <?php foreach ($states as $state) { ?>
-          <option value="<?php echo h($state['state_id']); ?>" <?php if ($vendor->state_id == $state['state_id']) echo 'selected'; ?>>
+        <?php foreach (get_states() as $state) { ?>
+          <option value="<?php echo h($state['state_id']); ?>"
+            <?php if ($vendor->state_id == $state['state_id']) echo 'selected'; ?>>
             <?php echo h($state['state_name']); ?>
           </option>
         <?php } ?>
       </select>
+
     </dd>
 
     <dt><label for="zip_code">ZIP Code</label></dt>

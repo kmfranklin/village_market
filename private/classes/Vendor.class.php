@@ -3,6 +3,7 @@
 class Vendor extends DatabaseObject
 {
   static protected $table_name = "vendor";
+  static protected $primary_key = "vendor_id";
   static protected $db_columns = [
     'vendor_id',
     'user_id',
@@ -82,11 +83,20 @@ class Vendor extends DatabaseObject
       $this->errors[] = "Business email cannot be blank.";
     } elseif (!has_valid_email_format($this->business_email_address)) {
       $this->errors[] = "Business email must be a valid format.";
-    } elseif (self::find_by_email($this->business_email_address)) {
+    } elseif (self::business_email_exists($this->business_email_address, $this->vendor_id)) {
       $this->errors[] = "Business email already exists.";
     }
 
     return $this->errors;
+  }
+
+  public function merge_attributes($args = [])
+  {
+    foreach ($args as $key => $value) {
+      if (property_exists($this, $key) && $key !== 'user_id') {
+        $this->$key = $value;
+      }
+    }
   }
 
   public static function find_by_email($email)
@@ -107,5 +117,18 @@ class Vendor extends DatabaseObject
   public static function find_vendors_by_status($status)
   {
     return User::find_by_status($status, User::VENDOR);
+  }
+
+  public static function business_email_exists($email, $exclude_vendor_id = null)
+  {
+    $sql = "SELECT * FROM vendor WHERE LOWER(business_email_address) = LOWER('" . self::$database->escape_string($email) . "')";
+
+    if ($exclude_vendor_id) {
+      $sql .= " AND vendor_id != '" . self::$database->escape_string($exclude_vendor_id) . "' ";
+    }
+
+    $sql .= "LIMIT 1";
+    $obj_array = static::find_by_sql($sql);
+    return !empty($obj_array) ? array_shift($obj_array) : false;
   }
 }

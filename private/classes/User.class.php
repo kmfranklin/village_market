@@ -112,12 +112,11 @@ class User extends DatabaseObject
       $this->errors[] = "Email cannot be blank.";
     } elseif (!has_valid_email_format($this->email_address)) {
       $this->errors[] = "Email must be a valid format.";
-    } elseif ($this->email_exists()) {
+    } elseif ($this->email_exists($this->email_address, $this->user_id)) {
       $this->errors[] = "This email address is already registered.";
     }
 
-    // Skip password validation when not required
-    if ($this->password_required) {
+    if ($this->password_required && empty($this->user_id)) {
       if (is_blank($this->password)) {
         $this->errors[] = "Password cannot be blank.";
       } elseif (!has_length($this->password, ['min' => 12])) {
@@ -139,6 +138,16 @@ class User extends DatabaseObject
     }
 
     return $this->errors;
+  }
+
+
+  public function merge_attributes($args = [])
+  {
+    foreach ($args as $key => $value) {
+      if (property_exists($this, $key) && $key !== 'user_id') {
+        $this->$key = $value;
+      }
+    }
   }
 
   public static function find_by_id($user_id)
@@ -199,12 +208,18 @@ class User extends DatabaseObject
     return false;
   }
 
-  /**
-   * Checks if an email address exists in the database before attempting to add it
-   */
-  public function email_exists()
+  public static function email_exists($email, $exclude_user_id = null)
   {
-    $existing_user = static::find_by_email($this->email_address);
-    return $existing_user !== false;
+    $sql = "SELECT * FROM " . static::$table_name . " ";
+    $sql .= "WHERE LOWER(email_address) = LOWER('" . self::$database->escape_string($email) . "') ";
+
+    if ($exclude_user_id) {
+      $sql .= "AND user_id != '" . self::$database->escape_string($exclude_user_id) . "' ";
+    }
+
+    $sql .= "LIMIT 1";
+
+    $obj_array = static::find_by_sql($sql);
+    return !empty($obj_array) ? array_shift($obj_array) : false;
   }
 }

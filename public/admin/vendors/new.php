@@ -5,18 +5,6 @@ if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_a
   redirect_to(url_for('/login.php'));
 }
 
-// Fetch states for dropdown
-$sql = "SELECT * FROM state";
-$result = DatabaseObject::$database->query($sql);
-$states = [];
-if ($result) {
-  while ($row = $result->fetch_assoc()) {
-    $states[] = $row;
-  }
-} else {
-  die("Database query failed: " . DatabaseObject::$database->error);
-}
-
 $errors = [];
 $vendor = new Vendor();
 $user = new User();

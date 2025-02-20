@@ -17,10 +17,16 @@ if (!isset($user)) {
     <dd><input type="email" name="user[email_address]" id="email_address" value="<?php echo h($user->email_address); ?>" required /></dd>
 
     <dt><label for="password">Password</label></dt>
-    <dd><input type="password" name="user[password]" id="password" required /></dd>
+    <dd>
+      <input type="password" name="user[password]" id="password"
+        <?php echo isset($user->user_id) ? '' : 'required'; ?> />
+    </dd>
 
     <dt><label for="confirm_password">Confirm Password</label></dt>
-    <dd><input type="password" name="user[confirm_password]" id="confirm_password" required /></dd>
+    <dd>
+      <input type="password" name="user[confirm_password]" id="confirm_password"
+        <?php echo isset($user->user_id) ? '' : 'required'; ?> />
+    </dd>
 
     <dt><label for="phone_number">Phone Number</label></dt>
     <dd><input type="tel" name="user[phone_number]" id="phone_number" value="<?php echo h($user->phone_number); ?>" required /></dd>

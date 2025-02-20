@@ -1,18 +1,6 @@
 <?php
 require_once('../../private/initialize.php');
 
-// Fetch states for dropdown
-$sql = "SELECT * FROM state";
-$result = DatabaseObject::$database->query($sql);
-$states = [];
-if ($result) {
-  while ($row = $result->fetch_assoc()) {
-    $states[] = $row;
-  }
-} else {
-  die("Database query failed: " . DatabaseObject::$database->error);
-}
-
 $errors = [];
 $user = new User();
 $vendor = new Vendor();

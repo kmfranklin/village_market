@@ -51,7 +51,6 @@ function is_get_request()
   return $_SERVER['REQUEST_METHOD'] == 'GET';
 }
 
-
 function include_header($session)
 {
   if ($session->is_super_admin()) {
@@ -63,4 +62,24 @@ function include_header($session)
   } else {
     include(SHARED_PATH . '/public_header.php');
   }
+}
+
+
+function get_states()
+{
+  global $database;
+  $sql = "SELECT * FROM state ORDER BY state_name ASC";
+  $result = $database->query($sql);
+  $states = [];
+
+  if ($result) {
+    while ($row = $result->fetch_assoc()) {
+      $states[] = $row;
+    }
+    $result->free();
+  } else {
+    die("Database query failed: " . $database->error);
+  }
+
+  return $states;
 }
