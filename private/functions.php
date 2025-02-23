@@ -64,7 +64,6 @@ function include_header($session)
   }
 }
 
-
 function get_states()
 {
   global $database;
@@ -82,4 +81,9 @@ function get_states()
   }
 
   return $states;
+}
+
+function display_delete_modal($entity_type, $delete_url, $vendor_id, $user_id, $entity_name)
+{
+  include(SHARED_PATH . '/delete_modal.php');
 }

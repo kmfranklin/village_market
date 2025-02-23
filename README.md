@@ -1,6 +1,6 @@
 # Village Market Web Application
 
-This project is a web application for managing a local farmers' market. Vendors can register their businesses, list their products, and manage their attendance at the market. Administrators can manage vendors and products, make changes to the homepage, and approve new vendors.
+The Village Market Web Application is a platform for managing a local farmers' market. Vendors can register their businesses, list their products, and manage their attendance at the market, while administrators can manage vendors and products, make changes to the homepage, and approve new vendors.
 
 ## Features Implemented
 
@@ -18,20 +18,20 @@ This project is a web application for managing a local farmers' market. Vendors 
   - MySQL transactions to prevent partial registrations (no orphaned user accounts)
   - Standardized data formatting before storing (emails lowercase; names title case)
 
-- **Vendor Approval System (Admin Feature)**
+- **Vendor Management System (Admin Feature)**
 
-  - Vendors do not gain immediate access upon registration
-  - An Admin or Super Admin must review and approve vendor registrations before access is granted
-  - Admin actions instantly update the vendor's account status in the database
-  - Approved vendors can log in to their dashboard, while rejected vendors cannot access the system
-  - Prevents unauthorized users from registering as vendors and adding content to the application
-  - Enhances security by ensuring only verified local businesses can manage vendor listings
+Administrators can:
+
+- Add new vendors from the Admin panel
+- Edit vendor information, including business details and contact information
+- Approve or reject vendor registrations to control access
+- Delete vendors to permanently remove vendor profiles and associated user accounts
 
 - **Forgot Password System**
 
   - Password recovery via email-based reset link
   - Secure token-based password reset system
-  - Tokens expire after a set time (1 hour)
+  - Tokens expire after 1 hour for security
   - Uses PHPMailer for email handling
 
 - **Accessibility and UI Features**
@@ -85,7 +85,7 @@ Alternatively, refer to `sql/village_market.sql` for the full schema setup.
 
 ## Future Development Plans
 
-- **Password Recovery System**
+- **Password Recovery Enhancements**
 
   - Change Password option for logged-in users
 

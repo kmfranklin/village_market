@@ -218,7 +218,6 @@ class User extends DatabaseObject
     }
 
     $sql .= "LIMIT 1";
-
     $obj_array = static::find_by_sql($sql);
     return !empty($obj_array) ? array_shift($obj_array) : false;
   }

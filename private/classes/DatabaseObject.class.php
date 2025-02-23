@@ -111,10 +111,17 @@ class DatabaseObject
 
   public function delete()
   {
-    $sql = "DELETE FROM " . static::$table_name . " WHERE " . static::$primary_key . " = ?";
-    $params = [$this->{static::$primary_key}];
-    return self::find_by_sql($sql, $params);
+    $sql = "DELETE FROM " . static::$table_name . " WHERE " . static::$primary_key . " = ? LIMIT 1";
+    $stmt = self::$database->prepare($sql);
+
+    if ($stmt === false) {
+      return false;
+    }
+
+    $stmt->bind_param("i", $this->{static::$primary_key});
+    return $stmt->execute();
   }
+
 
   public function attributes()
   {

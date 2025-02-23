@@ -1,16 +1,11 @@
 <?php
 require_once('../../../private/initialize.php');
+
 if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_admin())) {
   redirect_to(url_for('/login.php'));
 }
 
-/**
- * Processes vendor approval or rejection by an admin user.
- * 
- * This function checks the `action` and `id` parameters from the URL 
- * to determine if a vendor should be approved or rejected. If valid, 
- * the vendor's account status is updated accordingly.
- */
+// Process approval or rejection
 if (isset($_GET['action']) && isset($_GET['id'])) {
   $action = $_GET['action'];
   $user_id = $_GET['id'];
@@ -19,13 +14,9 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 
   if ($user && $user->is_vendor() && $user->account_status === 'pending') {
     if ($action === 'approve') {
-      $user->approve_vendor()
-        ? $_SESSION['message'] = "Vendor approved successfully!"
-        : $_SESSION['message'] = "Error: Unable to approve vendor.";
+      $_SESSION['message'] = $user->approve_vendor() ? "Vendor approved successfully!" : "Error: Unable to approve vendor.";
     } elseif ($action === 'reject') {
-      $user->reject_vendor()
-        ? $_SESSION['message'] = "Vendor rejected."
-        : $_SESSION['message'] = "Error: Unable to reject vendor.";
+      $_SESSION['message'] = $user->reject_vendor() ? "Vendor rejected." : "Error: Unable to reject vendor.";
     }
   }
 }
@@ -33,10 +24,8 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 $page_title = 'Manage Vendors';
 include(SHARED_PATH . '/admin_header.php');
 
-// Fetch any pending vendors
+// Fetch vendors
 $pending_vendors = Vendor::find_vendors_by_status('pending');
-
-// Fetch all active vendors
 $active_vendors = Vendor::find_vendors_by_status('active');
 ?>
 
@@ -63,9 +52,7 @@ $active_vendors = Vendor::find_vendors_by_status('active');
     <tbody>
       <?php foreach ($pending_vendors as $user) {
         $vendor = Vendor::find_by_user_id($user->user_id);
-        if (!$vendor) {
-          continue;
-        }
+        if (!$vendor) continue;
       ?>
         <tr>
           <td><?php echo h($vendor->business_name); ?></td>
@@ -94,9 +81,7 @@ $active_vendors = Vendor::find_vendors_by_status('active');
     <tbody>
       <?php foreach ($active_vendors as $user) {
         $vendor = Vendor::find_by_user_id($user->user_id);
-        if (!$vendor) {
-          continue;
-        }
+        if (!$vendor) continue;
       ?>
         <tr>
           <td><?php echo h($vendor->business_name); ?></td>
@@ -106,12 +91,22 @@ $active_vendors = Vendor::find_vendors_by_status('active');
             <a href="view.php?id=<?php echo h($user->user_id); ?>">View</a>
             <a href="edit.php?id=<?php echo h($user->user_id); ?>">Edit</a>
             <a href="suspend.php?id=<?php echo h($user->user_id); ?>">Suspend</a>
-            <a href="delete.php?id=<?php echo h($user->user_id); ?>">Delete</a>
+            <a href="#"
+              class="delete-btn btn danger"
+              data-vendor-id="<?php echo h($vendor->vendor_id); ?>"
+              data-user-id="<?php echo h($user->user_id); ?>"
+              data-entity-name="<?php echo h($vendor->business_name); ?>"
+              data-delete-url="<?php echo url_for('/admin/vendors/delete.php'); ?>">
+              Delete Vendor
+            </a>
+
+            <?php display_delete_modal('vendor', url_for('/admin/vendors/delete.php'), $vendor->vendor_id, $user->user_id, $vendor->business_name); ?>
           </td>
         </tr>
       <?php } ?>
     </tbody>
   </table>
+
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
