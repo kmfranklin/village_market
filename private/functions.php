@@ -87,3 +87,13 @@ function display_delete_modal($entity_type, $delete_url, $vendor_id, $user_id, $
 {
   include(SHARED_PATH . '/delete_modal.php');
 }
+
+function display_suspend_modal($entity_type, $suspend_url, $vendor_id, $user_id, $entity_name)
+{
+  include(SHARED_PATH . '/suspend_modal.php');
+}
+
+function display_restore_modal($entity_type, $restore_url, $user_id, $entity_name)
+{
+  include(SHARED_PATH . '/restore_modal.php');
+}

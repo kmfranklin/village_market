@@ -208,6 +208,30 @@ class User extends DatabaseObject
     return false;
   }
 
+  /**
+   * Suspends a vendor by changing their status to 'suspended'
+   */
+  public function suspend_vendor()
+  {
+    if ($this->role_id == self::VENDOR && $this->account_status == 'active') {
+      $this->account_status = 'suspended';
+      return $this->update();
+    }
+    return false;
+  }
+
+  /**
+   * Restores a suspended vendor by changing their status back to 'active'
+   */
+  public function restore_vendor()
+  {
+    if ($this->role_id == self::VENDOR && $this->account_status == 'suspended') {
+      $this->account_status = 'active';
+      return $this->update();
+    }
+    return false;
+  }
+
   public static function email_exists($email, $exclude_user_id = null)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";

@@ -1,9 +1,10 @@
 <?php
 require_once('../../../private/initialize.php');
 
-// Ensure only Admins & Super Admins can access
 if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_admin())) {
+  $_SESSION['message'] = "Unauthorized access.";
   redirect_to(url_for('/login.php'));
+  exit;
 }
 
 // Get vendor ID from URL

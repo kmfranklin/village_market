@@ -9,7 +9,6 @@ $entity_name = $entity_name ?? 'Unknown Vendor';
 ?>
 
 <div id="delete-modal" class="modal">
-  <?php echo "<!-- DEBUG: Rendering modal content -->"; ?>
   <div class="modal-content">
     <span class="close-modal">&times;</span>
     <h2>Confirm Deletion</h2>

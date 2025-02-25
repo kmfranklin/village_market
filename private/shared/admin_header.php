@@ -5,9 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= isset($page_title) ? h($page_title) . ' | Admin Panel — Village Market' : 'Admin Panel — Village Market'; ?></title>
-
   <link rel="stylesheet" href="<?= url_for('/assets/styles/styles.css'); ?>">
-  <script src="/village_market/public/assets/scripts/script.js" defer></script>
+  <script type="module" src="<?php echo url_for('/assets/scripts/script.js'); ?>" defer></script>
 
 </head>
 
