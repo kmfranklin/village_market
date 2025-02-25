@@ -61,7 +61,7 @@ All dependencies are installed via Composer.
 
 ## Database Schema
 
-The database schema follows the structure defined in [`Village Market Database Diagram.pdf`](./Village%20Market%20Database%20Diagram.pdf).  
+The database schema follows the structure defined in [dbdiagram.io](https://dbdiagram.io/d/Village-Market-6779b24a5406798ef74936ae).  
 Alternatively, refer to `sql/village_market.sql` for the full schema setup.
 
 ---
