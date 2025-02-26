@@ -73,4 +73,33 @@ class Product extends DatabaseObject
 
     return $this->errors;
   }
+
+  public static function get_categories()
+  {
+    if (!isset(self::$database)) {
+      throw new Exception("Database connection is not set.");
+    }
+
+    $sql = "SELECT * FROM category ORDER BY category_name ASC";
+    $stmt = self::$database->prepare($sql);
+
+    if (!$stmt) {
+      throw new Exception("Database query failed: " . self::$database->error);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if (!$result) {
+      return [];
+    }
+
+    $categories = [];
+    while ($row = $result->fetch_assoc()) {
+      $categories[] = $row;
+    }
+
+    $stmt->close();
+    return $categories;
+  }
 }

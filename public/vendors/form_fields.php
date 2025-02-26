@@ -33,7 +33,6 @@ if (!isset($vendor)) {
           </option>
         <?php } ?>
       </select>
-
     </dd>
 
     <dt><label for="zip_code">ZIP Code</label></dt>
