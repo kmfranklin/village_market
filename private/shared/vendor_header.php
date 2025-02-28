@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=`device-width`, initial-scale=1.0">
   <title><?= isset($page_title) ? h($page_title) . ' | Vendor Panel — Village Market' : 'Vendor Panel — Village Market'; ?></title>
   <link rel="stylesheet" href="<?= url_for('assets/styles/styles.css'); ?>">
+  <script type="module" src="<?php echo url_for('/assets/scripts/script.js'); ?>" defer></script>
 </head>
 
 <body>
