@@ -102,4 +102,15 @@ class Product extends DatabaseObject
     $stmt->close();
     return $categories;
   }
+
+  /**
+   * Get the category name for this product.
+   *
+   * @return string The category name or 'Unknown' if not found.
+   */
+  public function get_category_name()
+  {
+    $category = Category::find_by_id($this->category_id);
+    return $category ? $category->category_name : 'Unknown';
+  }
 }

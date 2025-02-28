@@ -22,7 +22,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
 }
 
 $page_title = 'Manage Vendors';
-include(SHARED_PATH . '/admin_header.php');
+include_header($session);
 
 // Fetch vendors
 $pending_vendors = Vendor::find_vendors_by_status('pending');

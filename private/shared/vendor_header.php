@@ -14,7 +14,7 @@
     <nav>
       <ul>
         <li><a href="<?= url_for('vendors/dashboard.php'); ?>">Your Dashboard</a></li>
-        <li><a href="<?= url_for('/products/index.php'); ?>">Manage Your Products</a></li>
+        <li><a href="<?= url_for('/products/manage.php'); ?>">Manage Your Products</a></li>
         <li><a href="<?= url_for('/logout.php'); ?>">Logout</a></li>
       </ul>
     </nav>

@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $page_title = 'Add Vendor';
-include(SHARED_PATH . '/admin_header.php');
+include_header($session);
 ?>
 
 <main role="main" id="main">

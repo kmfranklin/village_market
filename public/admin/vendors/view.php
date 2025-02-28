@@ -34,7 +34,7 @@ if ($vendor->state_id) {
 }
 
 $page_title = "Vendor Details: " . h($vendor->business_name);
-include(SHARED_PATH . '/admin_header.php');
+include_header($session);
 ?>
 
 <main role="main" id="main">

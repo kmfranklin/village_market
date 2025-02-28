@@ -10,8 +10,7 @@ $product = new Product();
 $is_admin = $session->is_admin() || $session->is_super_admin();
 $product_price_units = []; // Array to store multiple price units
 
-$header_file = $is_admin ? 'admin_header.php' : 'vendor_header.php';
-include(SHARED_PATH . '/' . $header_file);
+include_header($session);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $product_args = $_POST['product'];

@@ -13,7 +13,7 @@ if (!$session->is_admin() && !$session->is_super_admin()) {
 
 // Page content for admins and super admins
 $page_title = "{$session->first_name}'s Dashboard";
-include(SHARED_PATH . '/admin_header.php');
+include_header($session);
 ?>
 
 <main role="main" id="main">
