@@ -5,6 +5,13 @@ if (!isset($product)) {
 
 // Fetch all predefined price units
 $units = PriceUnit::find_all();
+
+// Fetch existing price units for this product
+$existing_price_units = ProductPriceUnit::find_by_product_id($product->product_id);
+$existing_prices = [];
+foreach ($existing_price_units as $unit) {
+  $existing_prices[$unit->price_unit_id] = $unit->price;
+}
 ?>
 
 <fieldset>
@@ -36,63 +43,35 @@ $units = PriceUnit::find_all();
     <dd>
       <p>Select price units and enter corresponding prices:</p>
 
-      <!-- Count-Based Units -->
-      <strong>Count:</strong><br>
       <?php
-      $count_units = ['dozen', 'half dozen', 'each'];
-      foreach ($units as $unit) {
-        if (in_array(strtolower($unit->unit_name), $count_units)) {
-          echo "<label><input type='checkbox' name='product_price_unit[{$unit->price_unit_id}][selected]' value='1' 
-        onchange='togglePriceInput(this, \"price_{$unit->price_unit_id}\")'> " . h($unit->unit_name) . "</label>";
-          echo "<input type='number' step='0.01' name='product_price_unit[{$unit->price_unit_id}][price]' 
-        id='price_{$unit->price_unit_id}' style='display:none;' placeholder='Enter price'><br>";
-        }
-      }
-      ?>
+      $unit_groups = [
+        'Count' => ['dozen', 'half dozen', 'each'],
+        'Weight' => ['pound', 'ounce'],
+        'Volume' => ['gallon', 'quart', 'pint', 'cup'],
+        'Other' => ['bushel', 'bundle']
+      ];
 
-      <!-- Weight-Based Units -->
-      <strong>Weight:</strong><br>
-      <?php
-      $weight_units = ['pound', 'ounce'];
-      foreach ($units as $unit) {
-        if (in_array(strtolower($unit->unit_name), $weight_units)) {
-          echo "<label><input type='checkbox' name='product_price_unit[{$unit->price_unit_id}][selected]' value='1' 
-        onchange='togglePriceInput(this, \"price_{$unit->price_unit_id}\")'> " . h($unit->unit_name) . "</label>";
-          echo "<input type='number' step='0.01' name='product_price_unit[{$unit->price_unit_id}][price]' 
-        id='price_{$unit->price_unit_id}' style='display:none;' placeholder='Enter price'><br>";
-        }
-      }
-      ?>
+      foreach ($unit_groups as $group_label => $unit_names) {
+        echo "<strong>$group_label:</strong><br>";
 
-      <!-- Volume-Based Units -->
-      <strong>Volume:</strong><br>
-      <?php
-      $volume_units = ['gallon', 'quart', 'pint', 'cup'];
-      foreach ($units as $unit) {
-        if (in_array(strtolower($unit->unit_name), $volume_units)) {
-          echo "<label><input type='checkbox' name='product_price_unit[{$unit->price_unit_id}][selected]' value='1' 
-        onchange='togglePriceInput(this, \"price_{$unit->price_unit_id}\")'> " . h($unit->unit_name) . "</label>";
-          echo "<input type='number' step='0.01' name='product_price_unit[{$unit->price_unit_id}][price]' 
-        id='price_{$unit->price_unit_id}' style='display:none;' placeholder='Enter price'><br>";
-        }
-      }
-      ?>
+        foreach ($units as $unit) {
+          if (in_array(strtolower($unit->unit_name), $unit_names)) {
+            $checked = isset($existing_prices[$unit->price_unit_id]) ? "checked" : "";
+            $price_value = $existing_prices[$unit->price_unit_id] ?? "";
+            $price_display = $checked ? "block" : "none";
 
-      <!-- Other Units -->
-      <strong>Other:</strong><br>
-      <?php
-      $other_units = ['bushel', 'bundle'];
-      foreach ($units as $unit) {
-        if (in_array(strtolower($unit->unit_name), $other_units)) {
-          echo "<label><input type='checkbox' name='product_price_unit[{$unit->price_unit_id}][selected]' value='1' 
-        onchange='togglePriceInput(this, \"price_{$unit->price_unit_id}\")'> " . h($unit->unit_name) . "</label>";
-          echo "<input type='number' step='0.01' name='product_price_unit[{$unit->price_unit_id}][price]' 
-        id='price_{$unit->price_unit_id}' style='display:none;' placeholder='Enter price'><br>";
+            echo "<label>
+                    <input type='checkbox' name='product_price_unit[{$unit->price_unit_id}][selected]' value='1' $checked 
+                    onchange='togglePriceInput(this, \"price_{$unit->price_unit_id}\")'> " . h($unit->unit_name) . "
+                  </label>";
+            echo "<input type='number' step='0.01' name='product_price_unit[{$unit->price_unit_id}][price]' 
+                    id='price_{$unit->price_unit_id}' style='display: $price_display;' 
+                    placeholder='Enter price' value='" . h($price_value) . "'><br>";
+          }
         }
       }
       ?>
     </dd>
-
 
     <dt><label for="product_image">Product Image</label></dt>
     <dd>

@@ -51,4 +51,55 @@ class ProductPriceUnit extends DatabaseObject
     $unit = PriceUnit::find_by_id($this->price_unit_id);
     return $unit ? $unit->unit_name : 'Unknown';
   }
+
+  public static function update_product_prices($product_id, $price_data)
+  {
+    if (!isset(self::$database)) {
+      throw new Exception("Database connection is not set.");
+    }
+
+    // Fetch existing price units for the product
+    $existing_units = self::find_by_product_id($product_id);
+    $existing_unit_ids = [];
+
+    foreach ($existing_units as $unit) {
+      $existing_unit_ids[$unit->price_unit_id] = $unit->price;
+    }
+
+    foreach ($price_data as $unit_id => $data) {
+      if (isset($data['selected'])) {
+        $price = floatval($data['price']);
+
+        // If unit exists and price has changed, update it
+        if (isset($existing_unit_ids[$unit_id])) {
+          if ($existing_unit_ids[$unit_id] != $price) {
+            $sql = "UPDATE product_price_unit SET price = ? WHERE product_id = ? AND price_unit_id = ?";
+            $stmt = self::$database->prepare($sql);
+            $stmt->bind_param("dii", $price, $product_id, $unit_id);
+            $stmt->execute();
+            $stmt->close();
+          }
+          // Remove from existing list to prevent deletion
+          unset($existing_unit_ids[$unit_id]);
+        } else {
+          // Insert new price unit if it doesn't exist
+          $sql = "INSERT INTO product_price_unit (product_id, price_unit_id, price) VALUES (?, ?, ?)";
+          $stmt = self::$database->prepare($sql);
+          $stmt->bind_param("iid", $product_id, $unit_id, $price);
+          $stmt->execute();
+          $stmt->close();
+        }
+      }
+    }
+
+    // Delete unchecked price units
+    if (!empty($existing_unit_ids)) {
+      $unit_ids_to_delete = implode(',', array_keys($existing_unit_ids));
+      $sql = "DELETE FROM product_price_unit WHERE product_id = ? AND price_unit_id IN ($unit_ids_to_delete)";
+      $stmt = self::$database->prepare($sql);
+      $stmt->bind_param("i", $product_id);
+      $stmt->execute();
+      $stmt->close();
+    }
+  }
 }

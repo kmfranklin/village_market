@@ -113,4 +113,26 @@ class Product extends DatabaseObject
     $category = Category::find_by_id($this->category_id);
     return $category ? $category->category_name : 'Unknown';
   }
+
+  public function upload_image($file)
+  {
+    $upload_dir = "uploads/products/";
+    $allowed_types = ['jpg', 'jpeg', 'png'];
+
+    $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+    if (!in_array($file_ext, $allowed_types)) {
+      return ['success' => false, 'message' => "Invalid file type. Only JPG and PNG allowed."];
+    }
+
+    $filename = uniqid("product_", true) . "." . $file_ext;
+    $file_path = $upload_dir . $filename;
+
+    if (move_uploaded_file($file['tmp_name'], $file_path)) {
+      $this->product_image_url = $file_path;
+      return ['success' => true, 'message' => "Image uploaded successfully."];
+    } else {
+      return ['success' => false, 'message' => "Failed to upload image."];
+    }
+  }
 }
