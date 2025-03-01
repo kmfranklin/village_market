@@ -62,9 +62,17 @@ if ($is_admin) {
           </td>
           <td><?php echo $product->is_active ? 'Active' : 'Inactive'; ?></td>
           <td>
-            <a href="view.php?id=<?php echo h($product->product_id); ?>">View</a> |
-            <a href="edit.php?id=<?php echo h($product->product_id); ?>">Edit</a> |
-            <a href="delete.php?id=<?php echo h($product->product_id); ?>" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+            <a href="view.php?id=<?php echo h($product->product_id); ?>">View</a>
+            <a href="edit.php?id=<?php echo h($product->product_id); ?>">Edit</a>
+            <a href="#"
+              class="delete-btn btn danger"
+              data-entity="product"
+              data-entity-id="<?php echo h($product->product_id); ?>"
+              data-entity-name="<?php echo h($product->product_name); ?>"
+              data-delete-url="<?php echo url_for('/admin/products/delete.php'); ?>">
+              Delete
+            </a>
+            <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, null, $product->product_name); ?>
           </td>
         </tr>
       <?php } ?>

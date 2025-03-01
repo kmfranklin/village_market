@@ -89,7 +89,12 @@ include_header($session);
   <?php if ($can_manage) { ?>
     <div class="actions">
       <a href="edit.php?id=<?php echo h($product->product_id); ?>" class="button">Edit</a>
-      <a href="delete.php?id=<?php echo h($product->product_id); ?>" class="button delete" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+      <button class="button delete"
+        data-entity="product"
+        data-entity-id="<?php echo h($product->product_id); ?>"
+        data-entity-name="<?php echo h($product->product_name); ?>">
+        Delete
+      </button>
     </div>
   <?php } ?>
 

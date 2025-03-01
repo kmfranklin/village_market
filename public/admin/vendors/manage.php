@@ -103,6 +103,8 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
 
             <a href="#"
               class="delete-btn btn danger"
+              data-entity="vendor"
+              data-entity-id="<?php echo h($vendor->vendor_id); ?>"
               data-vendor-id="<?php echo h($vendor->vendor_id); ?>"
               data-user-id="<?php echo h($user->user_id); ?>"
               data-entity-name="<?php echo h($vendor->business_name); ?>"

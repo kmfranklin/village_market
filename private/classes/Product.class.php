@@ -138,4 +138,39 @@ class Product extends DatabaseObject
       return ['success' => false, 'message' => "Failed to upload image."];
     }
   }
+
+  public function delete()
+  {
+    global $database;
+
+    // Delete any related price units (product_price_unit)
+    $sql = "DELETE FROM product_price_unit WHERE product_id = ?";
+    $stmt = $database->prepare($sql);
+    if (!$stmt) {
+      error_log("ERROR: Failed to prepare price unit deletion statement.");
+      return false;
+    }
+    $stmt->bind_param("i", $this->product_id);
+    if (!$stmt->execute()) {
+      error_log("ERROR: Failed to delete price units for product ID {$this->product_id}");
+      return false;
+    }
+    $stmt->close();
+
+    // Delete the product itself
+    $sql = "DELETE FROM product WHERE product_id = ?";
+    $stmt = $database->prepare($sql);
+    if (!$stmt) {
+      error_log("ERROR: Failed to prepare product deletion statement.");
+      return false;
+    }
+    $stmt->bind_param("i", $this->product_id);
+    if ($stmt->execute()) {
+      $stmt->close();
+      return true;
+    } else {
+      error_log("ERROR: Could not delete product ID {$this->product_id}");
+      return false;
+    }
+  }
 }
