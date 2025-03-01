@@ -78,10 +78,12 @@ include_header($session);
     </tr>
     <?php if (!empty($product->product_image_url)) { ?>
       <tr>
-        <th>Product Image:</th>
-        <td><img src="<?php echo h($product->product_image_url); ?>" width="200"></td>
+        <td>
+          <img src="<?php echo h(url_for($product->product_image_url)); ?>" width="200" alt="Product Image">
+        </td>
       </tr>
     <?php } ?>
+
   </table>
 
   <?php if ($can_manage) { ?>

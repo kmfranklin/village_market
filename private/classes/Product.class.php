@@ -116,7 +116,8 @@ class Product extends DatabaseObject
 
   public function upload_image($file)
   {
-    $upload_dir = "uploads/products/";
+    // Define absolute path for the upload directory
+    $upload_dir = PUBLIC_PATH . "/uploads/products/";
     $allowed_types = ['jpg', 'jpeg', 'png'];
 
     $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -125,11 +126,13 @@ class Product extends DatabaseObject
       return ['success' => false, 'message' => "Invalid file type. Only JPG and PNG allowed."];
     }
 
+    // Generate a unique filename
     $filename = uniqid("product_", true) . "." . $file_ext;
     $file_path = $upload_dir . $filename;
 
+    // Move uploaded file to the absolute path
     if (move_uploaded_file($file['tmp_name'], $file_path)) {
-      $this->product_image_url = $file_path;
+      $this->product_image_url = "/uploads/products/" . $filename;
       return ['success' => true, 'message' => "Image uploaded successfully."];
     } else {
       return ['success' => false, 'message' => "Failed to upload image."];
