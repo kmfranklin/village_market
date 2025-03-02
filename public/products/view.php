@@ -79,7 +79,7 @@ include_header($session);
     <?php if (!empty($product->product_image_url)) { ?>
       <tr>
         <td>
-          <img src="<?php echo h(url_for($product->product_image_url)); ?>" width="200" alt="Product Image">
+          <img src="<?php echo $product->product_image_url; ?>" width="200" alt="Product Image">
         </td>
       </tr>
     <?php } ?>
@@ -89,12 +89,15 @@ include_header($session);
   <?php if ($can_manage) { ?>
     <div class="actions">
       <a href="edit.php?id=<?php echo h($product->product_id); ?>" class="button">Edit</a>
-      <button class="button delete"
+      <a href="#"
+        class="delete-btn btn danger"
         data-entity="product"
         data-entity-id="<?php echo h($product->product_id); ?>"
-        data-entity-name="<?php echo h($product->product_name); ?>">
+        data-entity-name="<?php echo h($product->product_name); ?>"
+        data-delete-url="<?php echo url_for('/products/delete.php'); ?>">
         Delete
-      </button>
+      </a>
+      <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, null, $product->product_name); ?>
     </div>
   <?php } ?>
 

@@ -69,7 +69,7 @@ if ($is_admin) {
               data-entity="product"
               data-entity-id="<?php echo h($product->product_id); ?>"
               data-entity-name="<?php echo h($product->product_name); ?>"
-              data-delete-url="<?php echo url_for('/admin/products/delete.php'); ?>">
+              data-delete-url="<?php echo url_for('/products/delete.php'); ?>">
               Delete
             </a>
             <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, null, $product->product_name); ?>

@@ -38,11 +38,9 @@ foreach ($existing_price_units as $unit) {
       </select>
     </dd>
 
-    <!-- Price Units: Multi-Selection -->
     <dt>Price & Units</dt>
     <dd>
       <p>Select price units and enter corresponding prices:</p>
-
       <?php
       $unit_groups = [
         'Count' => ['dozen', 'half dozen', 'each'],
@@ -73,7 +71,21 @@ foreach ($existing_price_units as $unit) {
       ?>
     </dd>
 
-    <dt><label for="product_image">Product Image</label></dt>
+    <dt>Product Image</dt>
+    <dd>
+      <?php if (!empty($product->product_image_url)) { ?>
+        <img src="<?php echo h($product->product_image_url); ?>" width="200" alt="Product Image">
+        <br>
+        <label>
+          <input type="checkbox" name="delete_image" value="1"> Remove Image
+        </label>
+        <input type="hidden" name="existing_product_image" value="<?php echo h($product->product_image_url); ?>">
+      <?php } else { ?>
+        <p>No image uploaded.</p>
+      <?php } ?>
+    </dd>
+
+    <dt><label for="product_image">Upload New Image</label></dt>
     <dd>
       <input type="file" name="product_image" id="product_image">
     </dd>

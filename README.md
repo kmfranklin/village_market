@@ -28,6 +28,29 @@ The Village Market Web Application is a platform for managing a local farmers' m
 - **Suspend Vendors** – Temporarily limit access to the application
 - **Restore Vendors** – Reactivate suspended vendors or permanently delete them
 
+### Product Management System
+
+**Vendors:**
+
+- **Add Products** - Vendors can add new products with images, descriptions, categories, and pricing
+- **Edit Products** - Modify existing product details, including images and availability status
+- **Delete Products** - Remove products they no longer sell
+- **Manage Pricing and Units** - Vendors can specify product prices per unit (e.g., per pound, per dozen)
+
+**Admins:**
+
+- **Manage All Products** - Admins can view, edit, and delete products from any vendor
+- **Add Products** - Admins can add new products, and assign them to specific vendors via dropdown menu
+- **Suspend or Restore Products** - Control availability of products at the market
+- **Override Vendor Listings** - Admins can update incorrect product details when necessary
+
+### Cloudinary Integration for Image Management
+
+- **Image Uploads** - Product images are stored securely using Cloudinary
+- **Automatic Image Optimization** - Images are automatically resized and optimized for web delivery
+- **Cloud Storage Delivery** - No local storage required, reducing server load
+- **Secure Deletion** - Removing a product also removes its image from Cloudinary
+
 ### Forgot Password System
 
 - Password recovery via email-based reset link
@@ -52,8 +75,13 @@ This project uses the following external libraries:
   - Configured with SMTP authentication.
 
 - **[Dotenv (vlucas/phpdotenv)](https://github.com/vlucas/phpdotenv)**
+
   - Stores and loads environment variables securely.
   - Keeps SMTP credentials and database secrets out of version control.
+
+- **[Cloudinary](https://cloudinary.com/)**
+
+  - Handles image uploads, transformations, and delivery
 
 All dependencies are installed via Composer.
 
@@ -74,13 +102,39 @@ Alternatively, refer to `sql/village_market.sql` for the full schema setup.
 - MySQL/MariaDB
 - Apache (XAMPP preferred)
 - Composer (to manage dependencies)
+- A Cloudinary account and API key
 
 ### Getting Started
 
-1. Ensure XAMPP is installed and running (Apache & MySQL).
-2. Place the project in the `htdocs` folder.
-3. Import `village_market.sql` using phpMyAdmin (includes `CREATE DATABASE` and `USE DATABASE` statements).
-4. Open `http://localhost/village_market` in a browser.
+1. Ensure XAMPP is installed and running (Apache & MySQL)
+
+2. Clone the repository and move it into `htdocs`
+
+```
+git clone https://github.com/kmfranklin/village_market.git
+```
+
+3. Install dependencies via Composer
+
+```
+cd village_market
+composer install
+```
+
+4. Import `village_market.sql` using phpMyAdmin (includes `CREATE DATABASE` and `USE DATABASE` statements)
+
+5. Configure Cloudinary
+
+- Create a `.env` file in the root directory
+- Add your Cloudinary API credentials
+
+```
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+6. Open `http://localhost/village_market` in a browser to start the application
 
 ---
 

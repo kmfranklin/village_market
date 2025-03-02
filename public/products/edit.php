@@ -12,7 +12,7 @@ if (!$product_id) {
 }
 
 // Fetch the product
-/** @var Product|null $product */
+/** @var Product $product */
 $product = Product::find_by_id($product_id);
 if (!$product) {
   $_SESSION['message'] = "Product not found.";
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Handle image removal
-  if (isset($_POST['delete_image']) && $product->product_image_url) {
+  if (!empty($_POST['delete_image']) && !empty($product->product_image_url)) {
     $image_path = PUBLIC_PATH . $product->product_image_url;
     if (file_exists($image_path)) {
       unlink($image_path);
@@ -79,25 +79,6 @@ include_header($session);
 
   <form action="edit.php?id=<?php echo h($product->product_id); ?>" method="post" enctype="multipart/form-data">
     <?php include('form_fields.php'); ?>
-
-    <!-- Display current image -->
-    <dt>Current Product Image</dt>
-    <dd>
-      <?php if (!empty($product->product_image_url)) { ?>
-        <img src="<?php echo url_for(h($product->product_image_url)); ?>" width="200" alt="Product Image">
-        <br>
-        <label><input type="checkbox" name="delete_image" value="1"> Remove Image</label>
-      <?php } else { ?>
-        <p>No image uploaded.</p>
-      <?php } ?>
-    </dd>
-
-    <!-- Allow new image upload -->
-    <dt><label for="product_image">Upload New Image</label></dt>
-    <dd>
-      <input type="file" name="product_image" id="product_image">
-    </dd>
-
     <button type="submit">Save Changes</button>
     <a href="view.php?id=<?php echo h($product->product_id); ?>" class="button">Cancel</a>
   </form>
