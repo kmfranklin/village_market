@@ -29,10 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (empty($errors)) {
     $product = new Product($product_args);
 
-    if ($product->create()) {
+    // **Handle Image Upload**
+    if (!empty($_FILES['product_image']['name'])) {
+      $upload_result = $product->upload_image($_FILES['product_image']);
+
+      if (!$upload_result['success']) {
+        $errors[] = $upload_result['message'];
+      }
+    }
+
+    if (empty($errors) && $product->create()) {
       $new_product_id = $product->product_id;
 
-      // Loop through selected price units
+      // **Loop through selected price units**
       foreach ($_POST['product_price_unit'] as $unit_id => $unit_data) {
         if (isset($unit_data['selected']) && isset($unit_data['price']) && $unit_data['price'] > 0) {
           $price_unit_args = [
@@ -48,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['message'] = "Product successfully added.";
       redirect_to('manage.php');
     } else {
-      $errors = $product->errors;
+      $errors = array_merge($errors, $product->errors);
     }
   }
 }
