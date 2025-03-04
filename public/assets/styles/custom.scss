@@ -4,6 +4,7 @@
 :root {
   --bs-primary: #4f772d;
   --bs-secondary: #e66d12;
+  --bs-success: #4f772d;
 }
 
 html,
@@ -25,9 +26,11 @@ main {
   border-color: var(--bs-primary);
 }
 
-.btn-primary:hover {
-  background-color: #3a5d25;
-  border-color: #3a5d25;
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #3a5d25 !important;
+  border-color: #3a5d25 !important;
 }
 
 .btn-secondary {
@@ -42,6 +45,27 @@ main {
 
 .text-primary {
   color: var(--bs-primary) !important;
+}
+
+.bg-success {
+  background-color: var(--bs-success) !important;
+}
+
+.badge-success {
+  background-color: var(--bs-success) !important;
+  color: white;
+}
+
+.btn-outline-primary {
+  background-color: white !important;
+  border-color: var(--bs-primary) !important;
+  color: var(--bs-primary) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
 }
 
 /* Navbar Styles */

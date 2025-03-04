@@ -30,7 +30,7 @@ include(SHARED_PATH . '/vendor_header.php');
         <div class="card-body">
           <h2 class="card-title h4">Manage Products</h2>
           <p class="card-text">Add, edit, or remove products from your inventory.</p>
-          <a href="<?= url_for('/vendors/products.php'); ?>" class="btn btn-primary" aria-label="Go to Manage Products">
+          <a href="<?= url_for('/products/manage.php'); ?>" class="btn btn-primary" aria-label="Go to Manage Products">
             Manage Products
           </a>
         </div>

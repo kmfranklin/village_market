@@ -73,15 +73,28 @@ include_header($session);
 ?>
 
 <main role="main" id="main">
-  <h1>Edit Product</h1>
+  <div class="container my-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h3 mb-4">Edit Product</h1>
 
-  <?php echo display_errors($product->errors); ?>
+        <?php echo display_errors($product->errors); ?>
 
-  <form action="edit.php?id=<?php echo h($product->product_id); ?>" method="post" enctype="multipart/form-data">
-    <?php include('form_fields.php'); ?>
-    <button type="submit">Save Changes</button>
-    <a href="view.php?id=<?php echo h($product->product_id); ?>" class="button">Cancel</a>
-  </form>
+        <form action="edit.php?id=<?php echo h($product->product_id); ?>" method="post" enctype="multipart/form-data">
+          <div class="row">
+            <?php include('form_fields.php'); ?>
+          </div>
+
+
+          <!-- Save & Cancel Buttons -->
+          <div class="d-flex gap-3 mt-4">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="view.php?id=<?php echo h($product->product_id); ?>" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

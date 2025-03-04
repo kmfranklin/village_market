@@ -77,3 +77,11 @@
 h1 {
   color: #4f772d;
 }
+
+.btn-fixed-width {
+  min-width: 100px;
+}
+
+.close-modal {
+  text-align: right;
+}

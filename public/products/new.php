@@ -64,31 +64,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <main role="main" id="main">
-  <h1>Add Product</h1>
-  <p>Use the form below to add a new product.</p>
-  <?php echo display_errors($errors); ?>
+  <div class="container mt-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h1 class="h3 mb-4">Add Product</h1>
+        <p>Use the form below to add a new product.</p>
 
-  <form action="new.php" method="post" enctype="multipart/form-data">
-    <?php if ($is_admin) { ?>
-      <label for="vendor_id">Vendor:</label>
-      <select name="vendor_id" id="vendor_id" required>
-        <option value="">Select a Vendor</option>
-        <?php
-        $vendors = Vendor::find_all();
-        foreach ($vendors as $vendor) {
-          echo "<option value=\"{$vendor->vendor_id}\">{$vendor->business_name}</option>";
-        }
-        ?>
-      </select>
-    <?php } ?>
+        <?php echo display_errors($errors); ?>
 
-    <?php include('form_fields.php'); ?>
+        <form action="new.php" method="post" enctype="multipart/form-data">
+          <div class="row">
+            <!-- Vendor Selection for Admins -->
+            <?php if ($is_admin) { ?>
+              <div class="mb-3">
+                <label for="vendor_id" class="form-label">Vendor</label>
+                <select name="vendor_id" id="vendor_id" class="form-select" required>
+                  <option value="">Select a Vendor</option>
+                  <?php
+                  $vendors = Vendor::find_all();
+                  foreach ($vendors as $vendor) {
+                    echo "<option value=\"{$vendor->vendor_id}\">{$vendor->business_name}</option>";
+                  }
+                  ?>
+                </select>
+              </div>
+            <?php } ?>
 
-    <input type="submit" value="Add Product">
-  </form>
+            <!-- Include Form Fields -->
+            <?php include('form_fields.php'); ?>
+          </div>
 
-  <br>
-  <a href="manage.php">⬅ Back to Product Management</a>
+          <!-- Submit & Cancel Buttons -->
+          <div class="d-flex gap-3 mt-4">
+            <button type="submit" class="btn btn-primary">Add Product</button>
+            <a href="manage.php" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </main>
+
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

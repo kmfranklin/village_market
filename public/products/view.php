@@ -39,70 +39,94 @@ $page_title = "Product Details: " . h($product->product_name);
 include_header($session);
 ?>
 
-<main role="main" id="main">
-  <h1>Product Details</h1>
-
-  <table>
-    <tr>
-      <th>Product Name:</th>
-      <td><?php echo h($product->product_name); ?></td>
-    </tr>
-    <tr>
-      <th>Category:</th>
-      <td><?php echo h($category_name); ?></td>
-    </tr>
-    <tr>
-      <th>Description:</th>
-      <td><?php echo nl2br(h($product->product_description)); ?></td>
-    </tr>
-    <?php if (!$session->is_vendor() || ($logged_in_vendor && $logged_in_vendor->vendor_id !== $vendor->vendor_id)) { ?>
-      <tr>
-        <th>Vendor:</th>
-        <td><?php echo h($vendor_name); ?></td>
-      </tr>
-    <?php } ?>
-    <tr>
-      <th>Price:</th>
-      <td>
-        <?php foreach ($price_units as $unit) {
-          $formatted_price = "$" . number_format($unit->price, 2);
-          $unit_name = strtolower($unit->get_unit_name());
-          $display_unit = ($unit_name === "each") ? " " . h($unit->get_unit_name()) : " per " . h($unit->get_unit_name());
-          echo h($formatted_price . $display_unit) . "<br>";
-        } ?>
-      </td>
-    </tr>
-    <tr>
-      <th>Availability:</th>
-      <td><?php echo $product->is_active ? 'Available' : 'Unavailable'; ?></td>
-    </tr>
-    <?php if (!empty($product->product_image_url)) { ?>
-      <tr>
-        <td>
-          <img src="<?php echo $product->product_image_url; ?>" width="200" alt="Product Image">
-        </td>
-      </tr>
-    <?php } ?>
-
-  </table>
-
-  <?php if ($can_manage) { ?>
-    <div class="actions">
-      <a href="edit.php?id=<?php echo h($product->product_id); ?>" class="button">Edit</a>
-      <a href="#"
-        class="delete-btn btn danger"
+<main role="main" class="container mt-4">
+  <!-- Page Heading -->
+  <header class="mb-2 d-flex align-items-center justify-content-between">
+    <div>
+      <h1 class="display-5 text-primary">Product Details</h1>
+      <h2 class="h4 text-secondary"><?= h($product->product_name); ?></h2>
+    </div>
+    <div class="d-flex flex-column align-items-end">
+      <a href="edit.php?id=<?= h($product->product_id); ?>" class="btn btn-sm btn-primary mb-2 w-100 btn-fixed-width">
+        Edit
+      </a>
+      <a href="#" class="delete-btn btn btn-sm btn-danger btn-fixed-width"
         data-entity="product"
-        data-entity-id="<?php echo h($product->product_id); ?>"
-        data-entity-name="<?php echo h($product->product_name); ?>"
-        data-delete-url="<?php echo url_for('/products/delete.php'); ?>">
+        data-entity-id="<?= h($product->product_id); ?>"
+        data-entity-name="<?= h($product->product_name); ?>"
+        data-delete-url="<?= url_for('/products/delete.php'); ?>">
         Delete
       </a>
       <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, null, $product->product_name); ?>
     </div>
-  <?php } ?>
+  </header>
 
-  <br>
-  <a href="manage.php">⬅ Back to Product Management</a>
+  <!-- Product Details -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="row">
+        <!-- Table for product details -->
+        <div class="col-md-8">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th scope="row">Category</th>
+                <td><?= h($category_name); ?></td>
+              </tr>
+              <tr>
+                <th scope="row">Description</th>
+                <td><?= nl2br(h($product->product_description)); ?></td>
+              </tr>
+              <tr>
+                <th scope="row">Price</th>
+                <td>
+                  <?php foreach ($price_units as $unit) {
+                    $formatted_price = "$" . number_format($unit->price, 2);
+                    $unit_name = strtolower($unit->get_unit_name());
+                    $display_unit = ($unit_name === "each") ? " " . h($unit->get_unit_name()) : " per " . h($unit->get_unit_name());
+                    echo h($formatted_price . $display_unit) . "<br>";
+                  } ?>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Availability</th>
+                <td>
+                  <span class="badge <?= $product->is_active ? 'bg-success' : 'bg-danger'; ?>">
+                    <?= $product->is_active ? 'Available' : 'Unavailable'; ?>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Product Image & Actions -->
+        <div class="col-md-4 text-center">
+          <?php if (!empty($product->product_image_url)) { ?>
+            <img src="<?= $product->product_image_url; ?>" class="img-fluid rounded shadow-sm mb-2" alt="<?= h($product->product_name); ?> Image">
+            <div class="d-flex justify-content-center mt-2">
+              <button class="btn btn-outline-primary me-2 px-3">
+                Replace Image
+              </button>
+              <button class="btn btn-outline-danger px-3">
+                Remove Image
+              </button>
+            </div>
+          <?php } else { ?>
+            <p class="text-muted">No image available</p>
+            <button class="btn btn-primary px-3">Upload Image</button>
+          <?php } ?>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back Link -->
+  <div class="mt-4">
+    <a href="manage.php" class="btn btn-outline-secondary">
+      ⬅ Back to Product Management
+    </a>
+  </div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
