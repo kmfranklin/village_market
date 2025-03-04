@@ -20,7 +20,7 @@
           <img src="<?= url_for('/assets/images/village_market_logo_nav.png'); ?>"
             alt="Village Market Logo" height="60">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 

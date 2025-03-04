@@ -18,7 +18,7 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="<?php echo url_for('/index.php'); ?>">
           <img src="<?php echo url_for('/assets/images/village_market_logo_nav.png'); ?>"
-            alt="Village Market Logo" height="50">
+            alt="Village Market Logo" height="50" aria-valuetext="Village Market">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNav">

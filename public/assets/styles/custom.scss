@@ -31,13 +31,13 @@ main {
 }
 
 .btn-secondary {
-  background-color: var(--bs-secondary);
-  border-color: var(--bs-secondary);
+  background-color: #555;
+  border-color: var(--bs-primary);
 }
 
 .btn-secondary:hover {
-  background-color: #c55b0f;
-  border-color: #c55b0f;
+  background-color: #3a5d25;
+  border-color: #3a5d25;
 }
 
 /* Navbar Styles */

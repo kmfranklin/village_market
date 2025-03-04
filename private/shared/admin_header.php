@@ -22,7 +22,7 @@ $current_page = $_SERVER['REQUEST_URI'];
       <div class="container-fluid">
         <a class="navbar-brand" href="<?= url_for('/public/index.php'); ?>">
           <img src="<?= url_for('/assets/images/village_market_logo_nav.png'); ?>"
-            alt="Village Market Logo" height="60">
+            alt="Village Market Logo" height="60" aria-valuetext="Village Market">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
           <span class="navbar-toggler-icon"></span>
