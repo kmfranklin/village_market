@@ -5,30 +5,67 @@ if (!isset($user)) {
 ?>
 
 <fieldset>
-  <legend>User Information</legend>
-  <dl>
-    <dt><label for="first_name">First Name</label></dt>
-    <dd><input type="text" name="user[first_name]" id="first_name" value="<?php echo h($user->first_name); ?>" required /></dd>
+  <legend class="h4 mb-3">User Information</legend>
 
-    <dt><label for="last_name">Last Name</label></dt>
-    <dd><input type="text" name="user[last_name]" id="last_name" value="<?php echo h($user->last_name); ?>" required /></dd>
+  <div class="row">
+    <!-- First Name -->
+    <div class="col-md-6 mb-3">
+      <label for="first_name" class="form-label">
+        First Name <span class="text-danger">*</span>
+      </label>
+      <input type="text" name="user[first_name]" id="first_name" class="form-control"
+        value="<?php echo h($user->first_name); ?>" required aria-required="true" />
+    </div>
 
-    <dt><label for="email_address">Email Address</label></dt>
-    <dd><input type="email" name="user[email_address]" id="email_address" value="<?php echo h($user->email_address); ?>" required /></dd>
+    <!-- Last Name -->
+    <div class="col-md-6 mb-3">
+      <label for="last_name" class="form-label">
+        Last Name <span class="text-danger">*</span>
+      </label>
+      <input type="text" name="user[last_name]" id="last_name" class="form-control"
+        value="<?php echo h($user->last_name); ?>" required aria-required="true" />
+    </div>
+  </div>
 
-    <dt><label for="password">Password</label></dt>
-    <dd>
-      <input type="password" name="user[password]" id="password"
-        <?php echo isset($user->user_id) ? '' : 'required'; ?> />
-    </dd>
+  <div class="row">
+    <!-- Email Address -->
+    <div class="col-md-12 mb-3">
+      <label for="email_address" class="form-label">
+        Email Address <span class="text-danger">*</span>
+      </label>
+      <input type="email" name="user[email_address]" id="email_address" class="form-control"
+        value="<?php echo h($user->email_address); ?>" required aria-required="true" />
+    </div>
+  </div>
 
-    <dt><label for="confirm_password">Confirm Password</label></dt>
-    <dd>
-      <input type="password" name="user[confirm_password]" id="confirm_password"
-        <?php echo isset($user->user_id) ? '' : 'required'; ?> />
-    </dd>
+  <div class="row">
+    <!-- Password -->
+    <div class="col-md-6 mb-3">
+      <label for="password" class="form-label">
+        Password <?php if (!isset($user->user_id)) { ?><span class="text-danger">*</span><?php } ?>
+      </label>
+      <input type="password" name="user[password]" id="password" class="form-control"
+        <?php echo isset($user->user_id) ? '' : 'required aria-required="true"'; ?> />
+    </div>
 
-    <dt><label for="phone_number">Phone Number</label></dt>
-    <dd><input type="tel" name="user[phone_number]" id="phone_number" value="<?php echo h($user->phone_number); ?>" required /></dd>
-  </dl>
+    <!-- Confirm Password -->
+    <div class="col-md-6 mb-3">
+      <label for="confirm_password" class="form-label">
+        Confirm Password <?php if (!isset($user->user_id)) { ?><span class="text-danger">*</span><?php } ?>
+      </label>
+      <input type="password" name="user[confirm_password]" id="confirm_password" class="form-control"
+        <?php echo isset($user->user_id) ? '' : 'required aria-required="true"'; ?> />
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Phone Number -->
+    <div class="col-md-12 mb-3">
+      <label for="phone_number" class="form-label">
+        Phone Number <span class="text-danger">*</span>
+      </label>
+      <input type="tel" name="user[phone_number]" id="phone_number" class="form-control"
+        value="<?php echo h($user->phone_number); ?>" required aria-required="true" />
+    </div>
+  </div>
 </fieldset>

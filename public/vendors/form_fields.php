@@ -4,27 +4,61 @@ if (!isset($vendor)) {
 }
 ?>
 
-<fieldset>
-  <legend>Business Information</legend>
-  <dl>
-    <dt><label for="business_name">Business Name</label></dt>
-    <dd><input type="text" name="vendor[business_name]" id="business_name" value="<?php echo h($vendor->business_name); ?>" required /></dd>
+<fieldset class="mb-4">
+  <legend class="h4 mb-3">Business Information</legend>
 
-    <dt><label for="business_email">Business Email</label></dt>
-    <dd><input type="email" name="vendor[business_email_address]" id="business_email" value="<?php echo h($vendor->business_email_address); ?>" required /></dd>
+  <div class="row">
+    <!-- Business Name -->
+    <div class="col-md-6 mb-3">
+      <label for="business_name" class="form-label">
+        Business Name <span class="text-danger">*</span>
+      </label>
+      <input type="text" name="vendor[business_name]" id="business_name" class="form-control"
+        value="<?php echo h($vendor->business_name); ?>" required aria-required="true">
+    </div>
 
-    <dt><label for="business_phone">Business Phone Number</label></dt>
-    <dd><input type="text" name="vendor[business_phone_number]" id="business_phone" value="<?php echo h($vendor->business_phone_number); ?>" required /></dd>
+    <!-- Business Email -->
+    <div class="col-md-6 mb-3">
+      <label for="business_email" class="form-label">
+        Business Email <span class="text-danger">*</span>
+      </label>
+      <input type="email" name="vendor[business_email_address]" id="business_email" class="form-control"
+        value="<?php echo h($vendor->business_email_address); ?>" required aria-required="true">
+    </div>
 
-    <dt><label for="street_address">Street Address</label></dt>
-    <dd><input type="text" name="vendor[street_address]" id="street_address" value="<?php echo h($vendor->street_address); ?>" required /></dd>
+    <!-- Business Phone -->
+    <div class="col-md-6 mb-3">
+      <label for="business_phone" class="form-label">
+        Business Phone Number <span class="text-danger">*</span>
+      </label>
+      <input type="text" name="vendor[business_phone_number]" id="business_phone" class="form-control"
+        value="<?php echo h($vendor->business_phone_number); ?>" required aria-required="true">
+    </div>
 
-    <dt><label for="city">City</label></dt>
-    <dd><input type="text" name="vendor[city]" id="city" value="<?php echo h($vendor->city); ?>" required /></dd>
+    <!-- Street Address -->
+    <div class="col-md-6 mb-3">
+      <label for="street_address" class="form-label">
+        Street Address <span class="text-danger">*</span>
+      </label>
+      <input type="text" name="vendor[street_address]" id="street_address" class="form-control"
+        value="<?php echo h($vendor->street_address); ?>" required aria-required="true">
+    </div>
 
-    <dt><label for="state">State</label></dt>
-    <dd>
-      <select name="vendor[state_id]">
+    <!-- City -->
+    <div class="col-md-4 mb-3">
+      <label for="city" class="form-label">
+        City <span class="text-danger">*</span>
+      </label>
+      <input type="text" name="vendor[city]" id="city" class="form-control"
+        value="<?php echo h($vendor->city); ?>" required aria-required="true">
+    </div>
+
+    <!-- State Dropdown -->
+    <div class="col-md-4 mb-3">
+      <label for="state" class="form-label">
+        State <span class="text-danger">*</span>
+      </label>
+      <select name="vendor[state_id]" id="state" class="form-select" required aria-required="true">
         <option value="">Select State</option>
         <?php foreach (get_states() as $state) { ?>
           <option value="<?php echo h($state['state_id']); ?>"
@@ -33,9 +67,15 @@ if (!isset($vendor)) {
           </option>
         <?php } ?>
       </select>
-    </dd>
+    </div>
 
-    <dt><label for="zip_code">ZIP Code</label></dt>
-    <dd><input type="text" name="vendor[zip_code]" id="zip_code" value="<?php echo h($vendor->zip_code); ?>" required /></dd>
-  </dl>
+    <!-- ZIP Code -->
+    <div class="col-md-4 mb-3">
+      <label for="zip_code" class="form-label">
+        ZIP Code <span class="text-danger">*</span>
+      </label>
+      <input type="text" name="vendor[zip_code]" id="zip_code" class="form-control"
+        value="<?php echo h($vendor->zip_code); ?>" required aria-required="true">
+    </div>
+  </div>
 </fieldset>

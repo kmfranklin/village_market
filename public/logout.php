@@ -26,13 +26,21 @@ $page_title = 'Log Out';
 ?>
 
 <main role="main" id="main">
-  <h1>Log Out</h1>
-  <p><?php echo h($session->first_name) . ", are you sure you want to log out?" ?></p>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm p-4 text-center">
+          <h1 class="mb-3">Log Out</h1>
+          <p class="fw-bold"><?php echo h($session->first_name) . ", are you sure you want to log out?" ?></p>
 
-  <form action="logout.php" method="post">
-    <button type="submit">Yes, Log Out</button>
-    <a href="<?php echo $dashboard_url; ?>">Cancel</a>
-  </form>
+          <form action="logout.php" method="post">
+            <button type="submit" class="btn btn-danger w-100 mb-2">Yes, Log Out</button>
+            <a href="<?php echo $dashboard_url; ?>" class="btn btn-outline-secondary w-100">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 
-<?php include(SHARED_PATH . '/footer.php');
+<?php include(SHARED_PATH . '/footer.php'); ?>

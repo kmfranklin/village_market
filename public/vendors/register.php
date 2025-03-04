@@ -9,11 +9,11 @@ if (is_post_request()) {
   $user_args = $_POST['user'];
   $vendor_args = $_POST['vendor'];
 
-  // Convert emails to lowercase before storing
+  // Convert emails to lowercase
   $user_args['email_address'] = strtolower(trim($user_args['email_address'] ?? ''));
   $vendor_args['business_email_address'] = strtolower(trim($vendor_args['business_email_address'] ?? ''));
 
-  // Capitalize first letter of names and addresses before storing
+  // Capitalize first letter of names/addresses
   $user_args['first_name'] = ucwords(strtolower(trim($user_args['first_name'] ?? '')));
   $user_args['last_name'] = ucwords(strtolower(trim($user_args['last_name'] ?? '')));
   $vendor_args['business_name'] = ucwords(strtolower(trim($vendor_args['business_name'] ?? '')));
@@ -63,14 +63,40 @@ $page_title = "Vendor Registration";
 include(SHARED_PATH . '/public_header.php');
 ?>
 
-<main>
-  <h1>Register as a Vendor</h1>
-  <?php echo display_errors($errors); ?>
-  <p>Use the form below to register as a vendor with the Village Market. An admin will review your submission and respond shortly.</p>
+<main class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h1 class="h3 mb-3 text-center">Register as a Vendor</h1>
+          <p class="text-center">Use the form below to register as a vendor with the Village Market. An admin will review your submission and respond shortly.</p>
 
-  <form action="register.php" method="post">
-    <?php include('../admin/users/form_fields.php'); ?>
-    <?php include('./form_fields.php'); ?>
-    <input type="submit" value="Register">
-  </form>
+          <?php if (!empty($errors)) { ?>
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                <?php foreach ($errors as $error) { ?>
+                  <li><?php echo h($error); ?></li>
+                <?php } ?>
+              </ul>
+            </div>
+          <?php } ?>
+
+          <form action="register.php" method="post">
+            <!-- User Form Fields -->
+            <?php include('../admin/users/form_fields.php'); ?>
+
+            <!-- Vendor Form Fields -->
+            <?php include('./form_fields.php'); ?>
+
+            <div class="d-flex justify-content-between mt-3">
+              <button type="submit" class="btn btn-primary">Register</button>
+              <a href="<?php echo url_for('/index.php'); ?>" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
+
+<?php include(SHARED_PATH . '/footer.php'); ?>

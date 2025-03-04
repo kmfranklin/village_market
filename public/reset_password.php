@@ -24,12 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $confirm_password = $_POST['confirm_password'] ?? '';
 
   // Validate passwords
-  if (strlen($new_password) < 8) {
-    $_SESSION['message'] = "Password must be at least 8 characters.";
+  if (strlen($new_password) < 12) {
+    $_SESSION['message'] = "Password must be at least 12 characters.";
   } elseif ($new_password !== $confirm_password) {
     $_SESSION['message'] = "Passwords do not match.";
   } else {
-
     $hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
 
     // Update the user's password
@@ -53,21 +52,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<main>
-  <h1>Reset Password</h1>
+<main role="main" id="main">
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm p-4">
+          <h1 class="mb-3 text-center">Reset Password</h1>
 
-  <?php if (isset($_SESSION['message'])): ?>
-    <p><?php echo $_SESSION['message'];
-        unset($_SESSION['message']); ?></p>
-  <?php endif; ?>
+          <?php if (isset($_SESSION['message'])): ?>
+            <div class="alert alert-danger text-center">
+              <?php echo $_SESSION['message']; ?>
+            </div>
+            <?php unset($_SESSION['message']); ?>
+          <?php endif; ?>
 
-  <form action="reset_password.php?token=<?php echo htmlspecialchars($token); ?>" method="POST">
-    <label for="new_password">New Password:</label>
-    <input type="password" name="new_password" id="new_password" required>
+          <form action="reset_password.php?token=<?php echo htmlspecialchars($token); ?>" method="POST">
+            <div class="mb-3">
+              <label for="new_password" class="form-label">New Password</label>
+              <input type="password" name="new_password" id="new_password" class="form-control" minlength="12" required>
+            </div>
 
-    <label for="confirm_password">Confirm Password:</label>
-    <input type="password" name="confirm_password" id="confirm_password" required>
+            <div class="mb-3">
+              <label for="confirm_password" class="form-label">Confirm Password</label>
+              <input type="password" name="confirm_password" id="confirm_password" class="form-control" minlength="12" required>
+            </div>
 
-    <button type="submit">Reset Password</button>
-  </form>
+            <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
+
+<?php require_once('../private/shared/footer.php'); ?>
