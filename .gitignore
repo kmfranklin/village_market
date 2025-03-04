@@ -3,3 +3,5 @@
 /libraries/vendor/
 
 /.env
+
+/node_modules/

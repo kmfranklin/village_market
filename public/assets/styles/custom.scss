@@ -1,0 +1,128 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+
+/* Global Styles */
+:root {
+  --bs-primary: #4f772d;
+  --bs-secondary: #e66d12;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+  background-color: #3a5d25;
+  border-color: #3a5d25;
+}
+
+.btn-secondary {
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: #c55b0f;
+  border-color: #c55b0f;
+}
+
+/* Navbar Styles */
+.navbar-nav .active {
+  border-bottom: 3px solid var(--bs-secondary);
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+}
+
+.navbar-nav .nav-link::after {
+  content: '';
+  background-color: var(--bs-primary);
+  bottom: 0px;
+  height: 3px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  transition: width 0.1s ease-out;
+  width: 0%;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 80%;
+}
+
+.navbar-nav .nav-link.active::after {
+  content: '';
+  background-color: var(--bs-secondary);
+  bottom: -2px;
+  height: 3px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.navbar-nav .nav-link.active:hover::after {
+  width: 100%;
+}
+
+/* Footer Styles */
+footer {
+  background-color: var(--bs-light);
+  padding: 2rem 0;
+
+  h6 {
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  a {
+    color: var(--bs-primary);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--bs-secondary);
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.social-icon {
+  color: var(--bs-primary);
+  font-size: 1.5rem;
+  transition: color 0.3s ease-in-out;
+
+  &:hover {
+    color: var(--bs-secondary);
+    text-decoration: none;
+  }
+}
