@@ -40,6 +40,10 @@ main {
   border-color: #3a5d25;
 }
 
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+
 /* Navbar Styles */
 .navbar-nav .active {
   border-bottom: 3px solid var(--bs-secondary);
@@ -80,6 +84,14 @@ main {
 
 .navbar-nav .nav-link.active:hover::after {
   width: 100%;
+}
+
+.navbar .nav-link.text-danger {
+  color: #b02a37 !important;
+}
+
+.navbar .nav-link.text-danger:hover {
+  color: #8b1f2a !important;
 }
 
 /* Footer Styles */

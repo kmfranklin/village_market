@@ -3,7 +3,7 @@
     <div class="row">
 
       <div class="col-md-4 text-start">
-        <h6 class="fw-bold">Village Market</h6>
+        <p class="fw-bold">Village Market</p>
         <p class="mb-0">111 Market Street</p>
         <p class="mb-0">Village, NC 28999</p>
         <p class="mb-0">Open Saturdays 9 AM - 6 PM</p>

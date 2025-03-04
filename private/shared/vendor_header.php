@@ -16,7 +16,7 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="<?= url_for('/vendors/dashboard.php'); ?>">
+        <a class="navbar-brand" href="<?= url_for('/public/index.php'); ?>">
           <img src="<?= url_for('/assets/images/village_market_logo_nav.png'); ?>"
             alt="Village Market Logo" height="60">
         </a>
