@@ -127,8 +127,6 @@ function display_delete_modal($entity_type, $delete_url, $entity_id, $entity_nam
 <?php
 }
 
-
-
 function display_suspend_modal($entity_type, $suspend_url, $entity_id, $user_id, $entity_name)
 {
 ?>
@@ -185,7 +183,7 @@ function display_restore_modal($entity_type, $restore_url, $user_id, $entity_nam
         <div class="modal-footer d-grid gap-2 d-sm-flex justify-content-center">
           <form class="restore-form w-100 w-sm-auto" action="<?php echo h($restore_url); ?>" method="POST">
             <input type="hidden" name="user_id" class="restore-user-id" value="<?php echo h($user_id); ?>">
-            <button type="submit" class="btn btn-success w-100">Yes, Restore</button>
+            <button type="submit" class="btn btn-primary w-100">Yes, Restore</button>
           </form>
           <button type="button" class="btn btn-secondary w-100 w-sm-auto close-modal">Cancel</button>
         </div>
