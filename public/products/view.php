@@ -50,14 +50,17 @@ include_header($session);
       <a href="edit.php?id=<?= h($product->product_id); ?>" class="btn btn-sm btn-primary mb-2 w-100 btn-fixed-width">
         Edit
       </a>
-      <a href="#" class="delete-btn btn btn-sm btn-danger btn-fixed-width"
+      <button class="btn btn-danger btn-sm w-100 delete-btn"
+        data-bs-toggle="modal"
+        data-bs-target="#delete-modal-product-<?= h($product->product_id); ?>"
         data-entity="product"
         data-entity-id="<?= h($product->product_id); ?>"
         data-entity-name="<?= h($product->product_name); ?>"
         data-delete-url="<?= url_for('/products/delete.php'); ?>">
         Delete
-      </a>
-      <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, null, $product->product_name); ?>
+      </button>
+
+      <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, $product->product_name); ?>
     </div>
   </header>
 
