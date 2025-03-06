@@ -69,6 +69,11 @@ The Village Market Web Application is a platform for managing a local farmers' m
 
 This project uses the following external libraries:
 
+- **[Bootstrap](https://getbootstrap.com/)**
+
+  - Provides responsive grid layouts, buttons, form styles, and modal functionality.
+  - Used for styling across the application.
+
 - **[PHPMailer](https://github.com/PHPMailer/PHPMailer)**
 
   - Sends password reset emails securely.
