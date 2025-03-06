@@ -86,30 +86,112 @@ function get_states()
 function display_delete_modal($entity_type, $delete_url, $entity_id, $entity_name, $user_id = null)
 {
 ?>
-  <div id="delete-modal-<?php echo h($entity_type) . '-' . h($entity_id); ?>" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Confirm Deletion</h2>
-      <p class="delete-message">Are you sure you want to delete this <?php echo h($entity_type); ?>: "<strong><?php echo h($entity_name); ?></strong>"?</p>
-      <form class="delete-form" action="<?php echo h($delete_url); ?>" method="POST">
-        <input type="hidden" name="entity_type" value="<?php echo h($entity_type); ?>">
-        <input type="hidden" name="entity_id" class="delete-entity-id" value="<?php echo h($entity_id); ?>">
-        <div class="modal-buttons">
-          <button type="submit" class="danger-button">Yes, Delete</button>
-          <button type="button" class="cancel-button close-modal">Cancel</button>
+  <div id="delete-modal-<?php echo h($entity_type) . '-' . h($entity_id); ?>" class="modal fade" tabindex="-1" aria-labelledby="deleteModalLabel-<?php echo h($entity_id); ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header text-center">
+          <h5 class="modal-title w-100">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </form>
+
+        <!-- Modal Body -->
+        <div class="modal-body text-center">
+          <p>Are you sure you want to delete this <?php echo h($entity_type); ?>?</p>
+          <p class="fw-bold"><?php echo h($entity_name); ?></p>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer d-grid gap-2 d-sm-flex justify-content-center">
+          <form class="delete-form w-100 w-sm-auto" action="<?php echo h($delete_url); ?>" method="POST">
+            <input type="hidden" name="entity_type" value="<?php echo h($entity_type); ?>">
+            <input type="hidden" name="entity_id" class="delete-entity-id" value="<?php echo h($entity_id); ?>">
+
+            <!-- Only include user_id if applicable (for vendors, not products) -->
+            <?php if (!is_null($user_id)) : ?>
+              <input type="hidden" name="user_id" value="<?php echo h($user_id); ?>">
+            <?php endif; ?>
+
+            <button type="submit" class="btn btn-danger w-100">Yes, Delete</button>
+          </form>
+
+          <!-- Ensure the cancel button has `data-bs-dismiss="modal"` -->
+          <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel</button>
+
+        </div>
+
+      </div>
     </div>
   </div>
 <?php
 }
 
-function display_suspend_modal($entity_type, $suspend_url, $vendor_id, $user_id, $entity_name)
+
+
+function display_suspend_modal($entity_type, $suspend_url, $entity_id, $user_id, $entity_name)
 {
-  include(SHARED_PATH . '/suspend_modal.php');
+?>
+  <div class="modal fade" id="suspend-modal-<?php echo h($entity_type) . '-' . h($entity_id); ?>" tabindex="-1" aria-labelledby="suspendModalLabel-<?php echo h($entity_id); ?>" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Suspension</h5>
+          <button type="button" class="btn-close close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body text-center">
+          <p class="suspend-message">Are you sure you want to suspend "<strong><?php echo h($entity_name); ?></strong>"?</p>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer d-grid gap-2 d-sm-flex justify-content-center">
+          <form class="suspend-form w-100 w-sm-auto" action="<?php echo h($suspend_url); ?>" method="POST">
+            <input type="hidden" name="vendor_id" class="suspend-vendor-id" value="<?php echo h($entity_id); ?>">
+            <input type="hidden" name="user_id" class="suspend-user-id" value="<?php echo h($user_id); ?>">
+            <button type="submit" class="btn btn-danger w-100 fw-bold">Yes, Suspend</button>
+          </form>
+          <button type="button" class="btn btn-secondary w-100 w-sm-auto close-modal" data-bs-dismiss="modal">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+<?php
 }
 
 function display_restore_modal($entity_type, $restore_url, $user_id, $entity_name)
 {
-  include(SHARED_PATH . '/restore_modal.php');
+?>
+  <div id="restore-modal-user-<?php echo h($user_id); ?>" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header text-center">
+          <h5 class="modal-title w-100">Confirm Restore</h5>
+          <button type="button" class="btn-close close-modal" aria-label="Close"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body text-center">
+          <p>Are you sure you want to restore "<strong><?php echo h($entity_name); ?></strong>"?</p>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer d-grid gap-2 d-sm-flex justify-content-center">
+          <form class="restore-form w-100 w-sm-auto" action="<?php echo h($restore_url); ?>" method="POST">
+            <input type="hidden" name="user_id" class="restore-user-id" value="<?php echo h($user_id); ?>">
+            <button type="submit" class="btn btn-success w-100">Yes, Restore</button>
+          </form>
+          <button type="button" class="btn btn-secondary w-100 w-sm-auto close-modal">Cancel</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+<?php
 }

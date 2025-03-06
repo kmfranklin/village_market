@@ -140,7 +140,7 @@ class Vendor extends DatabaseObject
     try {
       error_log("DEBUG: Attempting to delete Vendor ID: {$this->vendor_id}");
 
-      // 1️⃣ Delete all product price unit entries for this vendor’s products
+      // Delete all product price unit entries for this vendor’s products
       $price_unit_sql = "DELETE FROM product_price_unit WHERE product_id IN (SELECT product_id FROM product WHERE vendor_id = ?)";
       $price_unit_stmt = self::$database->prepare($price_unit_sql);
       if (!$price_unit_stmt) {
@@ -151,7 +151,7 @@ class Vendor extends DatabaseObject
       error_log("DEBUG: Product price units deleted for Vendor ID: {$this->vendor_id}");
       $price_unit_stmt->close();
 
-      // 2️⃣ Delete all products owned by this vendor
+      // Delete all products owned by this vendor
       $product_sql = "DELETE FROM product WHERE vendor_id = ?";
       $product_stmt = self::$database->prepare($product_sql);
       if (!$product_stmt) {
@@ -162,7 +162,7 @@ class Vendor extends DatabaseObject
       error_log("DEBUG: Products deleted for Vendor ID: {$this->vendor_id}");
       $product_stmt->close();
 
-      // 3️⃣ Delete the vendor record
+      // Delete the vendor record
       $vendor_sql = "DELETE FROM vendor WHERE vendor_id = ?";
       $vendor_stmt = self::$database->prepare($vendor_sql);
       if (!$vendor_stmt) {
@@ -173,7 +173,7 @@ class Vendor extends DatabaseObject
       error_log("DEBUG: Vendor deleted: {$this->vendor_id}");
       $vendor_stmt->close();
 
-      // 4️⃣ Finally, delete the associated user account
+      // Finally, delete the associated user account
       $user_sql = "DELETE FROM user WHERE user_id = ?";
       $user_stmt = self::$database->prepare($user_sql);
       if (!$user_stmt) {

@@ -52,18 +52,38 @@ $page_title = 'Edit Vendor';
 include_header($session);
 ?>
 
-<main role="main" id="main">
-  <h1>Edit Vendor</h1>
-  <?php echo display_errors($errors); ?>
+<main role="main" class="container my-4">
+  <header class="mb-4">
+    <h1 class="display-5 text-primary">Edit Vendor</h1>
+  </header>
 
-  <form action="edit.php?id=<?php echo h($user_id); ?>" method="post">
-    <?php include('../users/form_fields.php'); ?>
-    <?php include('../../vendors/form_fields.php'); ?>
-    <input type="submit" value="Save Changes">
+  <!-- Display Errors -->
+  <?php if (!empty($errors)) : ?>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <?php foreach ($errors as $error) : ?>
+          <li><?php echo h($error); ?></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  <?php endif; ?>
+
+  <form action="edit.php?id=<?php echo h($user_id); ?>" method="post" class="mb-4">
+    <fieldset class="border p-3 rounded">
+      <?php include('../users/form_fields.php'); ?>
+    </fieldset>
+
+    <fieldset class="border p-3 rounded mt-3">
+      <?php include('../../vendors/form_fields.php'); ?>
+    </fieldset>
+
+    <div class="mt-4 d-flex justify-content-between">
+      <a href="manage.php" class="btn btn-outline-secondary">
+        &larr; Back to Vendor Management
+      </a>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
   </form>
-
-  <br>
-  <a href="manage.php">⬅ Back to Vendor Management</a>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

@@ -35,19 +35,37 @@ $page_title = 'Add Vendor';
 include_header($session);
 ?>
 
-<main role="main" id="main">
-  <h1>Add Vendor</h1>
-  <p>Use the form below to add and activate a new vendor.</p>
-  <?php echo display_errors($errors); ?>
+<main role="main" class="container mt-4">
+  <header class="mb-4">
+    <h1 class="display-5 text-primary">Add Vendor</h1>
+    <p class="lead">Use the form below to add and activate a new vendor.</p>
+  </header>
 
-  <form action="new.php" method="post">
-    <?php include('../users/form_fields.php'); ?>
-    <?php include('../../vendors/form_fields.php'); ?>
-    <input type="submit" value="Add Vendor">
+  <?php if (!empty($errors)) : ?>
+    <div class="alert alert-danger">
+      <strong>Error:</strong> Please fix the following issues:
+      <ul>
+        <?php foreach ($errors as $error) : ?>
+          <li><?php echo h($error); ?></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
+  <?php endif; ?>
+
+  <form action="new.php" method="post" class="needs-validation" novalidate>
+    <div class="card shadow-sm p-4">
+      <?php include('../users/form_fields.php'); ?>
+
+      <?php include('../../vendors/form_fields.php'); ?>
+
+      <div class="d-flex justify-content-between mt-4">
+        <a href="manage.php" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Back to Vendor Management
+        </a>
+        <button type="submit" class="btn btn-primary">Add Vendor</button>
+      </div>
+    </div>
   </form>
-
-  <br>
-  <a href="manage.php">⬅ Back to Vendor Management</a>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
