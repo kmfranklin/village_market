@@ -14,3 +14,17 @@ h1 {
   flex-direction: column;
   text-align: center;
 }
+
+/** Homepage management **/
+.hero-image-container {
+  max-height: 350px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#current-hero-image {
+  border-radius: 8px;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}

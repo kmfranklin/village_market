@@ -9,11 +9,11 @@ $current_page = $_SERVER['REQUEST_URI'];
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= isset($page_title) ? h($page_title) . ' | Admin Panel — Village Market' : 'Admin Panel — Village Market'; ?></title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="<?php echo url_for('/assets/styles/custom.css'); ?>">
   <link rel="stylesheet" href="<?= url_for('/assets/styles/styles.css'); ?>">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-  <script type="module" src="<?php echo url_for('/assets/scripts/script.js'); ?>" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="<?php echo url_for('/assets/scripts/script.js'); ?>" defer></script>
 </head>
 
 <body>
@@ -24,7 +24,7 @@ $current_page = $_SERVER['REQUEST_URI'];
           <img src="<?= url_for('/assets/images/village_market_logo_nav.png'); ?>"
             alt="Village Market Logo" height="60" aria-valuetext="Village Market">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav" aria-label="Open Navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
