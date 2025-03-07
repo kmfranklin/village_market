@@ -56,7 +56,7 @@ include_header($session);
           <i class="bi bi-pencil-square display-4 text-primary mb-3"></i>
           <h2 class="card-title h4">Update Market Info</h2>
           <p class="card-text">Edit homepage content and hours.</p>
-          <a href="<?= url_for('/manage_homepage.php'); ?>" class="btn btn-primary mt-auto align-self-center" aria-label="Edit Homepage">
+          <a href="<?= url_for('admin/manage_homepage.php'); ?>" class="btn btn-primary mt-auto align-self-center" aria-label="Edit Homepage">
             Edit Homepage
           </a>
         </div>

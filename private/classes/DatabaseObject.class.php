@@ -122,7 +122,6 @@ class DatabaseObject
     return $stmt->execute();
   }
 
-
   public function attributes()
   {
     $attributes = [];

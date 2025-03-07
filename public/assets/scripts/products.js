@@ -16,8 +16,6 @@ export function togglePriceInput(checkbox, inputId) {
 // Attach to window so inline event attributes like `onchange="togglePriceInput(...)"` work
 window.togglePriceInput = togglePriceInput;
 
-import { openModal } from './modals.js';
-
 document.addEventListener('DOMContentLoaded', function () {
   const modal = document.getElementById('delete-modal');
   const deleteForm = document.getElementById('delete-form');
@@ -37,9 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
       deleteEntityId.value = entityId;
       deleteForm.action = deleteUrl;
       deleteMessage.innerHTML = `Are you sure you want to delete this ${entityType}?`;
-
-      // Open modal
-      openModal(modal);
     });
   });
 });

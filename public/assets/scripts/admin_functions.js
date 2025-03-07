@@ -1,5 +1,3 @@
-import { openModal } from './modals.js';
-
 /**
  * Attaches event listeners to buttons that trigger modals.
  *

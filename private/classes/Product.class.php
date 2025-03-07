@@ -1,7 +1,5 @@
 <?php
 
-use Cloudinary\Api\Upload\UploadApi;
-
 class Product extends DatabaseObject
 {
   static protected $table_name = "product";
@@ -116,37 +114,18 @@ class Product extends DatabaseObject
     return $category ? $category->category_name : 'Unknown';
   }
 
-
-
   public function upload_image($file)
   {
-    require_once PRIVATE_PATH . '/cloudinary_config.php';
+    // Use ImageUploader to upload the image to Cloudinary
+    $upload_result = ImageUploader::upload($file, 'product_images/', 'product_');
 
-    $allowed_types = ['jpg', 'jpeg', 'png'];
-    $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-    if (!in_array($file_ext, $allowed_types)) {
-      return ['success' => false, 'message' => "Invalid file type. Only JPG and PNG allowed."];
-    }
-
-    try {
-      // Upload to Cloudinary
-      $upload = (new UploadApi())->upload($file['tmp_name'], [
-        'folder' => 'product_images/',
-        'public_id' => uniqid('product_'),
-        'overwrite' => true
-      ]);
-
-      // Save URL to database
-      $this->product_image_url = $upload['secure_url'];
-
+    if ($upload_result['success']) {
+      $this->product_image_url = $upload_result['url']; // Save URL to database
       return ['success' => true, 'message' => "Image uploaded successfully."];
-    } catch (Exception $e) {
-      return ['success' => false, 'message' => "Cloudinary error: " . $e->getMessage()];
+    } else {
+      return ['success' => false, 'message' => $upload_result['message']];
     }
   }
-
-
 
   public function delete()
   {
