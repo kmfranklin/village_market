@@ -20,14 +20,6 @@ The Village Market Web Application is a platform for managing a local farmers' m
 - MySQL transactions ensure data consistency (no orphaned user accounts)
 - Standardized data formatting before storing (emails lowercase, names title case)
 
-### Vendor Management System (Admin Feature)
-
-- **Add Vendors** – Admins can register vendors from the Admin panel
-- **Edit Vendor Information** – Business details and contact information can be updated
-- **Approve or Reject Vendor Registrations** – Control access to the system
-- **Suspend Vendors** – Temporarily limit access to the application
-- **Restore Vendors** – Reactivate suspended vendors or permanently delete them
-
 ### Product Management System
 
 **Vendors:**
@@ -43,6 +35,20 @@ The Village Market Web Application is a platform for managing a local farmers' m
 - **Add Products** - Admins can add new products, and assign them to specific vendors via dropdown menu
 - **Suspend or Restore Products** - Control availability of products at the market
 - **Override Vendor Listings** - Admins can update incorrect product details when necessary
+
+### Vendor Management System (Admin Feature)
+
+- **Add Vendors** – Admins can register vendors from the Admin panel
+- **Edit Vendor Information** – Business details and contact information can be updated
+- **Approve or Reject Vendor Registrations** – Control access to the system
+- **Suspend Vendors** – Temporarily limit access to the application
+- **Restore Vendors** – Reactivate suspended vendors or permanently delete them
+
+### Homepage Management CMS (Admin Feature)
+
+- **Market Info** - Admins can edit information about the market, such as hours and contact info
+- **Hero Images** - Add and/or change the hero image displayed on the homepage
+- **Announcements** - Optional announcement to be displayed on the homepage
 
 ### Cloudinary Integration for Image Management
 
@@ -153,7 +159,6 @@ CLOUDINARY_API_SECRET=your_api_secret
 ### Vendor Dashboard
 
 - Business profile management
-- Product management
 - Market attendance tracking
 
 ### Admin Dashboard
