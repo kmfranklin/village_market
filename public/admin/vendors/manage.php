@@ -54,7 +54,7 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
 
     <h2 class="mt-4"><?= $section_title ?></h2>
     <div class="table-responsive">
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-bordered vendor-table">
         <thead class="table-dark">
           <tr>
             <th scope="col">Business Name</th>

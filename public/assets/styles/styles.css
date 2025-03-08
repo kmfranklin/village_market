@@ -208,6 +208,53 @@ h1 {
     text-align: center;
     width: 100%;
   }
+
+  /** Hide vendor email on mobile **/
+  .vendor-table th:nth-child(3),
+  .vendor-table td:nth-child(3) {
+    display: none;
+  }
+
+  /** Change product table layout on mobile **/
+  .product-table,
+  .product-table thead,
+  .product-table tbody,
+  .product-table th,
+  .product-table td,
+  .product-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .product-table thead {
+    display: none;
+  }
+
+  .product-table tr {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+
+  .product-table td {
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+  }
+
+  .product-table td:last-child {
+    border-bottom: none;
+  }
+
+  .product-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 }
 
 @media screen and (max-width: 480px) {

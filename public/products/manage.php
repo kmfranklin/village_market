@@ -33,7 +33,7 @@ if ($is_admin) {
 
   <!-- Products Table -->
   <div class="table-responsive">
-    <table class="table table-striped table-bordered">
+    <table class="table table-striped table-bordered product-table">
       <thead class="table-dark">
         <tr>
           <th scope="col">Product Name</th>
@@ -46,9 +46,9 @@ if ($is_admin) {
       <tbody>
         <?php foreach ($products as $product) { ?>
           <tr>
-            <td><?php echo h($product->product_name); ?></td>
-            <td><?php echo h($product->get_category_name()); ?></td>
-            <td>
+            <td data-label="Product Name"><?php echo h($product->product_name); ?></td>
+            <td data-label="Category"><?php echo h($product->get_category_name()); ?></td>
+            <td data-label="price">
               <?php
               $price_units = ProductPriceUnit::find_by_product_id($product->product_id);
               foreach ($price_units as $unit) {
@@ -59,7 +59,7 @@ if ($is_admin) {
               }
               ?>
             </td>
-            <td>
+            <td data-label="Actions">
               <span class="badge <?php echo $product->is_active ? 'bg-success' : 'bg-danger'; ?>">
                 <?php echo $product->is_active ? 'Active' : 'Inactive'; ?>
               </span>
