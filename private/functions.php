@@ -2,10 +2,13 @@
 
 function url_for($script_path)
 {
-  if ($script_path[0] != '/') {
-    $script_path = "/" . $script_path;
-  }
-  return WWW_ROOT . $script_path;
+  // Ensure WWW_ROOT does not end with '/'
+  $root = rtrim(WWW_ROOT, '/');
+
+  // Ensure $script_path does start with '/'
+  $path = ltrim($script_path, '/');
+
+  return $root . '/' . $path;
 }
 
 function u($string = "")
@@ -192,4 +195,69 @@ function display_restore_modal($entity_type, $restore_url, $user_id, $entity_nam
     </div>
   </div>
 <?php
+}
+
+
+/**
+ * Fetches the next available market date.
+ * If no future market dates exist, it generates new ones.
+ *
+ * @return string|null - The next upcoming market date or null if not found.
+ */
+function get_next_market_date()
+{
+  global $database;
+
+  // Query for the next available market date
+  $sql = "SELECT market_date FROM market_date WHERE market_date >= CURDATE() ORDER BY market_date ASC LIMIT 1";
+  $result = $database->query($sql);
+  $next_market = $result->fetch_assoc();
+
+  // If no upcoming date exists, generate new dates
+  if (!$next_market) {
+    generate_market_dates();
+    // Re-run the query after inserting new dates
+    $result = $database->query($sql);
+    $next_market = $result->fetch_assoc();
+  }
+
+  return $next_market ? $next_market['market_date'] : null;
+}
+
+/**
+ * Generates market dates for the next 6 months if none exist.
+ * Adjust the day based on your actual market schedule.
+ */
+function generate_market_dates($months_ahead = 6)
+{
+  global $database;
+
+  $num_weeks = $months_ahead * 4; // Approximate weekly markets for the next 6 months
+  $today = new DateTime();
+  $today->modify('next Saturday'); // Adjust this for your actual market day
+
+  for ($i = 0; $i < $num_weeks; $i++) {
+    $market_date = $today->format('Y-m-d');
+
+    // Check if this date already exists
+    $sql = "SELECT COUNT(*) AS count FROM market_date WHERE market_date = ?";
+    $stmt = $database->prepare($sql);
+    $stmt->bind_param("s", $market_date);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    if ($row['count'] == 0) {
+      // Insert the new market date
+      $insert_sql = "INSERT INTO market_date (market_date, is_active) VALUES (?, 1)";
+      $stmt = $database->prepare($insert_sql);
+      $stmt->bind_param("s", $market_date);
+      $stmt->execute();
+      $stmt->close();
+    }
+
+    // Move to the next scheduled market day
+    $today->modify('+7 days');
+  }
 }

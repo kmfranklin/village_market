@@ -5,3 +5,5 @@
 /.env
 
 /node_modules/
+
+_htaccess_backup

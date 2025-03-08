@@ -4,11 +4,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo isset($page_title) ? h($page_title) . ' | Village Market' : 'Village Market'; ?></title>
-  <link rel="stylesheet" href="<?php echo url_for('/assets/styles/custom.css'); ?>">
+  <title><?= isset($page_title) ? h($page_title) . ' | Village Market' : 'Village Market'; ?></title>
+  <link rel="stylesheet" href="<?= url_for('/assets/styles/custom.css'); ?>">
+  <link rel="stylesheet" href="<?= url_for('/assets/styles/styles.css'); ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="<?php echo url_for('../../assets/styles/styles.css'); ?>">
-  <script type="module" src="<?php echo url_for('/assets/scripts/script.js'); ?>" defer></script>
+  <script type="module" src="<?= url_for('/assets/scripts/script.js'); ?>" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
@@ -28,8 +28,8 @@
         <div class="collapse navbar-collapse" id="publicNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/index.php'); ?>">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/browse-products.php'); ?>">Browse Products</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/browse-vendors.php'); ?>">Browse Vendors</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/products.php'); ?>">Browse Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/vendors.php'); ?>">Browse Vendors</a></li>
             <li class="nav-item"><a class="btn btn-primary text-white px-3" href="<?php echo url_for('/login.php'); ?>">Login</a></li>
             <li class="nav-item"><a class="btn btn-secondary text-white px-3 ms-2" href="<?php echo url_for('/vendors/register.php'); ?>">Register</a></li>
           </ul>
