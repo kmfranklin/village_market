@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Save changes
   if (empty($product->errors) && $product->update()) {
     $_SESSION['message'] = "Product updated successfully.";
-    redirect_to("view.php?id=" . h($product->product_id));
+    redirect_to("manage.php");
     exit;
   }
 }
@@ -78,7 +78,7 @@ include_header($session);
       <div class="card-body">
         <h1 class="h3 mb-4">Edit Product</h1>
 
-        <?php echo display_errors($product->errors); ?>
+        <?php echo display_session_message(); ?>
 
         <form action="edit.php?id=<?php echo h($product->product_id); ?>" method="post" enctype="multipart/form-data">
           <div class="row">
