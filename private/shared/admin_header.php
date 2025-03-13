@@ -1,5 +1,11 @@
 <?php
 $current_page = $_SERVER['REQUEST_URI'];
+$first_name = trim($_SESSION['first_name'] ?? 'User');
+$last_name = trim($_SESSION['last_name'] ?? '');
+
+// Get initials
+$first_initial = strtoupper(substr($first_name, 0, 1));
+$last_initial = strtoupper(substr($last_name, 0, 1));
 ?>
 
 <!DOCTYPE html>
@@ -52,8 +58,31 @@ $current_page = $_SERVER['REQUEST_URI'];
               <a class="nav-link <?= (strpos($current_page, '/products/manage.php') !== false) ? 'active' : '' ?>"
                 href="<?= url_for('/products/manage.php'); ?>">Manage Products</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link text-danger fw-bold" href="<?= url_for('/logout.php'); ?>">Logout</a>
+            <li class="nav-item dropdown">
+              <button class="nav-link dropdown-toggle user-dropdown-btn" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <?php
+                // Ensure session variables are available
+                $first_name = $_SESSION['first_name'] ?? 'User';
+                $last_name = $_SESSION['last_name'] ?? '';
+
+                // Get user's initials
+                $first_initial = strtoupper(substr($first_name, 0, 1));
+                $last_initial = strtoupper(substr($last_name, 0, 1));
+
+                echo '<span class="user-initials">' . $first_initial . $last_initial . '</span>';
+                ?>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                <li>
+                  <p class="dropdown-header"><?php echo htmlspecialchars($first_name . ' ' . $last_name); ?></p>
+                </li>
+                <li><a class="dropdown-item" href="<?= url_for('/profile.php'); ?>">Profile</a></li>
+                <li><a class="dropdown-item" href="<?= url_for('/change_password.php'); ?>">Change Password</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger" href="<?= url_for('/logout.php'); ?>">Logout</a></li>
+              </ul>
             </li>
           </ul>
         </div>

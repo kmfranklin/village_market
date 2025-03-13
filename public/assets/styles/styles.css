@@ -2,10 +2,6 @@
   --hover-green: #3a5d25;
 }
 
-h1 {
-  color: var(--market-green);
-}
-
 .btn-fixed-width {
   min-width: 100px;
 }
@@ -287,4 +283,53 @@ h1 {
     font-size: 0.9rem;
     padding: 8px;
   }
+}
+
+.user-dropdown-btn {
+  align-items: center;
+  background: none;
+  border: none !important;
+  cursor: pointer;
+  display: flex;
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.user-initials {
+  align-items: center;
+  background-color: var(--bs-primary);
+  border-radius: 50%;
+  color: white;
+  display: inline-flex;
+  font-weight: bold;
+  height: 35px;
+  justify-content: center;
+  line-height: 35px;
+  margin-right: 5px;
+  text-align: center;
+  width: 35px;
+}
+
+.dropdown-menu {
+  min-width: 180px;
+}
+
+.user-dropdown-btn::after {
+  content: none !important;
+}
+
+.dropdown-item:focus,
+.dropdown-item:active {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+.dropdown-logout {
+  font-weight: bold;
+}
+
+.dropdown-logout:focus,
+.dropdown-logout:active {
+  background-color: #b02a37;
+  color: white !important;
 }

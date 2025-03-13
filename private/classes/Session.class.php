@@ -6,6 +6,7 @@ class Session
   private $last_login;
   public $role_id;
   public $first_name;
+  public $last_name;
   public const MAX_LOGIN_AGE = 86400;
 
   public function __construct()
@@ -20,6 +21,7 @@ class Session
       session_regenerate_id(true);
       $this->user_id = $_SESSION['user_id'] = $user->user_id;
       $this->first_name = $_SESSION['first_name'] = $user->first_name;
+      $this->last_name = $_SESSION['last_name'] = $user->last_name;
       $this->role_id = $_SESSION['role_id'] = $user->role_id;
       $this->last_login = $_SESSION['last_login'] = time();
       echo "Session login successful! User role ID: " . $this->role_id . "<br>";
@@ -34,8 +36,8 @@ class Session
 
   public function logout()
   {
-    unset($_SESSION['user_id'], $_SESSION['first_name'], $_SESSION['last_login'], $_SESSION['role_id']);
-    unset($this->user_id, $this->first_name, $this->last_login, $this->role_id);
+    unset($_SESSION['user_id'], $_SESSION['first_name'], $_SESSION['last_name'], $_SESSION['last_login'], $_SESSION['role_id']);
+    unset($this->user_id, $this->first_name, $this->last_name, $this->last_login, $this->role_id);
     session_destroy();
     return true;
   }
@@ -47,6 +49,7 @@ class Session
       $this->last_login = $_SESSION['last_login'];
       $this->role_id = $_SESSION['role_id'];
       $this->first_name = $_SESSION['first_name'];
+      $this->last_name = $_SESSION['last_name'];
     }
   }
 
