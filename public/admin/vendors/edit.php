@@ -54,7 +54,7 @@ include_header($session);
 
 <main role="main" class="container my-4">
   <header class="mb-4">
-    <h1 class="display-5 text-primary">Edit Vendor</h1>
+    <h1 class="text-primary">Edit Vendor</h1>
   </header>
 
   <!-- Display Errors -->

@@ -43,8 +43,8 @@ include_header($session);
   <!-- Page Heading -->
   <header class="mb-2 d-flex align-items-center justify-content-between">
     <div>
-      <h1 class="display-5 text-primary">Product Details</h1>
-      <h2 class="h4 text-secondary"><?= h($product->product_name); ?></h2>
+      <h1 class="text-primary">Product Details</h1>
+      <h2 class="text-secondary"><?= h($product->product_name); ?></h2>
     </div>
     <div class="d-flex flex-column align-items-end">
       <a href="edit.php?id=<?= h($product->product_id); ?>" class="btn btn-sm btn-primary mb-2 w-100 btn-fixed-width">

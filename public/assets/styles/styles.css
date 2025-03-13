@@ -2,6 +2,19 @@
   --hover-green: #3a5d25;
 }
 
+body {
+  background-color: #f5f8f2;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h1,
+h2 {
+  font-weight: 700;
+}
+
 .btn-fixed-width {
   min-width: 100px;
 }
@@ -71,8 +84,6 @@
 
 .hero-heading {
   color: white;
-  font-size: 2.5rem;
-  font-weight: bold;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
@@ -113,10 +124,7 @@
 
 /* Market Info Section */
 #market-info {
-  background: #f8f8f8;
-  border-radius: 10px;
   margin: 20px auto;
-  max-width: 900px;
   padding: 25px;
 }
 

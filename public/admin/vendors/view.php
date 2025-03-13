@@ -40,7 +40,7 @@ include_header($session);
 
 <main role="main" class="container mt-4">
   <header class="mb-4">
-    <h1 class="display-5 text-primary"><?php echo h($vendor->business_name); ?> - Vendor Details</h1>
+    <h1 class="text-primary"><?php echo h($vendor->business_name); ?> - Vendor Details</h1>
   </header>
 
   <div class="row">

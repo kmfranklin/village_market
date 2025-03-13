@@ -68,7 +68,7 @@ include(SHARED_PATH . '/public_header.php');
     <div class="col-md-8">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h1 class="h3 mb-3 text-center">Register as a Vendor</h1>
+          <h1 class="mb-3 text-center">Register as a Vendor</h1>
           <p class="text-center">Use the form below to register as a vendor with the Village Market. An admin will review your submission and respond shortly.</p>
 
           <?php if (!empty($errors)) { ?>

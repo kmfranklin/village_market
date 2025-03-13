@@ -37,6 +37,10 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
         <div class="collapse navbar-collapse" id="adminNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
+              <a class="nav-link <?= (strpos($current_page, '/index.php') !== false) ? 'active' : '' ?>"
+                href="<?= url_for('/index.php'); ?>">Home</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link <?= (strpos($current_page, '/admin/dashboard.php') !== false) ? 'active' : '' ?>"
                 href="<?= url_for('/admin/dashboard.php'); ?>">Dashboard</a>
             </li>
@@ -81,7 +85,7 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item text-danger" href="<?= url_for('/logout.php'); ?>">Logout</a></li>
+                <li><a class="dropdown-item dropdown-logout text-danger" href="<?= url_for('/logout.php'); ?>">Logout</a></li>
               </ul>
             </li>
           </ul>

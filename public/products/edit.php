@@ -76,7 +76,7 @@ include_header($session);
   <div class="container my-4">
     <div class="card shadow-sm">
       <div class="card-body">
-        <h1 class="h3 mb-4">Edit Product</h1>
+        <h1 class="mb-4">Edit Product</h1>
 
         <?php echo display_session_message(); ?>
 

@@ -67,9 +67,9 @@ $next_market_date = get_next_market_date();
 
 <!-- Market Info Section -->
 <section id="market-info" class="container my-5">
-  <div class="row align-items-center">
+  <div class="row align-items-center justify-content-around">
 
-    <div class="col-md-8">
+    <div class="col-md-6">
       <h2 class="text-left">Discover Fresh, Local Goods</h2>
       <p class="text-left">Experience the heart of our community at the Village Market, where local farmers, bakers, and artisans come together to share their passion for fresh, high-quality goods.</p>
       <p class="text-left">Join us in celebrating local flavors and supporting small businesses. We're proud to be a gathering place for friends, families, and neighbors.</p>

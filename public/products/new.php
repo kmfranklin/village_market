@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="container mt-4">
     <div class="card shadow-sm">
       <div class="card-body">
-        <h1 class="h3 mb-4">Add Product</h1>
+        <h1 class="mb-4">Add Product</h1>
         <p>Use the form below to add a new product.</p>
 
         <?php echo display_errors($errors); ?>

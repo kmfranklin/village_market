@@ -103,7 +103,7 @@ include_header($session);
 
 <main role="main" class="container my-4">
   <header>
-    <h1 class="display-5 text-primary">Manage Homepage Content</h1>
+    <h1 class="text-primary">Manage Homepage Content</h1>
     <p class="lead">Update market information, contact details, and the hero image.</p>
   </header>
 

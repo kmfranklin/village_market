@@ -24,7 +24,7 @@ if ($is_admin) {
 <main role="main" class="container mt-4">
   <!-- Page Heading -->
   <header class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="display-5 text-primary">Manage Products</h1>
+    <h1 class="text-primary">Manage Products</h1>
     <a href="new.php" class="btn btn-primary" aria-label="Add New Product">+ Add Product</a>
   </header>
 

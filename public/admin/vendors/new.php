@@ -37,7 +37,7 @@ include_header($session);
 
 <main role="main" class="container mt-4">
   <header class="mb-4">
-    <h1 class="display-5 text-primary">Add Vendor</h1>
+    <h1 class="text-primary">Add Vendor</h1>
     <p class="lead">Use the form below to add and activate a new vendor.</p>
   </header>
 

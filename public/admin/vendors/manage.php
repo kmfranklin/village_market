@@ -33,7 +33,7 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
 <main role="main" class="container mt-4">
   <!-- Page Heading -->
   <header class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="display-5 text-primary">Manage Vendors</h1>
+    <h1 class="text-primary">Manage Vendors</h1>
     <a href="new.php" class="btn btn-primary" aria-label="Add New Vendor">+ Add Vendor</a>
   </header>
 
@@ -43,7 +43,7 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
   <!-- Vendor Sections -->
   <?php
   $sections = [
-    'Pending Vendor Approvals' => $pending_vendors,
+    'Pending Vendor Applications' => $pending_vendors,
     'Active Vendors' => $active_vendors,
     'Suspended Vendors' => $suspended_vendors
   ];
@@ -75,8 +75,8 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
               <td class="d-flex justify-content-evenly flex-wrap gap-2">
                 <a href="view.php?id=<?= h($user->user_id); ?>" class="btn btn-outline-secondary btn-sm">View</a>
 
-                <?php if ($section_title === 'Pending Vendor Approvals') : ?>
-                  <a href="manage.php?action=approve&id=<?= h($user->user_id); ?>" class="btn btn-success btn-sm">Approve</a>
+                <?php if ($section_title === 'Pending Vendor Applications') : ?>
+                  <a href="manage.php?action=approve&id=<?= h($user->user_id); ?>" class="btn btn-primary btn-sm">Approve</a>
                   <a href="manage.php?action=reject&id=<?= h($user->user_id); ?>" class="btn btn-danger btn-sm">Reject</a>
 
                 <?php elseif ($section_title === 'Active Vendors') : ?>

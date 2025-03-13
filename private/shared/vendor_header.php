@@ -36,6 +36,10 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
         <div class="collapse navbar-collapse" id="vendorNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
+              <a class="nav-link <?= (strpos($current_page, '/index.php') !== false) ? 'active' : '' ?>"
+                href="<?= url_for('/index.php'); ?>">Home</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link <?= (strpos($current_page, '/vendors/dashboard.php') !== false) ? 'active' : '' ?>"
                 href="<?= url_for('/vendors/dashboard.php'); ?>">Your Dashboard</a>
             </li>
