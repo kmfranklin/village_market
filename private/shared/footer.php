@@ -1,11 +1,20 @@
+<?php
+$address_data = get_site_address();
+
+$contact_mailing_address = htmlspecialchars($address_data['contact_mailing_address'] ?? '');
+$contact_city = htmlspecialchars($address_data['contact_city'] ?? '');
+$contact_state = htmlspecialchars($address_data['contact_state'] ?? '');
+$contact_zip = htmlspecialchars($address_data['contact_zip'] ?? '');
+?>
+
 <footer class="bg-light py-4 mt-auto">
   <div class="container">
     <div class="row">
 
       <div class="col-md-4 text-start">
         <p class="fw-bold">Village Market</p>
-        <p class="mb-0">111 Market Street</p>
-        <p class="mb-0">Village, NC 28999</p>
+        <p class="mb-0"><?php echo $contact_mailing_address; ?></p>
+        <p class="mb-0"><?php echo $contact_city . ', ' . $contact_state . ' ' . $contact_zip; ?></p>
         <p class="mb-0">Open Saturdays 9 AM - 6 PM</p>
       </div>
 

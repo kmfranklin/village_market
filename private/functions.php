@@ -197,7 +197,6 @@ function display_restore_modal($entity_type, $restore_url, $user_id, $entity_nam
 <?php
 }
 
-
 /**
  * Fetches the next available market date.
  * If no future market dates exist, it generates new ones.
@@ -260,4 +259,22 @@ function generate_market_dates($months_ahead = 6)
     // Move to the next scheduled market day
     $today->modify('+7 days');
   }
+}
+
+function get_site_address()
+{
+  global $database; // Ensure access to the database
+
+  $sql = "SELECT hc.contact_mailing_address, hc.contact_city, hc.contact_zip, 
+                   s.state_abbreviation AS contact_state
+            FROM homepage_content hc
+            LEFT JOIN state s ON hc.contact_state = s.state_id
+            LIMIT 1";
+
+  $result = $database->query($sql);
+  if (!$result) {
+    die("Database query failed: " . $database->error);
+  }
+
+  return $result->fetch_assoc() ?: []; // Return an empty array if no data is found
 }
