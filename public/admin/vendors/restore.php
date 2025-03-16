@@ -8,10 +8,7 @@ if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_a
   exit;
 }
 
-// DEBUG: Log `$_POST` to verify correct data is passed
-error_log(print_r($_POST, true));
-
-$user_id = (int) ($_POST['user_id'] ?? 0); // Ensure `user_id` is an integer
+$user_id = (int) ($_POST['user_id'] ?? 0);
 
 if (!$user_id) {
   $_SESSION['message'] = "Error: User ID is missing.";
@@ -29,18 +26,22 @@ if (!$user || !$user->is_vendor()) {
   exit;
 }
 
-// Ensure the vendor is actually suspended before restoring
-if ($user->account_status !== 'suspended') {
-  $_SESSION['message'] = "Error: This vendor is not currently suspended.";
+// Restore based on current status
+if ($user->account_status === 'suspended') {
+  $user->account_status = 'active';
+  $restore_message = "Vendor restored successfully.";
+} elseif ($user->account_status === 'rejected') {
+  $user->account_status = 'pending';
+  $restore_message = "Vendor application restored to pending.";
+} else {
+  $_SESSION['message'] = "Error: This vendor cannot be restored.";
   redirect_to(url_for('/admin/vendors/manage.php'));
   exit;
 }
 
-// Change account_status back to 'active'
-$user->account_status = 'active';
-
+// Update the database
 if ($user->update()) {
-  $_SESSION['message'] = "Vendor restored successfully.";
+  $_SESSION['message'] = $restore_message;
 } else {
   $_SESSION['message'] = "Error restoring vendor.";
 }

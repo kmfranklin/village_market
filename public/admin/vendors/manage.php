@@ -28,6 +28,7 @@ include_header($session);
 $pending_vendors = Vendor::find_vendors_by_status('pending');
 $active_vendors = Vendor::find_vendors_by_status('active');
 $suspended_vendors = Vendor::find_vendors_by_status('suspended');
+$rejected_vendors = Vendor::find_vendors_by_status('rejected');
 ?>
 
 <main role="main" class="container mt-4">
@@ -45,7 +46,8 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
   $sections = [
     'Pending Vendor Applications' => $pending_vendors,
     'Active Vendors' => $active_vendors,
-    'Suspended Vendors' => $suspended_vendors
+    'Suspended Vendors' => $suspended_vendors,
+    'Rejected Vendors' => $rejected_vendors
   ];
 
   foreach ($sections as $section_title => $vendors) :
@@ -99,18 +101,34 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
                     data-entity-name="<?= h($vendor->business_name); ?>">
                     Restore
                   </button>
-
                   <?php display_restore_modal('vendor', url_for('/admin/vendors/restore.php'), $user->user_id, $vendor->business_name); ?>
 
-                <?php endif; ?>
+                  <!-- Delete Button -->
+                  <button class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#delete-modal-vendor-<?= h($vendor->vendor_id); ?>">
+                    Delete
+                  </button>
+                  <?php display_delete_modal('vendor', url_for('/admin/vendors/delete.php'), $vendor->vendor_id, $vendor->business_name); ?>
 
-                <!-- Delete Button -->
-                <button class="btn btn-danger btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#delete-modal-vendor-<?= h($vendor->vendor_id); ?>">
-                  Delete
-                </button>
-                <?php display_delete_modal('vendor', url_for('/admin/vendors/delete.php'), $vendor->vendor_id, $vendor->business_name); ?>
+                <?php elseif ($section_title === 'Rejected Vendors') : ?>
+                  <button class="btn btn-primary btn-sm restore-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#restore-modal-user-<?= h($user->user_id); ?>"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($vendor->business_name); ?>">
+                    Restore
+                  </button>
+                  <?php display_restore_modal('vendor', url_for('/admin/vendors/restore.php'), $user->user_id, $vendor->business_name); ?>
+
+                  <!-- Delete Button -->
+                  <button class="btn btn-danger btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#delete-modal-vendor-<?= h($vendor->vendor_id); ?>">
+                    Delete
+                  </button>
+                  <?php display_delete_modal('vendor', url_for('/admin/vendors/delete.php'), $vendor->vendor_id, $vendor->business_name); ?>
+                <?php endif; ?>
               </td>
             </tr>
           <?php endforeach; ?>

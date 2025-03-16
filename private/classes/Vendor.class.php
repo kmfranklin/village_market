@@ -34,7 +34,7 @@ class Vendor extends DatabaseObject
 
   public function __construct($args = [])
   {
-    $this->user_id = $args['user_id'] ?? '';
+    $this->user_id = isset($args['user_id']) ? (int) $args['user_id'] : null;
     $this->business_name = ucwords(strtolower(trim($args['business_name'] ?? '')));
     $this->business_description = trim($args['business_description'] ?? '');
     $this->street_address = ucwords(strtolower(trim($args['street_address'] ?? '')));
@@ -138,7 +138,6 @@ class Vendor extends DatabaseObject
     self::$database->begin_transaction();
 
     try {
-      error_log("DEBUG: Attempting to delete Vendor ID: {$this->vendor_id}");
 
       // Delete all product price unit entries for this vendor’s products
       $price_unit_sql = "DELETE FROM product_price_unit WHERE product_id IN (SELECT product_id FROM product WHERE vendor_id = ?)";
@@ -148,7 +147,6 @@ class Vendor extends DatabaseObject
       }
       $price_unit_stmt->bind_param("i", $this->vendor_id);
       $price_unit_stmt->execute();
-      error_log("DEBUG: Product price units deleted for Vendor ID: {$this->vendor_id}");
       $price_unit_stmt->close();
 
       // Delete all products owned by this vendor
@@ -159,7 +157,6 @@ class Vendor extends DatabaseObject
       }
       $product_stmt->bind_param("i", $this->vendor_id);
       $product_stmt->execute();
-      error_log("DEBUG: Products deleted for Vendor ID: {$this->vendor_id}");
       $product_stmt->close();
 
       // Delete the vendor record
@@ -170,7 +167,6 @@ class Vendor extends DatabaseObject
       }
       $vendor_stmt->bind_param("i", $this->vendor_id);
       $vendor_stmt->execute();
-      error_log("DEBUG: Vendor deleted: {$this->vendor_id}");
       $vendor_stmt->close();
 
       // Finally, delete the associated user account
@@ -181,7 +177,6 @@ class Vendor extends DatabaseObject
       }
       $user_stmt->bind_param("i", $this->user_id);
       $user_stmt->execute();
-      error_log("DEBUG: User deleted for Vendor ID: {$this->vendor_id}, User ID: {$this->user_id}");
       $user_stmt->close();
 
       // Commit transaction if everything is successful
@@ -189,7 +184,6 @@ class Vendor extends DatabaseObject
       return true;
     } catch (Exception $e) {
       self::$database->rollback(); // Rollback changes if any part fails
-      error_log("ERROR: " . $e->getMessage()); // Log the exact error
       return false;
     }
   }
