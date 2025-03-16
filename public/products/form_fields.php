@@ -12,83 +12,94 @@ $existing_prices = [];
 foreach ($existing_price_units as $unit) {
   $existing_prices[$unit->price_unit_id] = $unit->price;
 }
+
+// Define unit groups
+$unit_groups = [
+  'Count' => ['dozen', 'half dozen', 'each'],
+  'Weight' => ['pound', 'ounce'],
+  'Volume' => ['gallon', 'quart', 'pint', 'cup'],
+  'Other' => ['bushel', 'bundle']
+];
 ?>
 
 <div class="container">
   <fieldset>
-    <legend class="h4 mb-3">Product Information</legend>
+    <legend class="h5 mb-3">Product Information</legend>
 
     <div class="row">
       <!-- Left Column: Product Details -->
       <div class="col-md-4">
         <div class="mb-3">
+          <!-- Product Name -->
           <label for="product_name" class="form-label">Product Name</label>
-          <input type="text" name="product[product_name]" id="product_name" class="form-control"
-            value="<?php echo h($product->product_name); ?>" required />
-        </div>
+          <input type="text" id="product_name" name="product[product_name]"
+            class="form-control" value="<?php echo h($_POST['product']['product_name'] ?? $product->product_name ?? ''); ?>" required>
 
-        <div class="mb-3">
-          <label for="product_description" class="form-label">Description</label>
-          <textarea name="product[product_description]" id="product_description" class="form-control"
-            required><?php echo h($product->product_description); ?></textarea>
-        </div>
+          <!-- Description -->
+          <label for="product_description" class="form-label mt-3">Description</label>
+          <textarea id="product_description" name="product[product_description]" class="form-control" required><?php echo h($_POST['product']['product_description'] ?? $product->product_description ?? ''); ?></textarea>
 
-        <div class="mb-3">
-          <label for="category_id" class="form-label">Category</label>
-          <select name="product[category_id]" id="category_id" class="form-select" required>
+          <!-- Category -->
+          <label for="category_id" class="form-label mt-3">Category</label>
+          <select id="category_id" name="product[category_id]" class="form-select" required>
             <option value="">Select Category</option>
-            <?php foreach (Product::get_categories() as $category) { ?>
-              <option value="<?php echo h($category['category_id']); ?>"
-                <?php if ($product->category_id == $category['category_id']) echo 'selected'; ?>>
-                <?php echo h($category['category_name']); ?>
+            <?php foreach (Category::find_all() as $category) { ?>
+              <option value="<?php echo h($category->category_id); ?>"
+                <?php echo (isset($_POST['product']['category_id']) && $_POST['product']['category_id'] == $category->category_id) ||
+                  (isset($product->category_id) && $product->category_id == $category->category_id) ? 'selected' : ''; ?>>
+                <?php echo h($category->category_name); ?>
               </option>
             <?php } ?>
           </select>
+
         </div>
       </div>
 
       <!-- Middle Column: Price & Units -->
       <div class="col-md-4">
         <h5>Price & Units</h5>
-        <p>Select price units and enter corresponding prices:</p>
+        <p>Select the unit(s) you sell this product by. After selecting, enter a price for each.</p>
 
-        <div class="row">
+        <!-- Error message placement for accessibility -->
+        <?php if (!empty($errors) && in_array("At least one price must be set.", $errors)) { ?>
+          <div class="alert alert-danger" role="alert">
+            At least one price must be set.
+          </div>
+        <?php } ?>
+
+        <!-- "+ Add Unit" Button -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUnitModal">
+          + Add Unit
+        </button>
+
+        <!-- Selected Units List (Populated Dynamically) -->
+        <div id="selectedUnitsContainer" class="mt-3">
           <?php
-          $unit_groups = [
-            'Count' => ['dozen', 'half dozen', 'each'],
-            'Weight' => ['pound', 'ounce'],
-            'Volume' => ['gallon', 'quart', 'pint', 'cup'],
-            'Other' => ['bushel', 'bundle']
-          ];
+          $selected_prices = $_POST['product_price_unit'] ?? $existing_prices ?? [];
 
-          foreach ($unit_groups as $group_label => $unit_names) {
-            echo "<div class='col-md-6'><strong>$group_label:</strong><br>";
+          if (!empty($selected_prices)) {
+            foreach ($selected_prices as $unit_id => $price_data) {
+              $unit = PriceUnit::find_by_id($unit_id);
+              $price = $price_data['price'] ?? $price_data; // Handles both array or direct price storage
 
-            foreach ($units as $unit) {
-              if (in_array(strtolower($unit->unit_name), $unit_names)) {
-                $checked = isset($existing_prices[$unit->price_unit_id]) ? "checked" : "";
-                $price_value = $existing_prices[$unit->price_unit_id] ?? "";
-                $price_display = $checked ? "block" : "none";
-
-                echo "<div class='form-check'>
-                        <input class='form-check-input' type='checkbox' name='product_price_unit[{$unit->price_unit_id}][selected]'
-                          value='1' $checked onchange='togglePriceInput(this, \"price_{$unit->price_unit_id}\")'>
-                        <label class='form-check-label'>" . h($unit->unit_name) . "</label>
-                      </div>";
-                echo "<input type='number' step='0.01' name='product_price_unit[{$unit->price_unit_id}][price]'
-                        id='price_{$unit->price_unit_id}' class='form-control mb-2' style='display: $price_display;'
-                        placeholder='Enter price' value='" . h($price_value) . "'>";
+              if ($unit) {
+                echo "<div class='selected-unit d-flex align-items-center mb-2' data-unit-id='{$unit_id}'>
+          <span class='me-2'>" . h($unit->unit_name) . "</span>
+          <input type='number' step='0.01' name='product_price_unit[{$unit_id}][price]'
+                 class='form-control form-control-sm' placeholder='Enter price' value='" . h($price) . "' required>
+          <button type='button' class='btn btn-danger btn-sm ms-2 remove-unit'>&times;</button>
+        </div>";
               }
             }
-
-            echo "</div>";
           }
           ?>
         </div>
       </div>
 
+
       <!-- Right Column: Image Upload & Product Status -->
       <div class="col-md-4">
+        <h5>Add an Image</h5>
         <div class="card p-3 shadow-sm">
           <label class="form-label">Current Image</label>
           <?php if (!empty($product->product_image_url)) { ?>
@@ -111,4 +122,41 @@ foreach ($existing_price_units as $unit) {
       </div>
     </div>
   </fieldset>
+</div>
+
+<!-- Ensure this is outside the .container but inside <body> -->
+<div class="modal fade" id="addUnitModal" tabindex="-1" aria-labelledby="addUnitModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUnitModalLabel">Select a Price Unit</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Select one or more units to add pricing for your product.</p>
+
+        <div id="unitList">
+          <?php foreach ($unit_groups as $group_label => $unit_names) { ?>
+            <h6 class="mt-3"><?php echo h($group_label); ?></h6>
+            <div class="d-flex flex-wrap gap-2">
+              <?php foreach ($units as $unit) {
+                if (in_array(strtolower($unit->unit_name), $unit_names)) {
+                  echo "<button type='button' class='btn btn-outline-primary unit-btn' 
+                   data-unit-id='{$unit->price_unit_id}' 
+                   data-unit-name='" . h($unit->unit_name) . "'>" . h($unit->unit_name) . "</button>";
+                }
+              } ?>
+            </div>
+          <?php } ?>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmUnitSelection">Add Selected Units</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
 </div>

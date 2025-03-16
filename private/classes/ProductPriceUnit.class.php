@@ -67,26 +67,27 @@ class ProductPriceUnit extends DatabaseObject
     }
 
     foreach ($price_data as $unit_id => $data) {
-      if (isset($data['selected'])) {
+      if (isset($data['price']) && $data['price'] > 0) {
         $price = floatval($data['price']);
 
-        // If unit exists and price has changed, update it
         if (isset($existing_unit_ids[$unit_id])) {
-          if ($existing_unit_ids[$unit_id] != $price) {
-            $sql = "UPDATE product_price_unit SET price = ? WHERE product_id = ? AND price_unit_id = ?";
-            $stmt = self::$database->prepare($sql);
-            $stmt->bind_param("dii", $price, $product_id, $unit_id);
-            $stmt->execute();
-            $stmt->close();
+          // Update existing price
+          $sql = "UPDATE product_price_unit SET price = ? WHERE product_id = ? AND price_unit_id = ?";
+          $stmt = self::$database->prepare($sql);
+          $stmt->bind_param("dii", $price, $product_id, $unit_id);
+          if (!$stmt->execute()) {
+            die("SQL UPDATE Error: " . $stmt->error);
           }
-          // Remove from existing list to prevent deletion
-          unset($existing_unit_ids[$unit_id]);
+          $stmt->close();
+          unset($existing_unit_ids[$unit_id]); // Remove from delete list
         } else {
-          // Insert new price unit if it doesn't exist
+          // Insert new price unit
           $sql = "INSERT INTO product_price_unit (product_id, price_unit_id, price) VALUES (?, ?, ?)";
           $stmt = self::$database->prepare($sql);
           $stmt->bind_param("iid", $product_id, $unit_id, $price);
-          $stmt->execute();
+          if (!$stmt->execute()) {
+            die("SQL INSERT Error: " . $stmt->error);
+          }
           $stmt->close();
         }
       }
@@ -98,7 +99,9 @@ class ProductPriceUnit extends DatabaseObject
       $sql = "DELETE FROM product_price_unit WHERE product_id = ? AND price_unit_id IN ($unit_ids_to_delete)";
       $stmt = self::$database->prepare($sql);
       $stmt->bind_param("i", $product_id);
-      $stmt->execute();
+      if (!$stmt->execute()) {
+        die("SQL DELETE Error: " . $stmt->error);
+      }
       $stmt->close();
     }
   }

@@ -7,6 +7,8 @@ $contact_state = htmlspecialchars($address_data['contact_state'] ?? '');
 $contact_zip = htmlspecialchars($address_data['contact_zip'] ?? '');
 ?>
 
+</body>
+
 <footer class="bg-light py-4 mt-auto">
   <div class="container">
     <div class="row">

@@ -263,7 +263,7 @@ function generate_market_dates($months_ahead = 6)
 
 function get_site_address()
 {
-  global $database; // Ensure access to the database
+  global $database;
 
   $sql = "SELECT hc.contact_mailing_address, hc.contact_city, hc.contact_zip, 
                    s.state_abbreviation AS contact_state
@@ -276,5 +276,5 @@ function get_site_address()
     die("Database query failed: " . $database->error);
   }
 
-  return $result->fetch_assoc() ?: []; // Return an empty array if no data is found
+  return $result->fetch_assoc() ?: [];
 }
