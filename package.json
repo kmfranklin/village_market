@@ -1,5 +1,8 @@
 {
-  "dependencies": {
-    "bootstrap": "^5.3.3"
+  "devDependencies": {
+    "sass": "^1.85.1"
+  },
+  "scripts": {
+    "sass": "sass public/assets/scss/main.scss public/assets/scss/main.min.css --style compressed --watch"
   }
 }

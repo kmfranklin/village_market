@@ -75,10 +75,14 @@ The Village Market Web Application is a platform for managing a local farmers' m
 
 This project uses the following external libraries:
 
-- **[Bootstrap](https://getbootstrap.com/)**
+- **[Bootstrap (via CDN)](https://getbootstrap.com/)**
 
   - Provides responsive grid layouts, buttons, form styles, and modal functionality.
-  - Used for styling across the application.
+
+- **[Sass (SCSS)](https://sass-lang.com/)**
+
+  - All custom styles written in SCSS and compiled into a single minified CSS file.
+  - Uses `sass` to watch and compile SCSS into `public/assets/scss/main.min.css`.
 
 - **[PHPMailer](https://github.com/PHPMailer/PHPMailer)**
 
@@ -119,25 +123,43 @@ Alternatively, refer to `sql/village_market.sql` for the full schema setup.
 
 1. Ensure XAMPP is installed and running (Apache & MySQL)
 
-2. Clone the repository and move it into `htdocs`
+2. Clone the repository and move it into `htdocs`:
 
 ```
 git clone https://github.com/kmfranklin/village_market.git
 ```
 
-3. Install dependencies via Composer
+3. Install dependencies via **Composer**:
 
 ```
 cd village_market
 composer install
 ```
 
-4. Import `village_market.sql` using phpMyAdmin (includes `CREATE DATABASE` and `USE DATABASE` statements)
+4. Install **Sass (SCSS) Compiler**:
 
-5. Configure Cloudinary
+```
+npm install
+```
+
+5. Compile SCSS into a minified CSS file:
+
+```
+npm run sass
+```
+
+To automatically watch for SCSS changes while developing:
+
+```
+npm run sass:watch
+```
+
+6. Import `village_market.sql` using phpMyAdmin (includes `CREATE DATABASE` and `USE DATABASE` statements)
+
+7. Configure Cloudinary
 
 - Create a `.env` file in the root directory
-- Add your Cloudinary API credentials
+- Add your Cloudinary API credentials:
 
 ```
 CLOUDINARY_CLOUD_NAME=your_cloud_name
@@ -145,7 +167,7 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-6. Open `http://localhost/village_market` in a browser to start the application
+8. Open `http://localhost/village_market` in a browser to start the application
 
 ---
 

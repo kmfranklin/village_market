@@ -7,3 +7,6 @@
 /node_modules/
 
 _htaccess_backup
+
+/public/assets/scss/main.min.css
+/public/assets/scss/main.min.css.map

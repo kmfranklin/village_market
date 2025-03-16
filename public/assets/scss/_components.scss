@@ -1,0 +1,92 @@
+// Buttons
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--hover-green) !important;
+    border-color: var(--hover-green) !important;
+  }
+}
+
+.btn-secondary {
+  background-color: #555;
+  border-color: var(--bs-primary);
+
+  &:hover {
+    background-color: var(--hover-green);
+    border-color: var(--hover-green);
+  }
+}
+
+.bg-success {
+  background-color: var(--bs-success) !important;
+}
+
+.badge-success {
+  background-color: var(--bs-success) !important;
+  color: white;
+}
+
+.btn-outline-primary {
+  background-color: white !important;
+  border-color: var(--bs-primary) !important;
+  color: var(--bs-primary) !important;
+}
+
+// Forms
+.form-control {
+  border-radius: 5px;
+}
+
+// Personalized user button and dropdown menu
+.user-dropdown-btn {
+  align-items: center;
+  background: none;
+  border: none !important;
+  cursor: pointer;
+  display: flex;
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.user-initials {
+  align-items: center;
+  background-color: var(--bs-primary);
+  border-radius: 50%;
+  color: white;
+  display: inline-flex;
+  font-weight: bold;
+  height: 35px;
+  justify-content: center;
+  line-height: 35px;
+  margin-right: 5px;
+  text-align: center;
+  width: 35px;
+}
+
+.dropdown-menu {
+  min-width: 180px;
+}
+
+.user-dropdown-btn::after {
+  content: none !important;
+}
+
+.dropdown-item:focus,
+.dropdown-item:active {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+.dropdown-logout {
+  font-weight: bold;
+}
+
+.dropdown-logout:focus,
+.dropdown-logout:active {
+  background-color: #b02a37;
+  color: white !important;
+}

@@ -1,0 +1,19 @@
+.selected-unit {
+  display: flex;
+  gap: 10px;
+
+  span {
+    flex-shrink: 0;
+    min-width: 80px;
+    text-align: right;
+  }
+
+  input {
+    flex-grow: 1;
+    width: 120px;
+  }
+
+  button {
+    flex-shrink: 0;
+  }
+}

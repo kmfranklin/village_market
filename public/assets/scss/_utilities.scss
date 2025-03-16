@@ -1,0 +1,38 @@
+@media screen and (max-width: 992px) {
+  .navbar-nav .nav-item {
+    text-align: center;
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    color: #333;
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #hero {
+    min-height: 450px;
+  }
+
+  .hero-content {
+    max-width: 500px;
+    padding: 20px;
+    top: 55%;
+    transform: translate(-50%, -55%);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #hero {
+    min-height: 400px;
+  }
+
+  .hero-content {
+    padding: 15px;
+    top: 57%;
+    transform: translate(-50%, -57%);
+    width: 95%;
+  }
+}
