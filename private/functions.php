@@ -278,3 +278,37 @@ function get_site_address()
 
   return $result->fetch_assoc() ?: [];
 }
+
+function get_cloudinary_image($image_url, $width = null, $height = null)
+{
+  // Define Cloudinary base URL
+  $cloudinary_base = "https://res.cloudinary.com/dykbjvtfu/image/upload/";
+  $transformations = "f_webp,q_auto"; // Ensures WebP and optimized quality
+
+  // If the image is already a Cloudinary URL, modify it
+  if (strpos($image_url, $cloudinary_base) === 0) {
+    $optimized_url = str_replace("/upload/", "/upload/{$transformations}/", $image_url);
+
+    // If width and/or height are provided, add transformations
+    if ($width && $height) {
+      $optimized_url = str_replace("/upload/{$transformations}/", "/upload/{$transformations},w_{$width},h_{$height},c_fill/", $optimized_url);
+    } elseif ($width) {
+      $optimized_url = str_replace("/upload/{$transformations}/", "/upload/{$transformations},w_{$width}/", $optimized_url);
+    }
+  } else {
+    // If it's not a Cloudinary image, keep it as is
+    $optimized_url = $image_url;
+  }
+
+  // Fallback placeholder for missing images (sets width & height too)
+  if (empty($image_url)) {
+    $optimized_url = "https://res.cloudinary.com/dykbjvtfu/image/upload/f_auto,q_auto,w_300,h_200/default-placeholder.jpg";
+  }
+
+  // Return array with optimized image URL, width, and height
+  return [
+    'url' => $optimized_url,
+    'width' => $width ?: 300, // Default width if not provided
+    'height' => $height ?: 200 // Default height if not provided
+  ];
+}

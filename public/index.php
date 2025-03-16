@@ -39,13 +39,36 @@ if (!empty($hero_image_id)) {
   $stmt->close();
 }
 
+// Apply Cloudinary transformation
+$hero_image_large = get_cloudinary_image($hero_image_url, 1200, 600);
+$hero_image_medium = get_cloudinary_image($hero_image_url, 800, 400);
+$hero_image_small = get_cloudinary_image($hero_image_url, 400, 200);
+
 // Fetch the next market date
 $next_market_date = get_next_market_date();
 ?>
 
 <!-- Hero Section -->
 <section id="hero">
-  <img src="<?php echo htmlspecialchars($hero_image_url); ?>" alt="Farmers Market" class="hero-image">
+  <?php
+  $hero_image_large = get_cloudinary_image($hero_image_url, 1200, 600);
+  $hero_image_medium = get_cloudinary_image($hero_image_url, 800, 400);
+  $hero_image_small = get_cloudinary_image($hero_image_url, 400, 200);
+  ?>
+
+  <img
+    src="<?= htmlspecialchars($hero_image_large['url']); ?>"
+    srcset="
+    <?= htmlspecialchars($hero_image_small['url']); ?> 400w,
+    <?= htmlspecialchars($hero_image_medium['url']); ?> 800w,
+    <?= htmlspecialchars($hero_image_large['url']); ?> 1200w"
+    sizes="(max-width: 480px) 400px, 
+         (max-width: 1024px) 800px, 
+         1200px"
+    width="1200"
+    height="600"
+    class="hero-image lazyload"
+    alt="Farmers Market">
 
   <div class="hero-content">
     <h1 class="hero-heading">Welcome to the Village Market!</h1>
