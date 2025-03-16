@@ -1,8 +1,10 @@
 {
   "devDependencies": {
+    "esbuild": "^0.25.1",
     "sass": "^1.85.1"
   },
   "scripts": {
+    "build-js": "esbuild public/assets/scripts/script.js --bundle --minify --outfile=public/assets/scripts/main.min.js",
     "sass": "sass public/assets/scss/main.scss public/assets/scss/main.min.css --style compressed --watch"
   }
 }

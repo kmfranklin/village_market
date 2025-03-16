@@ -84,6 +84,11 @@ This project uses the following external libraries:
   - All custom styles written in SCSS and compiled into a single minified CSS file.
   - Uses `sass` to watch and compile SCSS into `public/assets/scss/main.min.css`.
 
+- **[ESBuild](https://esbuild.github.io/)**
+
+  - Bundles and minifies JavaScript into `public/assets/scripts/main.min.js`.
+  - Ensures optimized performance for all scripts.
+
 - **[PHPMailer](https://github.com/PHPMailer/PHPMailer)**
 
   - Sends password reset emails securely.
@@ -96,7 +101,7 @@ This project uses the following external libraries:
 
 - **[Cloudinary](https://cloudinary.com/)**
 
-  - Handles image uploads, transformations, and delivery
+  - Handles image uploads, transformations, and delivery.
 
 All dependencies are installed via Composer.
 
@@ -136,27 +141,15 @@ cd village_market
 composer install
 ```
 
-4. Install **Sass (SCSS) Compiler**:
+4. Install Project Dependencies:
 
 ```
 npm install
 ```
 
-5. Compile SCSS into a minified CSS file:
+5. Import `village_market.sql` using phpMyAdmin (includes `CREATE DATABASE` and `USE DATABASE` statements)
 
-```
-npm run sass
-```
-
-To automatically watch for SCSS changes while developing:
-
-```
-npm run sass:watch
-```
-
-6. Import `village_market.sql` using phpMyAdmin (includes `CREATE DATABASE` and `USE DATABASE` statements)
-
-7. Configure Cloudinary
+6. Configure Cloudinary
 
 - Create a `.env` file in the root directory
 - Add your Cloudinary API credentials:
@@ -167,7 +160,43 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-8. Open `http://localhost/village_market` in a browser to start the application
+7. Open `http://localhost/village_market` in a browser to start the application
+
+---
+
+## Development & Deployment Notes
+
+### JavaScript & SCSS Build Process
+
+- **SCSS files** are stored in `assets/scss/`, and Sass compiles them into `assets/scss/main.min.css`.
+- **JavaScript files** are stored in `assets/scripts`, and ESBuild bundles them into `assets/scripts/main.min.js`.
+- Run the following before deployment to ensure the latest minified files are included:
+  Compile SCSS:
+
+  ```
+  npm run sass
+  ```
+
+  Bundle JS:
+
+  ```
+  npm run build-js
+  ```
+
+### Handling Git & Deployment
+
+- The `main.min.css` and `main.min.js` files are not committed to Git (they are generated at build time).
+
+- If working locally, run:
+
+  ```
+  npm run sass
+  npm run build-js
+  ```
+
+  before pushing changes.
+
+- For deployment, make sure the minified files are uploaded manually or generated on the server.
 
 ---
 
