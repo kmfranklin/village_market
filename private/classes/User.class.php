@@ -140,7 +140,6 @@ class User extends DatabaseObject
     return $this->errors;
   }
 
-
   public function merge_attributes($args = [])
   {
     foreach ($args as $key => $value) {

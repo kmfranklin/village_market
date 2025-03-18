@@ -8,25 +8,33 @@ if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_a
   exit;
 }
 
+error_log(print_r($_POST, true));
+
 $user_id = (int) ($_POST['user_id'] ?? 0);
 
 if (!$user_id) {
+  error_log("ERROR: User ID is missing in restore.php.");
   $_SESSION['message'] = "Error: User ID is missing.";
   redirect_to(url_for('/admin/vendors/manage.php'));
   exit;
 }
 
-// Find the user by ID
 $user = User::find_by_id($user_id);
 
-// Validate that the user exists and is a vendor
-if (!$user || !$user->is_vendor()) {
-  $_SESSION['message'] = "Error: User not found or is not a vendor.";
+if (!$user) {
+  error_log("ERROR: User not found for user_id = " . h($user_id));
+  $_SESSION['message'] = "Error: User not found.";
   redirect_to(url_for('/admin/vendors/manage.php'));
   exit;
 }
 
-// Restore based on current status
+if (!$user->is_vendor()) {
+  error_log("ERROR: User with ID {$user_id} is not a vendor.");
+  $_SESSION['message'] = "Error: User is not a vendor.";
+  redirect_to(url_for('/admin/vendors/manage.php'));
+  exit;
+}
+
 if ($user->account_status === 'suspended') {
   $user->account_status = 'active';
   $restore_message = "Vendor restored successfully.";
@@ -34,15 +42,17 @@ if ($user->account_status === 'suspended') {
   $user->account_status = 'pending';
   $restore_message = "Vendor application restored to pending.";
 } else {
+  error_log("ERROR: User ID {$user_id} cannot be restored from status '{$user->account_status}'");
   $_SESSION['message'] = "Error: This vendor cannot be restored.";
   redirect_to(url_for('/admin/vendors/manage.php'));
   exit;
 }
 
-// Update the database
 if ($user->update()) {
   $_SESSION['message'] = $restore_message;
+  error_log("SUCCESS: User ID {$user_id} restored to status '{$user->account_status}'.");
 } else {
+  error_log("ERROR: Failed to restore User ID {$user_id}.");
   $_SESSION['message'] = "Error restoring vendor.";
 }
 
