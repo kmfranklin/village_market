@@ -35,10 +35,10 @@ class Vendor extends DatabaseObject
   public function __construct($args = [])
   {
     $this->user_id = isset($args['user_id']) ? (int) $args['user_id'] : null;
-    $this->business_name = ucwords(strtolower(trim($args['business_name'] ?? '')));
+    $this->business_name = $this->format_text($args['business_name'] ?? '');
     $this->business_description = trim($args['business_description'] ?? '');
-    $this->street_address = ucwords(strtolower(trim($args['street_address'] ?? '')));
-    $this->city = ucwords(strtolower(trim($args['city'] ?? '')));
+    $this->street_address = $this->format_text($args['street_address'] ?? '');
+    $this->city = $this->format_text($args['city'] ?? '');
     $this->state_id = isset($args['state_id']) ? (int) $args['state_id'] : null;
     $this->zip_code = trim($args['zip_code'] ?? '');
     $this->business_phone_number = trim($args['business_phone_number'] ?? '');
@@ -75,8 +75,8 @@ class Vendor extends DatabaseObject
 
     if (is_blank($this->business_phone_number)) {
       $this->errors[] = "Business phone number cannot be blank.";
-    } elseif (!preg_match('/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/', $this->business_phone_number)) {
-      $this->errors[] = "Phone number must be in a valid format (e.g., 555-555-5555).";
+    } elseif (!preg_match('/^\d{10}$|^\d{3}-\d{3}-\d{4}$/', $this->business_phone_number)) {
+      $this->errors[] = "Phone number must be in a valid format (XXXXXXXXXX or XXX-XXX-XXXX).";
     }
 
     if (is_blank($this->business_email_address)) {
@@ -186,5 +186,49 @@ class Vendor extends DatabaseObject
       self::$database->rollback(); // Rollback changes if any part fails
       return false;
     }
+  }
+
+  public function create()
+  {
+    $this->apply_formatting();
+    return parent::create();
+  }
+
+  public function update()
+  {
+    $this->apply_formatting();
+    return parent::update();
+  }
+
+  /**
+   * Apply formatting to text fields before saving to the database.
+   */
+  private function apply_formatting()
+  {
+    $this->business_name = $this->format_text($this->business_name);
+    $this->street_address = $this->format_text($this->street_address);
+    $this->city = $this->format_text($this->city);
+    $this->business_phone_number = $this->normalize_phone_number($this->business_phone_number);
+  }
+
+  /**
+   * Normalizes phone number to XXXXXXXXXX format before storing.
+   */
+  private function normalize_phone_number($phone)
+  {
+    // Remove all non-numeric characters
+    return preg_replace('/\D/', '', $phone);
+  }
+
+  /**
+   * Formats text to title case while keeping valid capitalization.
+   */
+  private function format_text($string)
+  {
+    return preg_replace_callback(
+      '/\b(\w)/u',
+      fn($matches) => mb_strtoupper($matches[1]),
+      mb_strtolower(trim($string))
+    );
   }
 }
