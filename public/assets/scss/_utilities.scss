@@ -22,6 +22,10 @@
     top: 55%;
     transform: translate(-50%, -55%);
   }
+
+  #featured-products .row {
+    row-gap: 35px;
+  }
 }
 
 @media screen and (max-width: 480px) {

@@ -48,9 +48,10 @@ $hero_image_small = get_cloudinary_image($hero_image_url, 400, 200);
 $next_market_date = get_next_market_date();
 
 // Fetch 3 random products
-$sql = "SELECT product_id, product_name, product_description, product_image_url 
-        FROM product 
-        WHERE is_active = 1 
+$sql = "SELECT p.product_id, p.product_name, p.product_description, p.product_image_url, v.business_name AS vendor_name 
+        FROM product p
+        JOIN vendor v ON p.vendor_id = v.vendor_id
+        WHERE p.is_active = 1 
         ORDER BY RAND() 
         LIMIT 3";
 
@@ -137,7 +138,7 @@ while ($row = $result->fetch_assoc()) {
 
 <!-- Featured Products Section -->
 <section id="featured-products" class="container my-5">
-  <h2 class="text-center">Discover Fresh Finds</h2>
+  <h2 class="text-center mb-4">Discover Fresh Finds</h2>
   <div class="row justify-content-center">
     <?php foreach ($products as $product): ?>
       <div class="col-md-4">
@@ -145,17 +146,18 @@ while ($row = $result->fetch_assoc()) {
           <img src="<?= htmlspecialchars($product['product_image_url']) ?>"
             class="card-img-top"
             alt="<?= htmlspecialchars($product['product_name']) ?>">
-          <div class="card-body">
+          <div class="card-body homepage-product-card">
             <h5 class="card-title"><?= htmlspecialchars($product['product_name']) ?></h5>
             <p class="card-text"><?= htmlspecialchars(substr($product['product_description'], 0, 100)) ?></p>
+            <p class="text-muted small">Sold by: <strong><?= htmlspecialchars($product['vendor_name']); ?></strong></p>
             <a href="products/view.php?id=<?= $product['product_id'] ?>" class="btn btn-primary">View Product</a>
           </div>
         </div>
       </div>
     <?php endforeach; ?>
   </div>
-  <div class="text-center mt-4">
-    <a href="products.php" class="btn btn-success">View All Products</a>
+  <div class="text-center mt-5">
+    <a href="products.php" class="btn btn-primary">View All Products</a>
   </div>
 </section>
 
