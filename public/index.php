@@ -1,6 +1,6 @@
 <?php
-$page_title = "Home";
 require_once '../private/initialize.php';
+$page_title = "Home";
 include_header($session, $page_title);
 
 // Fetch homepage content from the database
@@ -46,6 +46,20 @@ $hero_image_small = get_cloudinary_image($hero_image_url, 400, 200);
 
 // Fetch the next market date
 $next_market_date = get_next_market_date();
+
+// Fetch 3 random products
+$sql = "SELECT product_id, product_name, product_description, product_image_url 
+        FROM product 
+        WHERE is_active = 1 
+        ORDER BY RAND() 
+        LIMIT 3";
+
+$result = $database->query($sql);
+$products = [];
+
+while ($row = $result->fetch_assoc()) {
+  $products[] = $row;
+}
 ?>
 
 <!-- Hero Section -->
@@ -118,7 +132,30 @@ $next_market_date = get_next_market_date();
         <p><?php echo htmlspecialchars($contact_mailing_address) . ', ' . htmlspecialchars($contact_city) . ', ' . htmlspecialchars($contact_state) . ' ' . htmlspecialchars($contact_zip); ?></p>
       </div>
     </div>
+  </div>
+</section>
 
+<!-- Featured Products Section -->
+<section id="featured-products" class="container my-5">
+  <h2 class="text-center">Discover Fresh Finds</h2>
+  <div class="row justify-content-center">
+    <?php foreach ($products as $product): ?>
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <img src="<?= htmlspecialchars($product['product_image_url']) ?>"
+            class="card-img-top"
+            alt="<?= htmlspecialchars($product['product_name']) ?>">
+          <div class="card-body">
+            <h5 class="card-title"><?= htmlspecialchars($product['product_name']) ?></h5>
+            <p class="card-text"><?= htmlspecialchars(substr($product['product_description'], 0, 100)) ?></p>
+            <a href="products/view.php?id=<?= $product['product_id'] ?>" class="btn btn-primary">View Product</a>
+          </div>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  </div>
+  <div class="text-center mt-4">
+    <a href="products.php" class="btn btn-success">View All Products</a>
   </div>
 </section>
 

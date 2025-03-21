@@ -90,3 +90,24 @@
   background-color: #b02a37;
   color: white !important;
 }
+
+// Product "lightbox" images
+.modal-body img {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-height: 80vh;
+  max-width: 100%;
+  text-align: center;
+}
+
+.img-modal {
+  justify-content: center;
+  max-width: 90vw;
+}
+
+.img-modal-content {
+  background: transparent;
+  border: none;
+  text-align: center;
+}
