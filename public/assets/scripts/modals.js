@@ -1,9 +1,5 @@
-console.log('modals.js loaded');
-
 document.addEventListener('DOMContentLoaded', function () {
-  // ————————————————————————————————
   // Close modals when clicking "X" or "Cancel"
-  // ————————————————————————————————
   document.querySelectorAll('.close-modal').forEach(button => {
     button.addEventListener('click', function () {
       const modal = this.closest('.modal');
@@ -14,11 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ————————————————————————————————
   // Hero Image Modal (Gallery)
-  // ————————————————————————————————
   const confirmButton = document.getElementById('confirmImageSelection');
-
   if (confirmButton) {
     confirmButton.addEventListener('click', function () {
       const selectedImage = document.querySelector("input[name='hero_image_select']:checked");
@@ -50,9 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ————————————————————————————————
   // Bootstrap modal triggers via data attributes
-  // ————————————————————————————————
   document.querySelectorAll("[data-bs-toggle='modal']").forEach(button => {
     button.addEventListener('click', function () {
       const targetModal = document.querySelector(this.getAttribute('data-bs-target'));
@@ -62,9 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ————————————————————————————————
   // Suspend Vendor Modal
-  // ————————————————————————————————
   document.querySelectorAll('.suspend-btn').forEach(button => {
     button.addEventListener('click', function () {
       const vendorId = this.getAttribute('data-vendor-id');
@@ -84,12 +73,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ————————————————————————————————
   // Price Unit Modal: Multi-Selection & Input Fields
-  // ————————————————————————————————
   const selectedUnits = new Set();
-
   const addUnitModal = document.getElementById('addUnitModal');
+
   if (addUnitModal) {
     addUnitModal.addEventListener('show.bs.modal', function () {
       selectedUnits.clear();
@@ -165,9 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // ————————————————————————————————
   // Shared Delete Modal Handler
-  // ————————————————————————————————
   function initializeDeleteModal() {
     const deleteModal = document.getElementById('delete-modal');
     const deleteForm = document.getElementById('delete-form');
@@ -177,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const userIdInput = document.getElementById('delete-user-id');
 
     if (!deleteModal || !deleteForm || !entitySpan || !entityNameEl || !entityIdInput) {
-      console.warn('Delete modal: Required elements not found.');
       return;
     }
 
@@ -189,16 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const deleteUrl = this.getAttribute('data-delete-url');
         const userId = this.getAttribute('data-user-id') || '';
 
-        console.log('DELETE BUTTON CLICKED');
-        console.log('entityId:', entityId);
-        console.log('entityType:', entityType);
-        console.log('entityName:', entityName);
-        console.log('deleteUrl:', deleteUrl);
-
-        if (!entityId || !entityType || !deleteUrl) {
-          console.warn('Delete modal: Missing required data attributes.');
-          return;
-        }
+        if (!entityId || !entityType || !deleteUrl) return;
 
         entitySpan.textContent = entityType;
         entityNameEl.textContent = entityName;
@@ -209,13 +184,40 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Suspend Modal Handler
+  if (document.querySelector('.suspend-btn')) {
+    document.querySelectorAll('.suspend-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        const modal = document.getElementById('suspend-modal');
+        if (!modal) return;
+
+        modal.querySelector('#suspend-vendor-id').value = this.getAttribute('data-vendor-id');
+        modal.querySelector('#suspend-user-id').value = this.getAttribute('data-user-id');
+        modal.querySelector('#suspend-entity-name').textContent = this.getAttribute('data-entity-name');
+        modal.querySelector('#suspend-form').action = this.getAttribute('data-suspend-url');
+      });
+    });
+  }
+
+  // Restore Modal Handler
+  if (document.querySelector('.restore-btn')) {
+    document.querySelectorAll('.restore-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        const modal = document.getElementById('restore-modal');
+        if (!modal) return;
+
+        modal.querySelector('#restore-user-id').value = this.getAttribute('data-user-id');
+        modal.querySelector('#restore-entity-name').textContent = this.getAttribute('data-entity-name');
+        modal.querySelector('#restore-form').action = this.getAttribute('data-restore-url');
+      });
+    });
+  }
+
   if (document.querySelector('.delete-btn')) {
     initializeDeleteModal();
   }
 
-  // ————————————————————————————————
   // Close modal on outside click
-  // ————————————————————————————————
   document.addEventListener('click', function (event) {
     document.querySelectorAll('.modal').forEach(modal => {
       if (event.target === modal) {

@@ -91,33 +91,15 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                   <a href="view.php?id=<?= h($user->user_id); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <a href="edit.php?id=<?= h($user->user_id); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
                   <!-- Suspend Button -->
-                  <button class="btn btn-danger btn-sm"
+                  <button class="btn btn-danger btn-sm suspend-btn"
                     data-bs-toggle="modal"
-                    data-bs-target="#suspend-modal-<?= h($vendor->vendor_id); ?>">
+                    data-bs-target="#suspend-modal"
+                    data-vendor-id="<?= h($vendor->vendor_id); ?>"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($vendor->business_name); ?>"
+                    data-suspend-url="<?= url_for('/admin/vendors/suspend.php'); ?>">
                     Suspend
                   </button>
-
-                  <!-- Suspend Modal -->
-                  <div class="modal fade" id="suspend-modal-<?= h($vendor->vendor_id); ?>" tabindex="-1" aria-labelledby="suspendModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Suspend Vendor</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          Are you sure you want to suspend <strong><?= h($vendor->business_name); ?></strong>?
-                        </div>
-                        <div class="modal-footer">
-                          <form action="suspend.php" method="POST">
-                            <input type="hidden" name="vendor_id" value="<?= h($vendor->vendor_id); ?>">
-                            <button type="submit" class="btn btn-danger">Suspend</button>
-                          </form>
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -196,18 +178,24 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                   <!-- Restore Button -->
                   <button class="btn btn-primary btn-sm restore-btn"
                     data-bs-toggle="modal"
-                    data-bs-target="#restore-modal-user-<?= h($user->user_id); ?>">
+                    data-bs-target="#restore-modal"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($vendor->business_name); ?>"
+                    data-restore-url="<?= url_for('/admin/vendors/restore.php'); ?>">
                     Restore
                   </button>
-                  <?php display_restore_modal('vendor', url_for('/admin/vendors/restore.php'), $user->user_id, $vendor->business_name); ?>
 
                   <!-- Delete Button -->
-                  <button class="btn btn-danger btn-sm"
+                  <button class="btn btn-danger btn-sm delete-btn"
                     data-bs-toggle="modal"
-                    data-bs-target="#delete-modal-user-<?= h($user->user_id); ?>">
+                    data-bs-target="#delete-modal"
+                    data-entity="vendor"
+                    data-entity-id="<?= h($vendor->vendor_id); ?>"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($vendor->business_name); ?>"
+                    data-delete-url="<?= url_for('/admin/vendors/delete.php'); ?>">
                     Delete
                   </button>
-                  <?php display_delete_modal('vendor', url_for('/admin/vendors/delete.php'), $vendor->vendor_id, $vendor->business_name, $user->user_id); ?>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -252,12 +240,16 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                   <?php display_restore_modal('vendor', url_for('/admin/vendors/restore.php'), $user->user_id, $vendor->business_name); ?>
 
                   <!-- Delete Button -->
-                  <button class="btn btn-danger btn-sm"
+                  <button class="btn btn-danger btn-sm delete-btn"
                     data-bs-toggle="modal"
-                    data-bs-target="#delete-modal-user-<?= h($user->user_id); ?>">
+                    data-bs-target="#delete-modal"
+                    data-entity="vendor"
+                    data-entity-id="<?= h($vendor->vendor_id); ?>"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($vendor->business_name); ?>"
+                    data-delete-url="<?= url_for('/admin/vendors/delete.php'); ?>">
                     Delete
                   </button>
-                  <?php display_delete_modal('vendor', url_for('/admin/vendors/delete.php'), $vendor->vendor_id, $vendor->business_name, $user->user_id); ?>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -268,4 +260,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
   </div>
 </main>
 
+<?php include(SHARED_PATH . '/modals/suspend_modal.php'); ?>
+<?php include(SHARED_PATH . '/modals/restore_modal.php'); ?>
+<?php include(SHARED_PATH . '/modals/delete_modal.php'); ?>
 <?php include(SHARED_PATH . '/footer.php'); ?>
