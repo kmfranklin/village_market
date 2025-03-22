@@ -3,13 +3,22 @@ require_once '../private/initialize.php';
 $page_title = "Home";
 include_header($session, $page_title);
 
+if ($session->message()) : ?>
+  <div class="d-flex justify-content-center">
+    <div class="alert alert-success alert-dismissible fade show alert-centered" role="alert">
+      <?php echo h($session->message()); ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+<?php endif;
+
 // Fetch homepage content from the database
-$sql = "SELECT hc.homepage_id, hc.announcement_text, hc.market_hours, hc.contact_phone, 
-               hc.contact_email, hc.contact_mailing_address, hc.contact_city, hc.contact_zip, 
-               s.state_abbreviation AS contact_state, hc.hero_image_id
-        FROM homepage_content hc
-        LEFT JOIN state s ON hc.contact_state = s.state_id
-        LIMIT 1";
+$sql = "SELECT hc.homepage_id, hc.announcement_text, hc.market_hours, hc.contact_phone,
+hc.contact_email, hc.contact_mailing_address, hc.contact_city, hc.contact_zip,
+s.state_abbreviation AS contact_state, hc.hero_image_id
+FROM homepage_content hc
+LEFT JOIN state s ON hc.contact_state = s.state_id
+LIMIT 1";
 
 $result = $database->query($sql);
 $homepage = $result->fetch_assoc();
@@ -48,12 +57,12 @@ $hero_image_small = get_cloudinary_image($hero_image_url, 400, 200);
 $next_market_date = get_next_market_date();
 
 // Fetch 3 random products
-$sql = "SELECT p.product_id, p.product_name, p.product_description, p.product_image_url, v.business_name AS vendor_name 
-        FROM product p
-        JOIN vendor v ON p.vendor_id = v.vendor_id
-        WHERE p.is_active = 1 
-        ORDER BY RAND() 
-        LIMIT 3";
+$sql = "SELECT p.product_id, p.product_name, p.product_description, p.product_image_url, v.business_name AS vendor_name
+FROM product p
+JOIN vendor v ON p.vendor_id = v.vendor_id
+WHERE p.is_active = 1
+ORDER BY RAND()
+LIMIT 3";
 
 $result = $database->query($sql);
 $products = [];
