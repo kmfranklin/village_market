@@ -165,9 +165,22 @@ while ($row = $result->fetch_assoc()) {
       </div>
     <?php endforeach; ?>
   </div>
-  <div class="text-center mt-5">
+  <div class="text-center my-5">
     <a href="products.php" class="btn btn-primary">View All Products</a>
   </div>
 </section>
+
+<?php if (!$session->is_logged_in()) : ?>
+  <!-- Become a Vendor CTA -->
+  <section id="become-vendor" class="py-5">
+    <div class="container">
+      <div class="cta-card text-center p-4" data-aos="zoom-in-up">
+        <h2 class="mb-3">Interested in Joining the Market?</h2>
+        <p class="mb-4">Share your passion with our community and become part of the Village Market family.</p>
+        <a href="vendors/register.php" class="btn btn-primary" data-aos="zoom-in" data-aos-delay="300">Become a Vendor</a>
+      </div>
+    </div>
+  </section>
+<?php endif; ?>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
