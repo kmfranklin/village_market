@@ -62,6 +62,19 @@ if (!isset($user)) {
       <?php if (!empty($errors['password'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['password']); ?></div>
       <?php endif; ?>
+      <!-- Password Strength Meter -->
+      <div id="password-strength-meter" class="progress mb-2 d-none">
+        <div id="password-strength-bar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+      </div>
+
+      <!-- Password Requirements Checklist -->
+      <ul id="password-checklist" class="list-unstyled small text-muted mb-0 d-none">
+        <li id="check-length">• At least 12 characters</li>
+        <li id="check-uppercase">• At least 1 uppercase letter</li>
+        <li id="check-lowercase">• At least 1 lowercase letter</li>
+        <li id="check-number">• At least 1 number</li>
+        <li id="check-special">• At least 1 special character</li>
+      </ul>
     </div>
 
     <!-- Confirm Password -->
@@ -75,6 +88,9 @@ if (!isset($user)) {
       <?php if (!empty($errors['confirm_password'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['confirm_password']); ?></div>
       <?php endif; ?>
+
+      <!-- Live feedback -->
+      <div id="confirm-password-feedback" class="small mt-1 d-none"></div>
     </div>
   </div>
 
