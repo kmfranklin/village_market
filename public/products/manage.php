@@ -77,15 +77,13 @@ foreach ($products as $product) {
               <a href="edit.php?id=<?php echo h($product->product_id); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
               <button class="btn btn-danger btn-sm delete-btn"
                 data-bs-toggle="modal"
-                data-bs-target="#delete-modal-product-<?= h($product->product_id); ?>"
+                data-bs-target="#delete-modal"
                 data-entity="product"
                 data-entity-id="<?= h($product->product_id); ?>"
                 data-entity-name="<?= h($product->product_name); ?>"
                 data-delete-url="<?= url_for('/products/delete.php'); ?>">
                 Delete
               </button>
-
-              <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, $product->product_name); ?>
             </td>
           </tr>
         <?php } ?>
@@ -126,22 +124,20 @@ foreach ($products as $product) {
               <a href="edit.php?id=<?php echo h($product->product_id); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
               <button class="btn btn-danger btn-sm delete-btn"
                 data-bs-toggle="modal"
-                data-bs-target="#delete-modal-product-<?= h($product->product_id); ?>"
+                data-bs-target="#delete-modal"
                 data-entity="product"
                 data-entity-id="<?= h($product->product_id); ?>"
                 data-entity-name="<?= h($product->product_name); ?>"
                 data-delete-url="<?= url_for('/products/delete.php'); ?>">
                 Delete
               </button>
-
-              <?php display_delete_modal('product', url_for('/products/delete.php'), $product->product_id, $product->product_name); ?>
             </td>
           </tr>
         <?php } ?>
       </tbody>
     </table>
   </div>
-
 </main>
 
+<?php include(SHARED_PATH . '/modals/delete_modal.php'); ?>
 <?php include(SHARED_PATH . '/footer.php'); ?>

@@ -1,5 +1,9 @@
+console.log('modals.js loaded');
+
 document.addEventListener('DOMContentLoaded', function () {
-  // Close the modal when clicking "X" or "Cancel"
+  // ————————————————————————————————
+  // Close modals when clicking "X" or "Cancel"
+  // ————————————————————————————————
   document.querySelectorAll('.close-modal').forEach(button => {
     button.addEventListener('click', function () {
       const modal = this.closest('.modal');
@@ -10,76 +14,57 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /**
-   * Handles Hero Image selection from the gallery modal.
-   * Updates the preview image and hidden input field.
-   */
-  let confirmButton = document.getElementById('confirmImageSelection');
+  // ————————————————————————————————
+  // Hero Image Modal (Gallery)
+  // ————————————————————————————————
+  const confirmButton = document.getElementById('confirmImageSelection');
 
   if (confirmButton) {
     confirmButton.addEventListener('click', function () {
-      let selectedImage = document.querySelector("input[name='hero_image_select']:checked");
-      if (selectedImage) {
-        let imageUrl = selectedImage.getAttribute('data-url');
-        let imageId = selectedImage.value;
-        let imageAlt = selectedImage.getAttribute('data-alt') || 'Village Market hero image.';
+      const selectedImage = document.querySelector("input[name='hero_image_select']:checked");
+      if (!selectedImage) return;
 
-        let currentHeroImage = document.getElementById('current-hero-image');
-        let heroImageId = document.getElementById('hero_image_id');
-        let heroAltText = document.getElementById('hero_alt_text');
+      const imageUrl = selectedImage.getAttribute('data-url');
+      const imageId = selectedImage.value;
+      const imageAlt = selectedImage.getAttribute('data-alt') || 'Village Market hero image.';
 
-        // Ensure all elements exist before modifying them
-        if (currentHeroImage) {
-          currentHeroImage.src = imageUrl;
-        }
+      const currentHeroImage = document.getElementById('current-hero-image');
+      const heroImageId = document.getElementById('hero_image_id');
+      const heroAltText = document.getElementById('hero_alt_text');
 
-        if (heroImageId) {
-          heroImageId.value = imageId;
-        }
+      if (currentHeroImage) currentHeroImage.src = imageUrl;
+      if (heroImageId) heroImageId.value = imageId;
+      if (heroAltText) heroAltText.value = imageAlt;
 
-        if (heroAltText) {
-          heroAltText.value = imageAlt;
-        }
+      const modalElement = document.getElementById('imageGalleryModal');
+      if (modalElement) {
+        const modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+        modalInstance.hide();
 
-        // Close Modal
-        let modalElement = document.getElementById('imageGalleryModal');
-
-        if (modalElement) {
-          let modalInstance = bootstrap.Modal.getInstance(modalElement);
-          if (!modalInstance) {
-            modalInstance = new bootstrap.Modal(modalElement);
-          }
-          modalInstance.hide();
-
-          setTimeout(() => {
-            modalElement.classList.remove('show');
-            document.body.classList.remove('modal-open');
-
-            let backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) {
-              backdrop.remove();
-            }
-          }, 300);
-        }
+        setTimeout(() => {
+          modalElement.classList.remove('show');
+          document.body.classList.remove('modal-open');
+          document.querySelector('.modal-backdrop')?.remove();
+        }, 300);
       }
     });
   }
 
-  // Ensure modal opens correctly
+  // ————————————————————————————————
+  // Bootstrap modal triggers via data attributes
+  // ————————————————————————————————
   document.querySelectorAll("[data-bs-toggle='modal']").forEach(button => {
     button.addEventListener('click', function () {
-      let targetModal = document.querySelector(this.getAttribute('data-bs-target'));
+      const targetModal = document.querySelector(this.getAttribute('data-bs-target'));
       if (targetModal) {
-        let modalInstance = bootstrap.Modal.getOrCreateInstance(targetModal);
-        modalInstance.show();
+        bootstrap.Modal.getOrCreateInstance(targetModal).show();
       }
     });
   });
 
-  /**
-   * Handles suspend button clicks for vendors.
-   * Dynamically updates the suspend modal content and form action.
-   */
+  // ————————————————————————————————
+  // Suspend Vendor Modal
+  // ————————————————————————————————
   document.querySelectorAll('.suspend-btn').forEach(button => {
     button.addEventListener('click', function () {
       const vendorId = this.getAttribute('data-vendor-id');
@@ -87,126 +72,150 @@ document.addEventListener('DOMContentLoaded', function () {
       const entityName = this.getAttribute('data-entity-name');
       const suspendUrl = this.getAttribute('data-suspend-url');
 
-      if (!vendorId) return;
-
-      // Find the correct modal
       const modal = document.getElementById(`suspend-modal-vendor-${vendorId}`);
       if (!modal) return;
 
-      // Update modal content dynamically
       modal.querySelector('.suspend-message').innerHTML = `Are you sure you want to suspend "<strong>${entityName}</strong>"?`;
-
-      // Update hidden input fields
       modal.querySelector('.suspend-vendor-id').value = vendorId;
       modal.querySelector('.suspend-user-id').value = userId;
       modal.querySelector('.suspend-form').action = suspendUrl;
 
-      // Use Bootstrap's modal show function
-      const bsModal = new bootstrap.Modal(modal);
-      bsModal.show();
+      new bootstrap.Modal(modal).show();
     });
   });
 
-  /**
-   * Handles multi-selection for the Price Unit modal.
-   * Allows users to select multiple price units before confirming.
-   */
-  let selectedUnits = new Set();
+  // ————————————————————————————————
+  // Price Unit Modal: Multi-Selection & Input Fields
+  // ————————————————————————————————
+  const selectedUnits = new Set();
 
-  // Sync modal with already selected units when opened
-  document.getElementById('addUnitModal').addEventListener('show.bs.modal', function () {
-    selectedUnits.clear(); // Reset selection state
+  const addUnitModal = document.getElementById('addUnitModal');
+  if (addUnitModal) {
+    addUnitModal.addEventListener('show.bs.modal', function () {
+      selectedUnits.clear();
 
-    document.querySelectorAll('.unit-btn').forEach(button => {
-      const unitId = button.getAttribute('data-unit-id');
-      const isAlreadySelected = document.querySelector(`#selectedUnitsContainer [data-unit-id='${unitId}']`);
+      document.querySelectorAll('.unit-btn').forEach(button => {
+        const unitId = button.getAttribute('data-unit-id');
+        const isSelected = document.querySelector(`#selectedUnitsContainer [data-unit-id='${unitId}']`);
 
-      if (isAlreadySelected) {
-        selectedUnits.add(unitId);
-        button.classList.remove('btn-outline-primary');
-        button.classList.add('btn-primary');
-      } else {
-        button.classList.remove('btn-primary');
-        button.classList.add('btn-outline-primary');
-      }
+        if (isSelected) {
+          selectedUnits.add(unitId);
+          button.classList.replace('btn-outline-primary', 'btn-primary');
+        } else {
+          button.classList.replace('btn-primary', 'btn-outline-primary');
+        }
+      });
     });
-  });
+  }
 
-  // Toggle selection on unit buttons (Ensure only one event listener is attached)
   document.querySelectorAll('.unit-btn').forEach(button => {
     button.addEventListener('click', function () {
       const unitId = this.getAttribute('data-unit-id');
 
       if (selectedUnits.has(unitId)) {
         selectedUnits.delete(unitId);
-        this.classList.remove('btn-primary');
-        this.classList.add('btn-outline-primary');
-
-        // Remove unit from form when deselected
+        this.classList.replace('btn-primary', 'btn-outline-primary');
         document.querySelector(`#selectedUnitsContainer [data-unit-id='${unitId}']`)?.remove();
       } else {
         selectedUnits.add(unitId);
-        this.classList.remove('btn-outline-primary');
-        this.classList.add('btn-primary');
+        this.classList.replace('btn-outline-primary', 'btn-primary');
       }
 
-      this.blur(); // Prevents Bootstrap's active state issue
+      this.blur();
     });
   });
 
-  // Confirm selection and add selected units to the form
-  document.getElementById('confirmUnitSelection').addEventListener('click', function () {
-    const container = document.getElementById('selectedUnitsContainer');
+  const confirmUnits = document.getElementById('confirmUnitSelection');
+  if (confirmUnits) {
+    confirmUnits.addEventListener('click', function () {
+      const container = document.getElementById('selectedUnitsContainer');
 
-    selectedUnits.forEach(unitId => {
-      const unitBtn = document.querySelector(`.unit-btn[data-unit-id='${unitId}']`);
-      const unitName = unitBtn.getAttribute('data-unit-name').toLowerCase();
+      selectedUnits.forEach(unitId => {
+        const unitBtn = document.querySelector(`.unit-btn[data-unit-id='${unitId}']`);
+        const unitName = unitBtn.getAttribute('data-unit-name').toLowerCase();
+        const placeholder = unitName === 'each' ? 'Enter price per item' : `Enter price per ${unitName}`;
 
-      // Determine placeholder text
-      const placeholderText = unitName === 'each' ? `Enter price per item` : `Enter price per ${unitName}`;
+        if (!container.querySelector(`[data-unit-id='${unitId}']`)) {
+          const entry = document.createElement('div');
+          entry.classList.add('selected-unit', 'd-flex', 'align-items-center', 'mb-2');
+          entry.setAttribute('data-unit-id', unitId);
+          entry.innerHTML = `
+            <span class="me-2">${unitName}</span>
+            <input type="number" step="0.01" name="product_price_unit[${unitId}][price]"
+                   class="form-control form-control-sm" placeholder="${placeholder}" required>
+            <button type="button" class="btn btn-danger btn-sm ms-2 remove-unit">&times;</button>
+          `;
+          container.appendChild(entry);
+        }
+      });
 
-      if (!container.querySelector(`[data-unit-id='${unitId}']`)) {
-        const unitEntry = document.createElement('div');
-        unitEntry.classList.add('selected-unit', 'd-flex', 'align-items-center', 'mb-2');
-        unitEntry.setAttribute('data-unit-id', unitId);
-        unitEntry.innerHTML = `
-          <span class="me-2">${unitName}</span>
-          <input type="number" step="0.01" name="product_price_unit[${unitId}][price]" 
-                 class="form-control form-control-sm" placeholder="${placeholderText}" required>
-          <button type="button" class="btn btn-danger btn-sm ms-2 remove-unit">&times;</button>
-        `;
-        container.appendChild(unitEntry);
-      }
+      selectedUnits.clear();
+      const modalInstance = bootstrap.Modal.getInstance(addUnitModal);
+      if (modalInstance) modalInstance.hide();
     });
+  }
 
-    // Reset selectedUnits set after confirming
-    selectedUnits.clear();
-
-    // Close modal
-    let modalElement = document.getElementById('addUnitModal');
-    let modalInstance = bootstrap.Modal.getInstance(modalElement);
-    if (!modalInstance) {
-      modalInstance = new bootstrap.Modal(modalElement);
-    }
-    modalInstance.hide();
-  });
-
-  // Remove selected unit from form when clicking the remove button (Ensuring only one event listener)
-  document.getElementById('selectedUnitsContainer').addEventListener('click', function (e) {
+  document.getElementById('selectedUnitsContainer')?.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-unit')) {
-      const unitDiv = e.target.parentElement;
+      const unitDiv = e.target.closest('[data-unit-id]');
       const unitId = unitDiv.getAttribute('data-unit-id');
 
-      // Also remove highlight from the modal when reopened
-      document.querySelector(`.unit-btn[data-unit-id='${unitId}']`)?.classList.remove('btn-primary');
-      document.querySelector(`.unit-btn[data-unit-id='${unitId}']`)?.classList.add('btn-outline-primary');
-
+      document.querySelector(`.unit-btn[data-unit-id='${unitId}']`)?.classList.replace('btn-primary', 'btn-outline-primary');
       unitDiv.remove();
     }
   });
-  /**
-   * Closes the modal when clicking outside of it.
-   */
+
+  // ————————————————————————————————
+  // Shared Delete Modal Handler
+  // ————————————————————————————————
+  function initializeDeleteModal() {
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteForm = document.getElementById('delete-form');
+    const entitySpan = document.getElementById('delete-entity');
+    const entityNameEl = document.getElementById('delete-entity-name');
+    const entityIdInput = document.getElementById('delete-entity-id');
+    const userIdInput = document.getElementById('delete-user-id');
+
+    if (!deleteModal || !deleteForm || !entitySpan || !entityNameEl || !entityIdInput) {
+      console.warn('Delete modal: Required elements not found.');
+      return;
+    }
+
+    document.querySelectorAll('.delete-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        const entityId = this.getAttribute('data-entity-id');
+        const entityType = this.getAttribute('data-entity');
+        const entityName = this.getAttribute('data-entity-name');
+        const deleteUrl = this.getAttribute('data-delete-url');
+        const userId = this.getAttribute('data-user-id') || '';
+
+        console.log('DELETE BUTTON CLICKED');
+        console.log('entityId:', entityId);
+        console.log('entityType:', entityType);
+        console.log('entityName:', entityName);
+        console.log('deleteUrl:', deleteUrl);
+
+        if (!entityId || !entityType || !deleteUrl) {
+          console.warn('Delete modal: Missing required data attributes.');
+          return;
+        }
+
+        entitySpan.textContent = entityType;
+        entityNameEl.textContent = entityName;
+        entityIdInput.value = entityId;
+        if (userIdInput) userIdInput.value = userId;
+        deleteForm.action = deleteUrl;
+      });
+    });
+  }
+
+  if (document.querySelector('.delete-btn')) {
+    initializeDeleteModal();
+  }
+
+  // ————————————————————————————————
+  // Close modal on outside click
+  // ————————————————————————————————
   document.addEventListener('click', function (event) {
     document.querySelectorAll('.modal').forEach(modal => {
       if (event.target === modal) {

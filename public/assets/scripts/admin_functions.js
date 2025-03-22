@@ -5,7 +5,6 @@
  * @param {string} modalId - The ID of the modal to open.
  * @param {object} fieldMapping - An object mapping modal input fields to data attributes.
  */
-
 function setupModal(buttonClass, modalId, fieldMapping) {
   document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById(modalId);
@@ -29,13 +28,6 @@ function setupModal(buttonClass, modalId, fieldMapping) {
     });
   });
 }
-
-// Setup Delete Vendor Modal
-setupModal('.delete-btn', 'delete-modal', {
-  'delete-vendor-id': 'data-vendor-id',
-  'delete-user-id': 'data-user-id',
-  'delete-message': 'data-entity-name',
-});
 
 // Setup Suspend Vendor Modal
 setupModal('.suspend-btn', 'suspend-modal', {

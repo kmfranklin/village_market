@@ -15,26 +15,3 @@ export function togglePriceInput(checkbox, inputId) {
 
 // Attach to window so inline event attributes like `onchange="togglePriceInput(...)"` work
 window.togglePriceInput = togglePriceInput;
-
-document.addEventListener('DOMContentLoaded', function () {
-  const modal = document.getElementById('delete-modal');
-  const deleteForm = document.getElementById('delete-form');
-  const deleteEntityId = document.getElementById('delete-entity-id');
-  const deleteMessage = document.getElementById('delete-message');
-
-  // Listen for delete button clicks on products
-  document.querySelectorAll('.delete-btn').forEach(button => {
-    button.addEventListener('click', function (event) {
-      event.preventDefault(); // Prevent default link behavior
-
-      const entityId = this.getAttribute('data-entity-id');
-      const entityType = this.getAttribute('data-entity-type');
-      const deleteUrl = this.getAttribute('data-delete-url');
-
-      // Update modal fields
-      deleteEntityId.value = entityId;
-      deleteForm.action = deleteUrl;
-      deleteMessage.innerHTML = `Are you sure you want to delete this ${entityType}?`;
-    });
-  });
-});
