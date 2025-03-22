@@ -52,39 +52,39 @@ class Vendor extends DatabaseObject
     $this->errors = [];
 
     if (is_blank($this->business_name)) {
-      $this->errors[] = "Business name cannot be blank.";
+      $this->errors['business_name'] = "Business name cannot be blank.";
     }
 
     if (is_blank($this->street_address)) {
-      $this->errors[] = "Street address cannot be blank.";
+      $this->errors['street_address'] = "Street address cannot be blank.";
     }
 
     if (is_blank($this->city)) {
-      $this->errors[] = "City cannot be blank.";
+      $this->errors['city'] = "City cannot be blank.";
     }
 
     if (is_blank($this->state_id)) {
-      $this->errors[] = "State selection is required.";
+      $this->errors['state_id'] = "State selection is required.";
     }
 
     if (is_blank($this->zip_code)) {
-      $this->errors[] = "ZIP Code cannot be blank.";
+      $this->errors['zip_code'] = "ZIP Code cannot be blank.";
     } elseif (!preg_match('/^\d{5}(-\d{4})?$/', $this->zip_code)) {
-      $this->errors[] = "ZIP Code must be in a valid format (e.g., 12345 or 12345-6789).";
+      $this->errors['zip_code'] = "ZIP Code must be in a valid format (e.g., 12345 or 12345-6789).";
     }
 
     if (is_blank($this->business_phone_number)) {
-      $this->errors[] = "Business phone number cannot be blank.";
+      $this->errors['business_phone_number'] = "Business phone number cannot be blank.";
     } elseif (!preg_match('/^\d{10}$|^\d{3}-\d{3}-\d{4}$/', $this->business_phone_number)) {
-      $this->errors[] = "Phone number must be in a valid format (XXXXXXXXXX or XXX-XXX-XXXX).";
+      $this->errors['business_phone_number'] = "Phone number must be in a valid format (XXXXXXXXXX or XXX-XXX-XXXX).";
     }
 
     if (is_blank($this->business_email_address)) {
-      $this->errors[] = "Business email cannot be blank.";
+      $this->errors['business_email_address'] = "Business email cannot be blank.";
     } elseif (!has_valid_email_format($this->business_email_address)) {
-      $this->errors[] = "Business email must be a valid format.";
+      $this->errors['business_email_address'] = "Business email must be a valid format.";
     } elseif (self::business_email_exists($this->business_email_address, $this->vendor_id)) {
-      $this->errors[] = "Business email already exists.";
+      $this->errors['business_email_address'] = "Business email already exists.";
     }
 
     return $this->errors;

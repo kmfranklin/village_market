@@ -30,11 +30,14 @@ if (is_post_request()) {
 
   // Create and validate User
   $user = new User($user_args);
-  $errors = array_merge($errors, $user->validate());
+  $user_errors = $user->validate();
 
   // Create and validate Vendor
   $vendor = new Vendor($vendor_args);
-  $errors = array_merge($errors, $vendor->validate());
+  $vendor_errors = $vendor->validate();
+
+  // Merge field-specific errors
+  $errors = array_merge($user_errors, $vendor_errors);
 
   if (empty($errors)) {
     DatabaseObject::$database->begin_transaction();

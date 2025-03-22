@@ -101,39 +101,40 @@ class User extends DatabaseObject
     $this->errors = [];
 
     if (is_blank($this->first_name)) {
-      $this->errors[] = "First name cannot be blank.";
+      $this->errors['first_name'] = "First name cannot be blank.";
     }
 
     if (is_blank($this->last_name)) {
-      $this->errors[] = "Last name cannot be blank.";
+      $this->errors['last_name'] = "Last name cannot be blank.";
     }
 
     if (is_blank($this->email_address)) {
-      $this->errors[] = "Email cannot be blank.";
+      $this->errors['email_address'] = "Email cannot be blank.";
     } elseif (!has_valid_email_format($this->email_address)) {
-      $this->errors[] = "Email must be a valid format.";
+      $this->errors['email_address'] = "Email must be a valid format.";
     } elseif ($this->email_exists($this->email_address, $this->user_id)) {
-      $this->errors[] = "This email address is already registered.";
+      $this->errors['email_address'] = "This email address is already registered.";
     }
 
     if ($this->password_required && empty($this->user_id)) {
       if (is_blank($this->password)) {
-        $this->errors[] = "Password cannot be blank.";
+        $this->errors['password'] = "Password cannot be blank.";
       } elseif (!has_length($this->password, ['min' => 12])) {
-        $this->errors[] = "Password must contain at least 12 characters.";
+        $this->errors['password'] = "Password must contain at least 12 characters.";
       } elseif (!preg_match('/[A-Z]/', $this->password)) {
-        $this->errors[] = "Password must contain at least 1 uppercase letter.";
+        $this->errors['password'] = "Password must contain at least 1 uppercase letter.";
       } elseif (!preg_match('/[a-z]/', $this->password)) {
-        $this->errors[] = "Password must contain at least 1 lowercase letter.";
+        $this->errors['password'] = "Password must contain at least 1 lowercase letter.";
       } elseif (!preg_match('/[0-9]/', $this->password)) {
-        $this->errors[] = "Password must contain at least 1 number.";
+        $this->errors['password'] = "Password must contain at least 1 number.";
       } elseif (!preg_match('/[^A-Za-z0-9\s]/', $this->password)) {
-        $this->errors[] = "Password must contain at least 1 special character.";
+        $this->errors['password'] = "Password must contain at least 1 special character.";
       }
+
       if (is_blank($this->confirm_password)) {
-        $this->errors[] = "Confirm password cannot be blank.";
+        $this->errors['confirm_password'] = "Confirm password cannot be blank.";
       } elseif ($this->password !== $this->confirm_password) {
-        $this->errors[] = "Password and confirm password must match.";
+        $this->errors['confirm_password'] = "Password and confirm password must match.";
       }
     }
 
