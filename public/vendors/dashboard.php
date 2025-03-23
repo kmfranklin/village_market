@@ -14,7 +14,15 @@ $vendor = Vendor::find_by_user_id($user_id);
 
 $page_title = "{$vendor->business_name}'s Dashboard";
 include(SHARED_PATH . '/vendor_header.php');
-?>
+
+if ($session->message()) : ?>
+  <div class="d-flex justify-content-center">
+    <div class="alert alert-success alert-dismissible fade show alert-centered" role="alert">
+      <?php echo h($session->message()); ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+<?php endif; ?>
 
 <main role="main" class="container mt-4">
 
