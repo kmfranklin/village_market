@@ -31,8 +31,14 @@ function display_session_message()
 
   if (!empty($msg)) {
     $session->clear_message();
-    return '<div class="alert alert-success" role="alert">' . h($msg) . '</div>';
+    return '
+      <div class="d-flex justify-content-center">
+        <div class="alert alert-success alert-dismissible fade show alert-centered" role="alert">
+          ' . h($msg) . '
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      </div>';
   }
 
-  return null;
+  return '';
 }

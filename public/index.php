@@ -3,14 +3,7 @@ require_once '../private/initialize.php';
 $page_title = "Home";
 include_header($session, $page_title);
 
-if ($session->message()) : ?>
-  <div class="d-flex justify-content-center">
-    <div class="alert alert-success alert-dismissible fade show alert-centered" role="alert">
-      <?php echo h($session->message()); ?>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-  </div>
-<?php endif;
+echo display_session_message();
 
 // Fetch homepage content from the database
 $sql = "SELECT hc.homepage_id, hc.announcement_text, hc.market_hours, hc.contact_phone,
@@ -35,7 +28,7 @@ $contact_state = $homepage['contact_state'] ?? '';
 $contact_zip = $homepage['contact_zip'] ?? '';
 
 // Fetch hero image URL from cms_image table
-$hero_image_url = 'default_hero.jpg'; // Default fallback
+$hero_image_url = 'assets/images/default_hero.webp'; // Default fallback
 if (!empty($hero_image_id)) {
   $sql = "SELECT image_url FROM cms_image WHERE image_id = ?";
   $stmt = $database->prepare($sql);

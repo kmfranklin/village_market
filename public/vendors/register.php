@@ -91,9 +91,9 @@ include(SHARED_PATH . '/public_header.php');
             <!-- Vendor Form Fields -->
             <?php include('./form_fields.php'); ?>
 
-            <div class="d-flex justify-content-between mt-3">
-              <button type="submit" class="btn btn-primary">Register</button>
+            <div class="d-flex justify-content-end mt-3">
               <a href="<?php echo url_for('/index.php'); ?>" class="btn btn-outline-secondary">Cancel</a>
+              <button type="submit" class="btn btn-primary mx-3">Register</button>
             </div>
           </form>
         </div>

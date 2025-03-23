@@ -98,21 +98,53 @@ if (!isset($vendor)) {
       <?php endif; ?>
     </div>
 
-    <div class="col-12 mb-3">
-      <label for="business_description" class="form-label">
-        Business Description
-      </label>
-      <textarea name="vendor[business_description]" id="business_description"
-        class="form-control <?php if (!empty($errors['business_description'])) echo 'is-invalid'; ?>" rows="4"
-        placeholder="Describe the vendor's business, products, and mission..."><?php echo h($vendor->business_description); ?></textarea>
-      <?php if (!empty($errors['business_description'])): ?>
-        <div class="invalid-feedback"><?php echo h($errors['business_description']); ?></div>
-      <?php endif; ?>
+    <!-- Business Description and Privacy Settings -->
+    <div class="row align-items-start">
+      <div class="col-md-8 mb-3">
+        <label for="business_description" class="form-label">
+          Business Description
+        </label>
+        <textarea name="vendor[business_description]" id="business_description"
+          class="form-control <?php if (!empty($errors['business_description'])) echo 'is-invalid'; ?>"
+          rows="6" placeholder="Describe your business, products, and mission..."><?php echo h($vendor->business_description); ?></textarea>
+        <?php if (!empty($errors['business_description'])): ?>
+          <div class="invalid-feedback"><?php echo h($errors['business_description']); ?></div>
+        <?php endif; ?>
+      </div>
+
+      <div class="col-md-4 mb-3">
+        <div class="card shadow-sm p-3 h-100">
+          <h5 class="card-title">Privacy Settings</h5>
+          <p class="text-muted small mb-3">Choose which contact info is visible to the public.</p>
+
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" name="vendor[show_email]" id="show_email"
+              value="1" <?php echo ($vendor->show_email == 1) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="show_email">Show email address</label>
+          </div>
+
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" name="vendor[show_phone]" id="show_phone"
+              value="1" <?php echo ($vendor->show_phone == 1) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="show_phone">Show phone number</label>
+          </div>
+
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" name="vendor[show_address]" id="show_address"
+              value="1" <?php echo ($vendor->show_address == 1) ? 'checked' : ''; ?>>
+            <label class="form-check-label" for="show_address">Show physical address</label>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Business Logo Upload -->
     <div class="col-md-6">
       <h4 class="my-3">Business Logo</h4>
+      <p class="text-muted small">
+        This logo will appear beside your business name on listings and vendor directories.
+        A square or circular logo works best.
+      </p>
       <div class="card p-3 shadow-sm">
         <label class="form-label">Current Logo</label>
         <?php if (!empty($vendor->business_logo_url)) : ?>
@@ -131,6 +163,10 @@ if (!isset($vendor)) {
     <!-- Business Image Upload -->
     <div class="col-md-6">
       <h4 class="my-3">Farm / Business Image</h4>
+      <p class="text-muted small">
+        This image will be displayed at the top of your public profile as a full-width banner.
+        Choose a photo that visually represents your farm/business, products, or market booth.
+      </p>
       <div class="card p-3 shadow-sm">
         <label class="form-label">Current Image</label>
         <?php if (!empty($vendor->business_image_url)) : ?>

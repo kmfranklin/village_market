@@ -294,3 +294,29 @@ function get_cloudinary_image($image_url, $width = null, $height = null)
     'height' => $height ?: 200 // Default height if not provided
   ];
 }
+
+function get_homepage_hero_image_url()
+{
+  global $database;
+
+  $sql = "SELECT hero_image_id FROM homepage_content LIMIT 1";
+  $result = $database->query($sql);
+
+  if ($row = $result->fetch_assoc()) {
+    $image_id = $row['hero_image_id'];
+
+    if ($image_id) {
+      $img_sql = "SELECT image_url FROM cms_image WHERE image_id = ?";
+      $stmt = $database->prepare($img_sql);
+      $stmt->bind_param("i", $image_id);
+      $stmt->execute();
+      $img_result = $stmt->get_result();
+      if ($img_row = $img_result->fetch_assoc()) {
+        return $img_row['image_url'];
+      }
+    }
+  }
+
+  // Fallback default image
+  return url_for('/assets/images/default_hero.webp');
+}

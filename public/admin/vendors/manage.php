@@ -88,7 +88,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                 <td><?= h($user->full_name()); ?></td>
                 <td><?= h($user->email_address); ?></td>
                 <td>
-                  <a href="view.php?id=<?= h($user->user_id); ?>" class="btn btn-outline-secondary btn-sm">View</a>
+                  <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <a href="edit.php?id=<?= h($user->user_id); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
                   <!-- Suspend Button -->
                   <button class="btn btn-danger btn-sm suspend-btn"
@@ -136,7 +136,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                 <td><?= h($user->full_name()); ?></td>
                 <td><?= h($user->email_address); ?></td>
                 <td>
-                  <a href="view.php?id=<?= h($user->user_id); ?>" class="btn btn-outline-secondary btn-sm">View</a>
+                  <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <a href="manage.php?action=approve&id=<?= h($user->user_id); ?>" class="btn btn-primary btn-sm">Approve</a>
                   <a href="manage.php?action=reject&id=<?= h($user->user_id); ?>" class="btn btn-danger btn-sm">Reject</a>
                 </td>
@@ -175,6 +175,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                 <td><?= h($user->full_name()); ?></td>
                 <td><?= h($user->email_address); ?></td>
                 <td>
+                  <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <!-- Restore Button -->
                   <button class="btn btn-primary btn-sm restore-btn"
                     data-bs-toggle="modal"
@@ -231,6 +232,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                 <td><?= h($user->full_name()); ?></td>
                 <td><?= h($user->email_address); ?></td>
                 <td>
+                  <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <!-- Restore Button -->
                   <button class="btn btn-primary btn-sm restore-btn"
                     data-bs-toggle="modal"

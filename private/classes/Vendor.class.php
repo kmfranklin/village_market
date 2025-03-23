@@ -17,6 +17,9 @@ class Vendor extends DatabaseObject
     'business_email_address',
     'business_image_url',
     'business_logo_url',
+    'show_email',
+    'show_phone',
+    'show_address',
   ];
 
   public $vendor_id;
@@ -31,6 +34,9 @@ class Vendor extends DatabaseObject
   public $business_email_address;
   public $business_image_url;
   public $business_logo_url;
+  public $show_email;
+  public $show_phone;
+  public $show_address;
 
   public function __construct($args = [])
   {
@@ -45,6 +51,9 @@ class Vendor extends DatabaseObject
     $this->business_email_address = strtolower(trim($args['business_email_address'] ?? ''));
     $this->business_image_url = trim($args['business_image_url'] ?? '');
     $this->business_logo_url = trim($args['business_logo_url'] ?? '');
+    $this->show_email = isset($args['show_email']) ? (int) $args['show_email'] : 0;
+    $this->show_phone = isset($args['show_phone']) ? (int) $args['show_phone'] : 0;
+    $this->show_address = isset($args['show_address']) ? (int) $args['show_address'] : 0;
   }
 
   public function validate()
@@ -225,10 +234,6 @@ class Vendor extends DatabaseObject
    */
   private function format_text($string)
   {
-    return preg_replace_callback(
-      '/\b(\w)/u',
-      fn($matches) => mb_strtoupper($matches[1]),
-      mb_strtolower(trim($string))
-    );
+    return mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
   }
 }
