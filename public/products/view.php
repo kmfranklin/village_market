@@ -165,7 +165,7 @@ include_header($session);
         ⬅ Back to Product Management
       </a>
     <?php else : ?>
-      <a href="<?= url_for('/products.php'); ?>" class="btn btn-outline-secondary">
+      <a href="<?= url_for('/products/index.php'); ?>" class="btn btn-outline-secondary">
         ⬅ Back to Products
       </a>
     <?php endif; ?>

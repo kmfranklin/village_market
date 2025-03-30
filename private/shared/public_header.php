@@ -1,3 +1,7 @@
+<?php
+$current_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,9 +36,21 @@
 
         <div class="collapse navbar-collapse" id="publicNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/index.php'); ?>">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/products.php'); ?>">Browse Products</a></li>
-            <li class="nav-item"><a class="nav-link" href="<?php echo url_for('/vendors.php'); ?>">Browse Vendors</a></li>
+            <li class="nav-item">
+              <a class="nav-link <?= ($current_path === '/village_market/public/index.php') ? 'active' : '' ?>"
+                href="<?= url_for('/index.php'); ?>">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($current_path === '/village_market/public/products/index.php') ? 'active' : '' ?>"
+                href="<?= url_for('/products/index.php'); ?>">Browse Products</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link <?= ($current_path === '/village_market/public/vendors.php') ? 'active' : '' ?>"
+                href="<?= url_for('/vendors.php'); ?>">Browse Vendors</a>
+            </li>
+
             <li class="nav-item"><a class="btn btn-primary text-white px-3" href="<?php echo url_for('/login.php'); ?>">Login</a></li>
             <li class="nav-item"><a class="btn btn-secondary text-white px-3 ms-2" href="<?php echo url_for('/vendors/register.php'); ?>">Register</a></li>
           </ul>

@@ -99,20 +99,22 @@
   color: white !important;
 }
 
-// Homepage product cards
-#featured-products .card-img-top {
+// Product cards
+#products .card-img-top {
+  display: block;
   height: 250px;
   object-fit: cover;
+  object-position: center;
   width: 100%;
 }
 
-#featured-products .card {
+#products .card {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-#featured-products .card-body {
+#products .card-body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;

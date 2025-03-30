@@ -139,7 +139,7 @@ while ($row = $result->fetch_assoc()) {
 </section>
 
 <!-- Featured Products Section -->
-<section id="featured-products" class="container my-5">
+<section id="products" class="container my-5">
   <h2 class="text-center mb-4">Discover Fresh Finds</h2>
   <div class="row justify-content-center">
     <?php foreach ($products as $product): ?>
@@ -152,14 +152,14 @@ while ($row = $result->fetch_assoc()) {
             <h5 class="card-title"><?= htmlspecialchars($product['product_name']) ?></h5>
             <p class="card-text"><?= htmlspecialchars(substr($product['product_description'], 0, 100)) ?></p>
             <p class="text-muted small">Sold by: <strong><?= htmlspecialchars($product['vendor_name']); ?></strong></p>
-            <a href="products/view.php?id=<?= $product['product_id'] ?>" class="btn btn-primary">View Product</a>
+            <a href="products/view.php?id=<?= $product['product_id'] ?>" class="btn btn-primary w-100">View Product</a>
           </div>
         </div>
       </div>
     <?php endforeach; ?>
   </div>
   <div class="text-center my-5">
-    <a href="products.php" class="btn btn-primary">View All Products</a>
+    <a href="products/index.php" class="btn btn-primary">View All Products</a>
   </div>
 </section>
 
