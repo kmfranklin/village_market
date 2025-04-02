@@ -89,14 +89,13 @@
   color: white;
 }
 
-.dropdown-logout {
-  font-weight: bold;
+.logout-link {
+  font-weight: 600;
 }
 
-.dropdown-logout:focus,
-.dropdown-logout:active {
-  background-color: #b02a37;
-  color: white !important;
+.logout-link:hover {
+  background-color: var(--bs-danger) !important;
+  color: var(--bs-white) !important;
 }
 
 // Product cards

@@ -90,7 +90,11 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item dropdown-logout text-danger" href="<?= url_for('/logout.php'); ?>">Logout</a></li>
+                <li>
+                  <a href="<?php echo url_for('/logout.php'); ?>" class="dropdown-item text-danger logout-link">
+                    Logout
+                  </a>
+                </li>
               </ul>
             </li>
           </ul>
