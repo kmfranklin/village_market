@@ -28,39 +28,6 @@ main {
   color: var(--bs-primary) !important;
 }
 
-// Navbar
-.navbar-nav .active {
-  border-bottom: 3px solid var(--bs-secondary);
-  font-weight: 500;
-  padding-bottom: 5px;
-}
-
-.navbar-nav .nav-link {
-  position: relative;
-
-  &::after {
-    content: '';
-    background-color: var(--bs-primary);
-    bottom: 0px;
-    height: 3px;
-    left: 50%;
-    position: absolute;
-    transform: translateX(-50%);
-    transition: width 0.1s ease-out;
-    width: 0%;
-  }
-
-  &:hover::after {
-    width: 80%;
-  }
-
-  &.active::after {
-    background-color: var(--bs-secondary);
-    bottom: -2px;
-    width: 100%;
-  }
-}
-
 // Footer
 footer {
   background-color: var(--bs-light);

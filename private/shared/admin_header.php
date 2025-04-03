@@ -59,14 +59,47 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
                   href="<?= url_for('/admin/users.php'); ?>">Manage Admins</a>
               </li>
             <?php endif; ?>
-            <li class="nav-item">
-              <a class="nav-link <?= (strpos($current_page, '/admin/vendors/manage.php') !== false) ? 'active' : '' ?>"
-                href="<?= url_for('/admin/vendors/manage.php'); ?>">Manage Vendors</a>
+
+            <!-- Vendors Dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <?= (strpos($current_page, '/vendors/') !== false) ? 'active' : '' ?>"
+                href="<?= url_for('/admin/vendors/manage.php'); ?>" role="button">
+                Vendors
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="<?= url_for('/vendors.php'); ?>">
+                    Browse Vendors
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="<?= url_for('/admin/vendors/manage.php'); ?>">
+                    Manage Vendors
+                  </a>
+                </li>
+              </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link <?= (strpos($current_page, '/products/manage.php') !== false) ? 'active' : '' ?>"
-                href="<?= url_for('/products/manage.php'); ?>">Manage Products</a>
+
+            <!-- Products Dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <?= (strpos($current_page, '/products/') !== false) ? 'active' : '' ?>"
+                href="<?= url_for('/products/manage.php'); ?>" role="button">
+                Products
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="<?= url_for('/products/index.php'); ?>">
+                    Browse Products
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="<?= url_for('/products/manage.php'); ?>">
+                    Manage Products
+                  </a>
+                </li>
+              </ul>
             </li>
+
             <li class="nav-item dropdown">
               <button class="nav-link dropdown-toggle user-dropdown-btn" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <?php

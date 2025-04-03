@@ -57,7 +57,11 @@
   cursor: pointer;
   display: flex;
   font-size: 1rem;
-  padding: 5px;
+  padding: 0.5rem;
+
+  &::after {
+    content: none !important;
+  }
 }
 
 .user-initials {
@@ -75,27 +79,116 @@
   width: 35px;
 }
 
+// Navbar and dropdown styles
+.navbar-nav {
+  align-items: center;
+
+  .nav-link {
+    color: var(--bs-dark);
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    position: relative;
+    text-shadow: 0 0 0.01px var(--bs-dark);
+    transition: color 0.2s ease-in-out, text-shadow 0.2s ease-in-out;
+
+    &:hover {
+      color: var(--bs-primary);
+      text-shadow: 0 0 0.75px var(--bs-primary);
+    }
+
+    &.active {
+      color: var(--bs-primary);
+      text-shadow: 0 0 0.75px var(--bs-primary);
+    }
+  }
+
+  .dropdown {
+    position: relative;
+
+    &:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+    }
+
+    .dropdown-toggle {
+      &.active {
+        font-weight: 500;
+      }
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .dropdown-item {
+    color: var(--bs-dark);
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    text-shadow: 0 0 0.01px var(--bs-dark);
+    transition: all 0.2s ease-in-out;
+    width: 100%;
+
+    &:hover {
+      background-color: var(--bs-light-gray);
+      color: var(--bs-primary);
+      text-shadow: 0 0 0.75px var(--bs-primary);
+    }
+
+    &:active,
+    &:focus {
+      background-color: var(--bs-light-gray);
+      color: var(--bs-primary);
+      text-shadow: 0 0 0.75px var(--bs-primary);
+    }
+  }
+}
+
 .dropdown-menu {
-  min-width: 180px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  left: 50%;
+  margin-top: 0;
+  padding: 0.5rem 0;
+  transform: translateX(-50%);
+  width: max-content;
 }
 
-.user-dropdown-btn::after {
-  content: none !important;
+// Show dropdown toggle arrow on mobile
+@media screen and (max-width: 992px) {
+  .navbar-nav {
+    align-items: flex-start;
+
+    .dropdown .dropdown-toggle::after {
+      display: inline-block;
+      margin-left: 0.5em;
+      vertical-align: middle;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: none;
+    }
+
+    .dropdown.show .dropdown-menu {
+      display: block;
+    }
+  }
+
+  .dropdown-menu {
+    left: 0;
+    transform: none;
+    width: 100%;
+  }
 }
 
-.dropdown-item:focus,
-.dropdown-item:active {
-  background-color: var(--bs-primary);
-  color: white;
-}
-
+// Logout link styles
 .logout-link {
   font-weight: 600;
-}
 
-.logout-link:hover {
-  background-color: var(--bs-danger) !important;
-  color: var(--bs-white) !important;
+  &:hover {
+    background-color: var(--bs-danger) !important;
+    color: var(--bs-white) !important;
+  }
 }
 
 // Product cards

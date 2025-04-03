@@ -48,11 +48,25 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
               <a class="nav-link <?= (strpos($current_page, '/vendors/dashboard.php') !== false) ? 'active' : '' ?>"
                 href="<?= url_for('/vendors/dashboard.php'); ?>">Your Dashboard</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link <?= (strpos($current_page, '/products/manage.php') !== false) ? 'active' : '' ?>"
-                href="<?= url_for('/products/manage.php'); ?>">Manage Your Products</a>
+            <!-- Products Dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <?= (strpos($current_page, '/products/') !== false) ? 'active' : '' ?>"
+                href="<?= url_for('/products/manage.php'); ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Products
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="<?= url_for('/products/index.php'); ?>">
+                    Browse Products
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="<?= url_for('/products/manage.php'); ?>">
+                    Manage Your Products
+                  </a>
+                </li>
+              </ul>
             </li>
-
             <!-- User Dropdown -->
             <li class="nav-item dropdown">
               <button class="nav-link dropdown-toggle user-dropdown-btn" id="vendorDropdown" data-bs-toggle="dropdown" aria-expanded="false">
