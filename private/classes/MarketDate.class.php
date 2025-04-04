@@ -1,0 +1,25 @@
+<?php
+
+class MarketDate extends DatabaseObject
+{
+
+  protected static $table_name = 'market_date';
+  protected static $db_columns = ['market_date_id', 'market_date', 'is_active'];
+
+  public $market_date_id;
+  public $market_date;
+  public $is_active;
+
+  /**
+   * Find all future market dates that are active
+   *
+   * @return array - List of MarketDate objects
+   */
+  public static function upcoming()
+  {
+    $sql = "SELECT * FROM " . static::$table_name;
+    $sql .= " WHERE market_date > NOW() AND is_active = 1";
+    $sql .= " ORDER BY market_date ASC";
+    return static::find_by_sql($sql);
+  }
+}

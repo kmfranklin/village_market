@@ -62,7 +62,7 @@ if ($session->message()) : ?>
         <div class="card-body">
           <h2 class="card-title">Market Attendance</h2>
           <p class="card-text">Confirm which markets you’ll be attending.</p>
-          <a href="<?= url_for('/vendors/attendance.php'); ?>" class="btn btn-primary" aria-label="Manage Market Attendance">
+          <a href="<?= url_for('/vendors/attendance/manage.php'); ?>" class="btn btn-primary" aria-label="Manage Market Attendance">
             Manage Attendance
           </a>
         </div>

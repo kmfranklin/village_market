@@ -109,6 +109,17 @@ class DatabaseObject
     return self::$database->query($sql);
   }
 
+  public function save()
+  {
+    $primary_key = static::$primary_key ?? 'id';
+
+    if (isset($this->$primary_key) && !is_null($this->$primary_key)) {
+      return $this->update();
+    } else {
+      return $this->create();
+    }
+  }
+
   public function delete()
   {
     $sql = "DELETE FROM " . static::$table_name . " WHERE " . static::$primary_key . " = ? LIMIT 1";
