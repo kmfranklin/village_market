@@ -77,8 +77,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="vendor_id" class="form-label">Vendor</label>
                 <select name="vendor_id" id="vendor_id" class="form-select" required>
                   <option value="">Select a Vendor</option>
-                  <?php foreach (Vendor::find_all() as $vendor) { ?>
-                    <option value="<?= h($vendor->vendor_id); ?>" <?= (isset($_POST['vendor_id']) && $_POST['vendor_id'] == $vendor->vendor_id) ? 'selected' : ''; ?>>
+                  <?php
+                  // Only get active vendors
+                  $sql = "SELECT v.* FROM vendor v ";
+                  $sql .= "JOIN user u ON v.user_id = u.user_id ";
+                  $sql .= "WHERE u.account_status = 'active' ";
+                  $sql .= "AND u.role_id = 1 ";
+                  $sql .= "ORDER BY v.business_name ASC";
+                  foreach (Vendor::find_by_sql($sql) as $vendor) {
+                  ?>
+                    <option value="<?= h($vendor->vendor_id); ?>"
+                      <?= (isset($_POST['vendor_id']) && $_POST['vendor_id'] == $vendor->vendor_id) ? 'selected' : ''; ?>>
                       <?= h($vendor->business_name); ?>
                     </option>
                   <?php } ?>

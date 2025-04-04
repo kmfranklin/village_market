@@ -80,15 +80,15 @@ $unit_groups = [
           if (!empty($selected_prices)) {
             foreach ($selected_prices as $unit_id => $price_data) {
               $unit = PriceUnit::find_by_id($unit_id);
-              $price = $price_data['price'] ?? $price_data; // Handles both array or direct price storage
+              $price = $price_data['price'] ?? $price_data;
 
               if ($unit) {
                 echo "<div class='selected-unit d-flex align-items-center mb-2' data-unit-id='{$unit_id}'>
-          <span class='me-2'>" . h($unit->unit_name) . "</span>
-          <input type='number' step='0.01' name='product_price_unit[{$unit_id}][price]'
-                 class='form-control form-control-sm' placeholder='Enter price' value='" . h($price) . "' required>
-          <button type='button' class='btn btn-danger btn-sm ms-2 remove-unit'>&times;</button>
-        </div>";
+                  <span class='me-2'>" . h($unit->unit_name) .  " </span>
+                  <input type='number' step='0.01' name='product_price_unit[{$unit_id}][price]'
+                  class='form-control form-control-sm' placeholder='Enter price' value='" . h($price) . "' required>
+                  <button type='button' class='btn btn-danger btn-sm ms-2 remove-unit'>&times;</button>
+                </div>";
               }
             }
           }

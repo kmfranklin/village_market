@@ -58,9 +58,16 @@
   display: flex;
   font-size: 1rem;
   padding: 0.5rem;
+  position: relative;
 
   &::after {
     content: none !important;
+  }
+
+  + .dropdown-menu {
+    left: auto;
+    right: 0;
+    transform: none;
   }
 }
 
