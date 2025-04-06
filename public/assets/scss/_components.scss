@@ -257,3 +257,44 @@
   padding: 1rem;
   width: 100%;
 }
+
+// Flatpickr styles
+.flatpickr-month,
+.flatpickr-monthDropdown-months,
+.flatpickr-day.selected {
+  background-color: var(--bs-primary) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+.flatpickr-current-month {
+  padding-top: 4px;
+}
+
+.flatpickr-prev-month,
+.flatpickr-next-month {
+  padding: 4px 10px 0px !important;
+}
+
+.flatpickr-prev-month svg path,
+.flatpickr-next-month svg path {
+  fill: #fff !important;
+}
+
+.flatpickr-day.selected {
+  border: none !important;
+}
+
+.flatpickr-monthDropdown-months option {
+  background-color: #fff !important;
+  color: var(--bs-primary) !important;
+}
+
+.flatpickr-calendar.animate.inline::after,
+.flatpickr-input {
+  display: none !important;
+}
+
+.flatpickr-disabled {
+  color: rgba(72, 72, 72, 0.4) !important;
+}

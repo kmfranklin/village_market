@@ -28,15 +28,21 @@ $next_year = date('Y', strtotime('+1 month'));
       <h5 class="mt-4"><?php echo h($month_label); ?></h5>
       <div class="row">
         <?php foreach ($dates as $date): ?>
+          <?php
+          $formatted_date = date('Y-m-d', strtotime($date->market_date));
+          $input_id = "market_date_" . h($date->market_date_id);
+          ?>
           <div class="col-md-6">
             <div class="form-check mb-2">
-              <input class="form-check-input"
+              <input
+                class="form-check-input"
                 type="checkbox"
+                id="<?php echo $input_id; ?>"
                 name="market_dates[]"
                 value="<?php echo h($date->market_date_id); ?>"
-                id="market_date_<?php echo h($date->market_date_id); ?>"
+                data-date="<?php echo $formatted_date; ?>"
                 <?php if (in_array($date->market_date_id, $selected_dates)) echo 'checked'; ?>>
-              <label class="form-check-label" for="market_date_<?php echo h($date->market_date_id); ?>">
+              <label class="form-check-label" for="<?php echo $input_id; ?>">
                 <?php echo date('F j, Y', strtotime($date->market_date)); ?>
               </label>
             </div>
