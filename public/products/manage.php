@@ -21,21 +21,18 @@ $options = [
   'current_vendor_id' => null
 ];
 
-// Get both active and inactive products
-$sql = get_filtered_products_query($database, $options);
-$products = $database->query($sql);
-
 // Vendors only see their own products, admins see all
-if ($is_admin) {
-  $products = Product::find_all();
-} else {
+if (!$is_admin) {
   $vendor = Vendor::find_by_user_id($session->get_user_id());
   if (!$vendor) {
     $_SESSION['message'] = "Error: No associated vendor account found.";
     redirect_to(url_for('/dashboard.php'));
   }
-  $products = Product::find_by_vendor($vendor->vendor_id);
+  $options['current_vendor_id'] = $vendor->vendor_id;
 }
+
+$sql = get_filtered_products_query($database, $options);
+$products = Product::find_by_sql($sql);
 
 // Separate active and inactive products
 $active_products = [];

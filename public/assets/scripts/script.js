@@ -1,8 +1,9 @@
 import './modals.js';
-import './products.js';
+import './product_card_filter.js';
+import './product_table_filter.js';
+import './product_price_toggle.js';
+import './sort_handler.js';
 import './form.js';
-import './product-filters.js';
-import './filters.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   AOS.init({
