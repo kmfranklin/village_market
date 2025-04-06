@@ -53,25 +53,118 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Suspend Vendor Modal
+  // ✅ Universal Suspend Modal (Admin or Vendor)
   document.querySelectorAll('.suspend-btn').forEach(button => {
     button.addEventListener('click', function () {
-      const vendorId = this.getAttribute('data-vendor-id');
-      const userId = this.getAttribute('data-user-id');
-      const entityName = this.getAttribute('data-entity-name');
-      const suspendUrl = this.getAttribute('data-suspend-url');
-
-      const modal = document.getElementById(`suspend-modal-vendor-${vendorId}`);
+      const modal = document.getElementById('suspend-modal');
       if (!modal) return;
 
-      modal.querySelector('.suspend-message').innerHTML = `Are you sure you want to suspend "<strong>${entityName}</strong>"?`;
-      modal.querySelector('.suspend-vendor-id').value = vendorId;
-      modal.querySelector('.suspend-user-id').value = userId;
-      modal.querySelector('.suspend-form').action = suspendUrl;
+      const entityName = this.getAttribute('data-entity-name');
+      const suspendUrl = this.getAttribute('data-suspend-url');
+      const userId = this.getAttribute('data-user-id');
+      const vendorId = this.getAttribute('data-vendor-id');
 
-      new bootstrap.Modal(modal).show();
+      // Set modal message
+      modal.querySelector('#suspend-entity-name').textContent = entityName;
+
+      // Clear and build form
+      const form = modal.querySelector('#suspend-form');
+      form.innerHTML = '';
+      form.action = suspendUrl;
+
+      if (userId) {
+        const inputUser = document.createElement('input');
+        inputUser.type = 'hidden';
+        inputUser.name = 'user_id';
+        inputUser.value = userId;
+        form.appendChild(inputUser);
+      }
+
+      if (vendorId) {
+        const inputVendor = document.createElement('input');
+        inputVendor.type = 'hidden';
+        inputVendor.name = 'vendor_id';
+        inputVendor.value = vendorId;
+        form.appendChild(inputVendor);
+      }
+
+      const submit = document.createElement('button');
+      submit.type = 'submit';
+      submit.className = 'btn btn-danger w-100';
+      submit.textContent = 'Yes, Suspend';
+      form.appendChild(submit);
     });
   });
+
+  // Universal Restore Modal Handler (Admin or Vendor)
+  document.querySelectorAll('.restore-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      const modal = document.getElementById('restore-modal');
+      if (!modal) return;
+
+      const entityName = this.getAttribute('data-entity-name');
+      const restoreUrl = this.getAttribute('data-restore-url');
+      const userId = this.getAttribute('data-user-id');
+
+      // Set modal message
+      modal.querySelector('#restore-entity-name').textContent = entityName;
+
+      // Clear and build form
+      const form = modal.querySelector('#restore-form');
+      form.innerHTML = '';
+      form.action = restoreUrl;
+
+      if (userId) {
+        const inputUser = document.createElement('input');
+        inputUser.type = 'hidden';
+        inputUser.name = 'user_id';
+        inputUser.value = userId;
+        form.appendChild(inputUser);
+      }
+
+      const submit = document.createElement('button');
+      submit.type = 'submit';
+      submit.className = 'btn btn-primary w-100';
+      submit.textContent = 'Yes, Restore';
+      form.appendChild(submit);
+    });
+  });
+
+  // Shared Delete Modal Handler
+  function initializeDeleteModal() {
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteForm = document.getElementById('delete-form');
+    const entitySpan = document.getElementById('delete-entity');
+    const entityNameEl = document.getElementById('delete-entity-name');
+    const entityIdInput = document.getElementById('delete-entity-id');
+    const userIdInput = document.getElementById('delete-user-id');
+
+    if (!deleteModal || !deleteForm || !entitySpan || !entityNameEl || !entityIdInput) {
+      return;
+    }
+
+    document.querySelectorAll('.delete-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        const entityId = this.getAttribute('data-entity-id');
+        const entityType = this.getAttribute('data-entity');
+        const entityName = this.getAttribute('data-entity-name');
+        const deleteUrl = this.getAttribute('data-delete-url');
+        const userId = this.getAttribute('data-user-id') || '';
+
+        if (!entityId || !entityType || !deleteUrl) return;
+
+        entitySpan.textContent = entityType;
+        entityNameEl.textContent = entityName;
+        entityIdInput.value = entityId;
+        if (userIdInput) userIdInput.value = userId;
+        deleteForm.action = deleteUrl;
+      });
+    });
+  }
+
+  if (document.querySelector('.delete-btn')) {
+    initializeDeleteModal();
+  }
 
   // Price Unit Modal: Multi-Selection & Input Fields
   const selectedUnits = new Set();
@@ -151,71 +244,6 @@ document.addEventListener('DOMContentLoaded', function () {
       unitDiv.remove();
     }
   });
-
-  // Shared Delete Modal Handler
-  function initializeDeleteModal() {
-    const deleteModal = document.getElementById('delete-modal');
-    const deleteForm = document.getElementById('delete-form');
-    const entitySpan = document.getElementById('delete-entity');
-    const entityNameEl = document.getElementById('delete-entity-name');
-    const entityIdInput = document.getElementById('delete-entity-id');
-    const userIdInput = document.getElementById('delete-user-id');
-
-    if (!deleteModal || !deleteForm || !entitySpan || !entityNameEl || !entityIdInput) {
-      return;
-    }
-
-    document.querySelectorAll('.delete-btn').forEach(button => {
-      button.addEventListener('click', function () {
-        const entityId = this.getAttribute('data-entity-id');
-        const entityType = this.getAttribute('data-entity');
-        const entityName = this.getAttribute('data-entity-name');
-        const deleteUrl = this.getAttribute('data-delete-url');
-        const userId = this.getAttribute('data-user-id') || '';
-
-        if (!entityId || !entityType || !deleteUrl) return;
-
-        entitySpan.textContent = entityType;
-        entityNameEl.textContent = entityName;
-        entityIdInput.value = entityId;
-        if (userIdInput) userIdInput.value = userId;
-        deleteForm.action = deleteUrl;
-      });
-    });
-  }
-
-  // Suspend Modal Handler
-  if (document.querySelector('.suspend-btn')) {
-    document.querySelectorAll('.suspend-btn').forEach(button => {
-      button.addEventListener('click', function () {
-        const modal = document.getElementById('suspend-modal');
-        if (!modal) return;
-
-        modal.querySelector('#suspend-vendor-id').value = this.getAttribute('data-vendor-id');
-        modal.querySelector('#suspend-user-id').value = this.getAttribute('data-user-id');
-        modal.querySelector('#suspend-entity-name').textContent = this.getAttribute('data-entity-name');
-        modal.querySelector('#suspend-form').action = this.getAttribute('data-suspend-url');
-      });
-    });
-  }
-
-  // Restore Modal Handler
-  if (document.querySelector('.restore-btn')) {
-    document.querySelectorAll('.restore-btn').forEach(button => {
-      button.addEventListener('click', function () {
-        const modal = document.getElementById('restore-modal');
-        if (!modal) return;
-
-        modal.querySelector('#restore-user-id').value = this.getAttribute('data-user-id');
-        modal.querySelector('#restore-entity-name').textContent = this.getAttribute('data-entity-name');
-        modal.querySelector('#restore-form').action = this.getAttribute('data-restore-url');
-      });
-    });
-  }
-
-  if (document.querySelector('.delete-btn')) {
-    initializeDeleteModal();
-  }
 
   // Close modal on outside click
   document.addEventListener('click', function (event) {

@@ -13,9 +13,7 @@
 
       <div class="modal-footer d-grid gap-2 d-sm-flex justify-content-center">
         <form id="suspend-form" method="POST" class="w-100">
-          <input type="hidden" name="vendor_id" id="suspend-vendor-id">
-          <input type="hidden" name="user_id" id="suspend-user-id">
-          <button type="submit" class="btn btn-danger w-100">Yes, Suspend</button>
+          <!-- JS will inject the appropriate hidden fields below -->
         </form>
         <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancel</button>
       </div>
