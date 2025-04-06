@@ -201,7 +201,7 @@
 // Product cards
 #products .card-img-top {
   display: block;
-  height: 250px;
+  height: 250px !important;
   object-fit: cover;
   object-position: center;
   width: 100%;

@@ -141,27 +141,44 @@ while ($row = $result->fetch_assoc()) {
 <!-- Featured Products Section -->
 <section id="products" class="container my-5">
   <h2 class="text-center mb-4">Discover Fresh Finds</h2>
-  <div class="row justify-content-center">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
     <?php foreach ($products as $product): ?>
-      <div class="col-md-4">
-        <div class="card shadow-sm">
-          <img src="<?= htmlspecialchars($product['product_image_url']) ?>"
+      <div class="col">
+        <div class="card h-100 shadow-sm d-flex flex-column">
+          <?php
+          $image_url = !empty($product['product_image_url'])
+            ? htmlspecialchars($product['product_image_url'])
+            : url_for('/assets/images/product_placeholder.webp');
+          ?>
+          <img src="<?= $image_url ?>"
             class="card-img-top"
-            alt="<?= htmlspecialchars($product['product_name']) ?>">
+            alt="<?= htmlspecialchars($product['product_name']) ?>"
+            onerror="this.onerror=null;this.src='<?= url_for('/assets/images/product_placeholder.png'); ?>';">
+
           <div class="card-body homepage-product-card">
-            <h5 class="card-title"><?= htmlspecialchars($product['product_name']) ?></h5>
-            <p class="card-text"><?= htmlspecialchars(substr($product['product_description'], 0, 100)) ?></p>
-            <p class="text-muted small">Sold by: <strong><?= htmlspecialchars($product['vendor_name']); ?></strong></p>
+            <h5 class="card-title text-capitalize">
+              <?= htmlspecialchars($product['product_name']) ?>
+            </h5>
+            <?php
+            $desc = $product['product_description'];
+            $truncated = strlen($desc) > 100 ? substr($desc, 0, 100) . '…' : $desc;
+            ?>
+            <p class="card-text"><?= htmlspecialchars($truncated) ?></p>
+            <p class="text-muted small">
+              Sold by: <strong><?= htmlspecialchars($product['vendor_name']); ?></strong>
+            </p>
             <a href="products/view.php?id=<?= $product['product_id'] ?>" class="btn btn-primary w-100">View Product</a>
           </div>
         </div>
       </div>
     <?php endforeach; ?>
   </div>
+
   <div class="text-center my-5">
     <a href="products/index.php" class="btn btn-primary">View All Products</a>
   </div>
 </section>
+
 
 <?php if (!$session->is_logged_in()) : ?>
   <!-- Become a Vendor CTA -->

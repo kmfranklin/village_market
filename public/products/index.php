@@ -53,9 +53,11 @@ $category_result = $filter_results['category_result'];
               <h5 class="card-title text-capitalize">
                 <?= htmlspecialchars($product['product_name']) ?>
               </h5>
-              <p class="card-text">
-                <?= htmlspecialchars(substr($product['product_description'], 0, 100)) ?>
-              </p>
+              <?php
+              $desc = $product['product_description'];
+              $truncated = strlen($desc) > 100 ? substr($desc, 0, 100) . '…' : $desc;
+              ?>
+              <p class="card-text"><?= htmlspecialchars($truncated) ?></p>
               <p class="text-muted small">
                 Category: <strong><?= htmlspecialchars($product['category_name']); ?></strong><br>
                 Sold by: <strong><?= htmlspecialchars($product['business_name']); ?></strong>
