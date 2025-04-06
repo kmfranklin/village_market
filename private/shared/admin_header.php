@@ -56,7 +56,7 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
             <?php if ($session->is_super_admin()): ?>
               <li class="nav-item">
                 <a class="nav-link <?= (strpos($current_page, '/admin/users.php') !== false) ? 'active' : '' ?>"
-                  href="<?= url_for('/admin/users.php'); ?>">Manage Admins</a>
+                  href="<?= url_for('/admin/users/manage.php'); ?>">Manage Admins</a>
               </li>
             <?php endif; ?>
 
