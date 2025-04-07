@@ -15,7 +15,7 @@
       </div>
 
       <div class="modal-footer d-grid gap-2 d-sm-flex justify-content-center">
-        <form id="delete-form" method="POST" class="w-100">
+        <form id="delete-form" method="POST" action="delete.php" class="w-100">
           <input type="hidden" name="entity_id" id="delete-entity-id">
           <input type="hidden" name="user_id" id="delete-user-id">
           <button type="submit" class="btn btn-danger w-100">Yes, Delete</button>

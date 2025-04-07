@@ -84,7 +84,7 @@ include(SHARED_PATH . '/public_header.php');
             </div>
           <?php } ?>
 
-          <form action="register.php" method="post">
+          <form action="register.php" method="post" class="needs-validation" novalidate>
             <!-- User Form Fields -->
             <?php include('../admin/users/form_fields.php'); ?>
 

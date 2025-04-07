@@ -1,11 +1,13 @@
 import flatpickr from 'flatpickr';
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Flatpickr Attendance Calendar + Checkbox Sync
   const calendarEl = document.getElementById('market-calendar');
   const checkboxes = document.querySelectorAll('input[type="checkbox"][name="market_dates[]"]');
 
   /**
    * Format a JS Date object to YYYY-MM-DD (local time)
+   *
    * @param {Date} date
    * @returns {string}
    */
@@ -16,63 +18,94 @@ document.addEventListener('DOMContentLoaded', function () {
     return `${year}-${month}-${day}`;
   }
 
-  // Load selected checkbox values for initial Flatpickr defaultDate
-  const selectedDates = Array.from(checkboxes)
-    .filter(cb => cb.checked)
-    .map(cb => cb.dataset.date);
+  if (calendarEl && checkboxes.length > 0) {
+    const selectedDates = Array.from(checkboxes)
+      .filter(cb => cb.checked)
+      .map(cb => cb.dataset.date);
 
-  let suppressCheckboxSync = false;
+    let suppressCheckboxSync = false;
 
-  const fp = flatpickr(calendarEl, {
-    mode: 'multiple',
-    dateFormat: 'Y-m-d',
-    inline: true,
-    enable: [date => date.getDay() === 6], // Saturdays only
-    defaultDate: selectedDates,
+    const fp = flatpickr(calendarEl, {
+      mode: 'multiple',
+      dateFormat: 'Y-m-d',
+      inline: true,
+      enable: [date => date.getDay() === 6], // Saturdays only
+      defaultDate: selectedDates,
+
+      /**
+       * Sync calendar selection → checkboxes
+       */
+      onChange: function (selectedDates) {
+        if (suppressCheckboxSync) return;
+
+        const selectedStrings = selectedDates.map(formatDate);
+
+        checkboxes.forEach(checkbox => {
+          const checkboxDate = checkbox.dataset.date;
+          checkbox.checked = selectedStrings.includes(checkboxDate);
+        });
+      },
+    });
 
     /**
-     * Sync calendar selection → checkboxes
+     * Sync checkbox changes → calendar selections
      */
-    onChange: function (selectedDates) {
-      if (suppressCheckboxSync) return;
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function () {
+        const checkboxDate = this.dataset.date;
+        const date = new Date(checkboxDate);
 
-      const selectedStrings = selectedDates.map(formatDate);
+        const targetMonth = date.getMonth();
+        const targetYear = date.getFullYear();
 
-      checkboxes.forEach(checkbox => {
-        const checkboxDate = checkbox.dataset.date;
-        checkbox.checked = selectedStrings.includes(checkboxDate);
+        const calendarMonth = fp.currentMonth;
+        const calendarYear = fp.currentYear;
+
+        const currentDates = fp.selectedDates.map(formatDate);
+        let updatedDates = [...currentDates];
+
+        if (this.checked && !currentDates.includes(checkboxDate)) {
+          updatedDates.push(checkboxDate);
+        } else if (!this.checked && currentDates.includes(checkboxDate)) {
+          updatedDates = updatedDates.filter(date => date !== checkboxDate);
+        }
+
+        const shouldJump = this.checked && (targetMonth !== calendarMonth || targetYear !== calendarYear);
+
+        suppressCheckboxSync = true;
+
+        // Save current view in case we need to restore it
+        const currentViewDate = new Date(calendarYear, calendarMonth, 1);
+
+        fp.setDate(updatedDates, false); // <- this might still jump
+
+        if (shouldJump) {
+          console.log('Jumping to:', date);
+          fp.jumpToDate(date);
+        } else {
+          // Cancel Flatpickr's auto-jump
+          console.log('Restoring view:', currentViewDate);
+          fp.jumpToDate(currentViewDate);
+        }
+
+        suppressCheckboxSync = false;
       });
-    },
-  });
-
-  /**
-   * Sync checkbox changes → calendar selections
-   */
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', function () {
-      const checkboxDate = this.dataset.date;
-      const currentDates = fp.selectedDates.map(formatDate);
-      let updatedDates = [...currentDates];
-
-      if (this.checked && !currentDates.includes(checkboxDate)) {
-        updatedDates.push(checkboxDate);
-      } else if (!this.checked && currentDates.includes(checkboxDate)) {
-        updatedDates = updatedDates.filter(date => date !== checkboxDate);
-      }
-
-      suppressCheckboxSync = true;
-      fp.setDate(updatedDates, false);
-      suppressCheckboxSync = false;
     });
-  });
+  }
 
-  // ======================
   // Password Strength Meter
-  // ======================
   const passwordInput = document.querySelector('#password');
   const meter = document.querySelector('#password-strength-meter');
   const bar = document.querySelector('#password-strength-bar');
   const checklist = document.querySelector('#password-checklist');
+
+  function toggleChecklist(id, passed) {
+    const item = document.getElementById(id);
+    if (item) {
+      item.classList.toggle('text-success', passed);
+      item.classList.toggle('text-danger', !passed);
+    }
+  }
 
   if (passwordInput && meter && bar && checklist) {
     passwordInput.addEventListener('input', function () {
@@ -108,18 +141,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ========================
   // Confirm Password Checker
-  // ========================
   const confirmInput = document.querySelector('#confirm_password');
   const confirmFeedback = document.querySelector('#confirm-password-feedback');
 
-  if (confirmInput && confirmFeedback && passwordInput) {
-    confirmInput.addEventListener('input', validateMatch);
-    passwordInput.addEventListener('input', validateMatch);
-  }
-
   function validateMatch() {
+    if (!passwordInput || !confirmInput || !confirmFeedback) return;
+
     const password = passwordInput.value;
     const confirm = confirmInput.value;
 
@@ -140,11 +168,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function toggleChecklist(id, passed) {
-    const item = document.getElementById(id);
-    if (item) {
-      item.classList.toggle('text-success', passed);
-      item.classList.toggle('text-danger', !passed);
-    }
+  if (confirmInput && confirmFeedback && passwordInput) {
+    confirmInput.addEventListener('input', validateMatch);
+    passwordInput.addEventListener('input', validateMatch);
   }
 });

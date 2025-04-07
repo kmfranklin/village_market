@@ -89,35 +89,35 @@ $suspended_admins = User::find_by_status('suspended', User::ADMIN);
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($suspended_admins as $admin) : ?>
+            <?php foreach ($suspended_admins as $user): ?>
+              <?php if (!$user) continue; ?>
               <tr>
-                <td><?= h($admin->full_name()); ?></td>
-                <td><?= h($admin->email_address); ?></td>
-                <td><?= h($admin->phone_number); ?></td>
+                <td><?php echo h($user->full_name()); ?></td>
+                <td><?php echo h($user->email_address); ?></td>
+                <td><?php echo h($user->phone_number); ?></td>
                 <td>
-                  <!-- Restore Button -->
-                  <button class="btn btn-primary btn-sm restore-btn"
+                  <button class="btn btn-success btn-sm restore-btn"
                     data-bs-toggle="modal"
                     data-bs-target="#restore-modal"
-                    data-user-id="<?= h($admin->user_id); ?>"
-                    data-entity-name="<?= h($admin->full_name()); ?>"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($user->full_name()); ?>"
                     data-restore-url="<?= url_for('/admin/users/restore.php'); ?>">
                     Restore
                   </button>
-
-                  <!-- Delete Button -->
                   <button class="btn btn-danger btn-sm delete-btn"
                     data-bs-toggle="modal"
                     data-bs-target="#delete-modal"
                     data-entity="admin"
-                    data-user-id="<?= h($admin->user_id); ?>"
-                    data-entity-name="<?= h($admin->full_name()); ?>"
+                    data-entity-id="<?= h($user->user_id); ?>"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($user->full_name()); ?>"
                     data-delete-url="<?= url_for('/admin/users/delete.php'); ?>">
                     Delete
                   </button>
                 </td>
               </tr>
             <?php endforeach; ?>
+
           </tbody>
         </table>
       </div>

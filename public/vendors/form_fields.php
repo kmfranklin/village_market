@@ -1,11 +1,12 @@
 <?php
 if (!isset($vendor)) {
-  $vendor = new Vendor(); // Ensure $vendor is always set
+  $vendor = new Vendor();
 }
 ?>
 
 <fieldset class="mb-4">
   <legend class="h4 mb-3">Business Information</legend>
+
   <div class="row">
     <div class="col-md-6 mb-3">
       <label for="business_name" class="form-label">
@@ -13,7 +14,8 @@ if (!isset($vendor)) {
       </label>
       <input type="text" name="vendor[business_name]" id="business_name"
         class="form-control <?php if (!empty($errors['business_name'])) echo 'is-invalid'; ?>"
-        value="<?php echo h($vendor->business_name); ?>" required aria-required="true">
+        value="<?php echo h($vendor->business_name); ?>"
+        placeholder="e.g., Sunrise Acres" required aria-required="true">
       <?php if (!empty($errors['business_name'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['business_name']); ?></div>
       <?php endif; ?>
@@ -25,7 +27,8 @@ if (!isset($vendor)) {
       </label>
       <input type="email" name="vendor[business_email_address]" id="business_email"
         class="form-control <?php if (!empty($errors['business_email_address'])) echo 'is-invalid'; ?>"
-        value="<?php echo h($vendor->business_email_address); ?>" required aria-required="true">
+        value="<?php echo h($vendor->business_email_address); ?>"
+        placeholder="e.g., hello@sunriseacres.com" required aria-required="true">
       <?php if (!empty($errors['business_email_address'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['business_email_address']); ?></div>
       <?php endif; ?>
@@ -37,7 +40,8 @@ if (!isset($vendor)) {
       </label>
       <input type="text" name="vendor[business_phone_number]" id="business_phone"
         class="form-control <?php if (!empty($errors['business_phone_number'])) echo 'is-invalid'; ?>"
-        value="<?php echo h($vendor->business_phone_number); ?>" required aria-required="true">
+        value="<?php echo h($vendor->business_phone_number); ?>"
+        placeholder="e.g., (555) 123-4567" required aria-required="true">
       <?php if (!empty($errors['business_phone_number'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['business_phone_number']); ?></div>
       <?php endif; ?>
@@ -49,7 +53,8 @@ if (!isset($vendor)) {
       </label>
       <input type="text" name="vendor[street_address]" id="street_address"
         class="form-control <?php if (!empty($errors['street_address'])) echo 'is-invalid'; ?>"
-        value="<?php echo h($vendor->street_address); ?>" required aria-required="true">
+        value="<?php echo h($vendor->street_address); ?>"
+        placeholder="e.g., 123 Country Lane" required aria-required="true">
       <?php if (!empty($errors['street_address'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['street_address']); ?></div>
       <?php endif; ?>
@@ -61,7 +66,8 @@ if (!isset($vendor)) {
       </label>
       <input type="text" name="vendor[city]" id="city"
         class="form-control <?php if (!empty($errors['city'])) echo 'is-invalid'; ?>"
-        value="<?php echo h($vendor->city); ?>" required aria-required="true">
+        value="<?php echo h($vendor->city); ?>"
+        placeholder="e.g., Asheville" required aria-required="true">
       <?php if (!empty($errors['city'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['city']); ?></div>
       <?php endif; ?>
@@ -74,12 +80,12 @@ if (!isset($vendor)) {
       <select name="vendor[state_id]" id="state"
         class="form-select <?php if (!empty($errors['state_id'])) echo 'is-invalid'; ?>" required aria-required="true">
         <option value="">Select State</option>
-        <?php foreach (get_states() as $state) { ?>
+        <?php foreach (get_states() as $state): ?>
           <option value="<?php echo h($state['state_id']); ?>"
             <?php if ($vendor->state_id == $state['state_id']) echo 'selected'; ?>>
             <?php echo h($state['state_name']); ?>
           </option>
-        <?php } ?>
+        <?php endforeach; ?>
       </select>
       <?php if (!empty($errors['state_id'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['state_id']); ?></div>
@@ -92,52 +98,50 @@ if (!isset($vendor)) {
       </label>
       <input type="text" name="vendor[zip_code]" id="zip_code"
         class="form-control <?php if (!empty($errors['zip_code'])) echo 'is-invalid'; ?>"
-        value="<?php echo h($vendor->zip_code); ?>" required aria-required="true">
+        value="<?php echo h($vendor->zip_code); ?>"
+        placeholder="e.g., 28801" required aria-required="true">
       <?php if (!empty($errors['zip_code'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['zip_code']); ?></div>
       <?php endif; ?>
     </div>
+  </div>
 
-    <!-- Business Description and Privacy Settings -->
-    <div class="row align-items-start">
-      <div class="col-md-8 mb-3">
-        <label for="business_description" class="form-label">
-          Business Description
-        </label>
-        <textarea name="vendor[business_description]" id="business_description"
-          class="form-control <?php if (!empty($errors['business_description'])) echo 'is-invalid'; ?>"
-          rows="6" placeholder="Describe your business, products, and mission..."><?php echo h($vendor->business_description); ?></textarea>
-        <?php if (!empty($errors['business_description'])): ?>
-          <div class="invalid-feedback"><?php echo h($errors['business_description']); ?></div>
-        <?php endif; ?>
-      </div>
+  <!-- Business Description and Privacy Settings -->
+  <div class="row align-items-start">
+    <div class="col-md-8 mb-3">
+      <label for="business_description" class="form-label">Business Description</label>
+      <textarea name="vendor[business_description]" id="business_description"
+        class="form-control <?php if (!empty($errors['business_description'])) echo 'is-invalid'; ?>"
+        rows="6" placeholder="Describe your business, products, and mission..."><?php echo h($vendor->business_description); ?></textarea>
+      <?php if (!empty($errors['business_description'])): ?>
+        <div class="invalid-feedback"><?php echo h($errors['business_description']); ?></div>
+      <?php endif; ?>
+    </div>
 
-      <div class="col-md-4 mb-3">
-        <div class="card shadow-sm p-3 h-100">
-          <h5 class="card-title">Privacy Settings</h5>
-          <p class="text-muted small mb-3">Choose which contact info is visible to the public.</p>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm p-3 h-100">
+        <h5 class="card-title">Privacy Settings</h5>
+        <p class="text-muted small mb-3">Choose which contact info is visible to the public.</p>
 
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="vendor[show_email]" id="show_email"
-              value="1" <?php echo ($vendor->show_email == 1) ? 'checked' : ''; ?>>
-            <label class="form-check-label" for="show_email">Show email address</label>
-          </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" name="vendor[show_email]" id="show_email"
+            value="1" <?php echo ($vendor->show_email == 1) ? 'checked' : ''; ?>>
+          <label class="form-check-label" for="show_email">Show email address</label>
+        </div>
 
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="vendor[show_phone]" id="show_phone"
-              value="1" <?php echo ($vendor->show_phone == 1) ? 'checked' : ''; ?>>
-            <label class="form-check-label" for="show_phone">Show phone number</label>
-          </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" name="vendor[show_phone]" id="show_phone"
+            value="1" <?php echo ($vendor->show_phone == 1) ? 'checked' : ''; ?>>
+          <label class="form-check-label" for="show_phone">Show phone number</label>
+        </div>
 
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" name="vendor[show_address]" id="show_address"
-              value="1" <?php echo ($vendor->show_address == 1) ? 'checked' : ''; ?>>
-            <label class="form-check-label" for="show_address">Show physical address</label>
-          </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" name="vendor[show_address]" id="show_address"
+            value="1" <?php echo ($vendor->show_address == 1) ? 'checked' : ''; ?>>
+          <label class="form-check-label" for="show_address">Show physical address</label>
         </div>
       </div>
     </div>
-
     <!-- Business Logo Upload -->
     <div class="col-md-6">
       <h4 class="my-3">Business Logo</h4>
@@ -181,4 +185,5 @@ if (!isset($vendor)) {
         <input type="file" name="business_image" class="form-control">
       </div>
     </div>
+  </div>
 </fieldset>

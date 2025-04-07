@@ -141,58 +141,60 @@ class Vendor extends DatabaseObject
     return !empty($obj_array) ? array_shift($obj_array) : false;
   }
 
+  /**
+   * Deletes this vendor and all associated records:
+   * - product_price_unit entries (via product_id)
+   * - products
+   * - market attendance
+   * - vendor record
+   * - user record
+   *
+   * @return bool True on success, false if any step fails
+   */
   public function delete()
   {
-    // Start a transaction
     self::$database->begin_transaction();
 
     try {
-
-      // Delete all product price unit entries for this vendor’s products
-      $price_unit_sql = "DELETE FROM product_price_unit WHERE product_id IN (SELECT product_id FROM product WHERE vendor_id = ?)";
+      $price_unit_sql = "
+        DELETE FROM product_price_unit 
+        WHERE product_id IN (
+          SELECT product_id FROM product WHERE vendor_id = ?
+        )
+      ";
       $price_unit_stmt = self::$database->prepare($price_unit_sql);
-      if (!$price_unit_stmt) {
-        throw new Exception("Product price unit deletion failed: " . self::$database->error);
-      }
       $price_unit_stmt->bind_param("i", $this->vendor_id);
       $price_unit_stmt->execute();
       $price_unit_stmt->close();
 
-      // Delete all products owned by this vendor
       $product_sql = "DELETE FROM product WHERE vendor_id = ?";
       $product_stmt = self::$database->prepare($product_sql);
-      if (!$product_stmt) {
-        throw new Exception("Product deletion failed: " . self::$database->error);
-      }
       $product_stmt->bind_param("i", $this->vendor_id);
       $product_stmt->execute();
       $product_stmt->close();
 
-      // Delete the vendor record
+      $attendance_sql = "DELETE FROM market_attendance WHERE vendor_id = ?";
+      $attendance_stmt = self::$database->prepare($attendance_sql);
+      $attendance_stmt->bind_param("i", $this->vendor_id);
+      $attendance_stmt->execute();
+      $attendance_stmt->close();
+
       $vendor_sql = "DELETE FROM vendor WHERE vendor_id = ?";
       $vendor_stmt = self::$database->prepare($vendor_sql);
-      if (!$vendor_stmt) {
-        throw new Exception("Vendor deletion failed: " . self::$database->error);
-      }
       $vendor_stmt->bind_param("i", $this->vendor_id);
       $vendor_stmt->execute();
       $vendor_stmt->close();
 
-      // Finally, delete the associated user account
       $user_sql = "DELETE FROM user WHERE user_id = ?";
       $user_stmt = self::$database->prepare($user_sql);
-      if (!$user_stmt) {
-        throw new Exception("User deletion failed: " . self::$database->error);
-      }
       $user_stmt->bind_param("i", $this->user_id);
       $user_stmt->execute();
       $user_stmt->close();
 
-      // Commit transaction if everything is successful
       self::$database->commit();
       return true;
     } catch (Exception $e) {
-      self::$database->rollback(); // Rollback changes if any part fails
+      self::$database->rollback();
       return false;
     }
   }

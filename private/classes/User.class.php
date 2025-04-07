@@ -100,14 +100,27 @@ class User extends DatabaseObject
   {
     $this->errors = [];
 
+    // Trim and sanitize key fields
+    $this->first_name = ucwords(strtolower(trim($this->first_name)));
+    $this->last_name = ucwords(strtolower(trim($this->last_name)));
+    $this->email_address = strtolower(trim($this->email_address));
+    $this->phone_number = trim($this->phone_number);
+
+    // First name
     if (is_blank($this->first_name)) {
       $this->errors['first_name'] = "First name cannot be blank.";
+    } elseif (!preg_match('/^[a-zA-Z\s\-\'\.]+$/', $this->first_name)) {
+      $this->errors['first_name'] = "First name contains invalid characters.";
     }
 
+    // Last name
     if (is_blank($this->last_name)) {
       $this->errors['last_name'] = "Last name cannot be blank.";
+    } elseif (!preg_match('/^[a-zA-Z\s\-\'\.]+$/', $this->last_name)) {
+      $this->errors['last_name'] = "Last name contains invalid characters.";
     }
 
+    // Email
     if (is_blank($this->email_address)) {
       $this->errors['email_address'] = "Email cannot be blank.";
     } elseif (!has_valid_email_format($this->email_address)) {
@@ -116,6 +129,14 @@ class User extends DatabaseObject
       $this->errors['email_address'] = "This email address is already registered.";
     }
 
+    // Phone number (US-style format check)
+    if (is_blank($this->phone_number)) {
+      $this->errors['phone_number'] = "Phone number cannot be blank.";
+    } elseif (!preg_match('/^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/', $this->phone_number)) {
+      $this->errors['phone_number'] = "Phone number must be a valid format (XXXXXXXXXX or XXX-XXX-XXXX).";
+    }
+
+    // Passwords (only on new user or if password is being changed)
     if ($this->password_required && empty($this->user_id)) {
       if (is_blank($this->password)) {
         $this->errors['password'] = "Password cannot be blank.";
@@ -141,6 +162,7 @@ class User extends DatabaseObject
     return $this->errors;
   }
 
+
   public function merge_attributes($args = [])
   {
     foreach ($args as $key => $value) {
@@ -152,6 +174,10 @@ class User extends DatabaseObject
 
   public static function find_by_id($user_id)
   {
+    if (is_null($user_id)) {
+      return false;
+    }
+
     $sql = "SELECT * FROM " . static::$table_name . " ";
     $sql .= "WHERE user_id = '" . self::$database->escape_string($user_id) . "' ";
     $sql .= "LIMIT 1";

@@ -1,7 +1,7 @@
 <?php
 require_once('../../private/initialize.php');
 
-if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_vendor())) {
+if (!$session->is_logged_in() || (!$session->is_vendor() && !$session->is_admin() && !$session->is_super_admin())) {
   redirect_to(url_for('/login.php'));
 }
 
