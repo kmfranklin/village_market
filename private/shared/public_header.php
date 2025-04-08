@@ -47,7 +47,7 @@ $current_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             </li>
 
             <li class="nav-item">
-              <a class="nav-link <?= ($current_path === '/village_market/public/vendors.php') ? 'active' : '' ?>"
+              <a class="nav-link <?= ($current_path === '/village_market/public/vendors/index.php') ? 'active' : '' ?>"
                 href="<?= url_for('/vendors.php'); ?>">Browse Vendors</a>
             </li>
 

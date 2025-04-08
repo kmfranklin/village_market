@@ -118,7 +118,7 @@ while ($row = $result->fetch_assoc()) {
     <!-- Right Column: Market Event Box -->
     <div class="col-md-4">
       <div class="market-event p-4 shadow rounded">
-        <h2 class="mb-3">Next Market Event</h2>
+        <h2 class="mb-3">Next Market Day</h2>
 
         <?php if (!empty($next_market_date)) : ?>
           <p class="market-date-text">
