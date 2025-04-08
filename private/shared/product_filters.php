@@ -88,7 +88,6 @@ function get_filtered_products_query($database, $options = [])
   return $sql;
 }
 
-
 /**
  * Retrieve filter dropdown options for product list filtering.
  *

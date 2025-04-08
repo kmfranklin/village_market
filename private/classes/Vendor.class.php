@@ -41,9 +41,9 @@ class Vendor extends DatabaseObject
   public function __construct($args = [])
   {
     $this->user_id = isset($args['user_id']) ? (int) $args['user_id'] : null;
-    $this->business_name = $this->format_text($args['business_name'] ?? '');
+    $this->business_name = $args['business_name'] ?? '';
     $this->business_description = trim($args['business_description'] ?? '');
-    $this->street_address = $this->format_text($args['street_address'] ?? '');
+    $this->street_address = $args['street_address'] ?? '';
     $this->city = $this->format_text($args['city'] ?? '');
     $this->state_id = isset($args['state_id']) ? (int) $args['state_id'] : null;
     $this->zip_code = trim($args['zip_code'] ?? '');
@@ -216,8 +216,8 @@ class Vendor extends DatabaseObject
    */
   private function apply_formatting()
   {
-    $this->business_name = $this->format_text($this->business_name);
-    $this->street_address = $this->format_text($this->street_address);
+    $this->business_name = $this->format_text(stripslashes($this->business_name));
+    $this->street_address = $this->format_text(stripslashes($this->street_address));
     $this->city = $this->format_text($this->city);
     $this->business_phone_number = $this->normalize_phone_number($this->business_phone_number);
   }
