@@ -136,11 +136,32 @@ class User extends DatabaseObject
       $this->errors['phone_number'] = "Phone number must be a valid format (XXXXXXXXXX or XXX-XXX-XXXX).";
     }
 
-    // Passwords (only on new user or if password is being changed)
-    if ($this->password_required && empty($this->user_id)) {
+    // Passwords are required for new users
+    if (empty($this->user_id)) {
       if (is_blank($this->password)) {
         $this->errors['password'] = "Password cannot be blank.";
       } elseif (!has_length($this->password, ['min' => 12])) {
+        $this->errors['password'] = "Password must contain at least 12 characters.";
+      } elseif (!preg_match('/[A-Z]/', $this->password)) {
+        $this->errors['password'] = "Password must contain at least 1 uppercase letter.";
+      } elseif (!preg_match('/[a-z]/', $this->password)) {
+        $this->errors['password'] = "Password must contain at least 1 lowercase letter.";
+      } elseif (!preg_match('/[0-9]/', $this->password)) {
+        $this->errors['password'] = "Password must contain at least 1 number.";
+      } elseif (!preg_match('/[^A-Za-z0-9\s]/', $this->password)) {
+        $this->errors['password'] = "Password must contain at least 1 special character.";
+      }
+
+      if (is_blank($this->confirm_password)) {
+        $this->errors['confirm_password'] = "Confirm password cannot be blank.";
+      } elseif ($this->password !== $this->confirm_password) {
+        $this->errors['confirm_password'] = "Password and confirm password must match.";
+      }
+    }
+
+    // If password is set during edit, validate it
+    if (!empty($this->user_id) && !empty($this->password)) {
+      if (!has_length($this->password, ['min' => 12])) {
         $this->errors['password'] = "Password must contain at least 12 characters.";
       } elseif (!preg_match('/[A-Z]/', $this->password)) {
         $this->errors['password'] = "Password must contain at least 1 uppercase letter.";

@@ -50,12 +50,17 @@ $hero_image_small = get_cloudinary_image($hero_image_url, 400, 200);
 $next_market_date = get_next_market_date();
 
 // Fetch 3 random products
-$sql = "SELECT p.product_id, p.product_name, p.product_description, p.product_image_url, v.business_name AS vendor_name
-FROM product p
-JOIN vendor v ON p.vendor_id = v.vendor_id
-WHERE p.is_active = 1
-ORDER BY RAND()
-LIMIT 3";
+$sql = "
+  SELECT p.product_id, p.product_name, p.product_description, p.product_image_url,
+         v.business_name AS vendor_name
+  FROM product p
+  JOIN vendor v ON p.vendor_id = v.vendor_id
+  JOIN user u ON v.user_id = u.user_id
+  WHERE p.is_active = 1
+    AND u.account_status = 'active'
+  ORDER BY RAND()
+  LIMIT 3
+";
 
 $result = $database->query($sql);
 $products = [];

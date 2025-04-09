@@ -35,7 +35,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
   <!-- Page Heading -->
   <header class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="text-primary">Manage Vendors</h1>
-    <a href="new.php" class="btn btn-primary" aria-label="Add New Vendor">+ Add Vendor</a>
+    <a href="<?php echo url_for('/vendors/register.php'); ?>" class="btn btn-primary" aria-label="Add Vendor">+ Add Vendor</a>
   </header>
 
   <!-- Session Message -->

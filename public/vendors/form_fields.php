@@ -1,9 +1,3 @@
-<?php
-if (!isset($vendor)) {
-  $vendor = new Vendor();
-}
-?>
-
 <fieldset class="mb-4">
   <legend class="h4 mb-3">Business Information</legend>
 

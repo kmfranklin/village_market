@@ -49,7 +49,8 @@ if (!isset($user)) {
       <input type="password" name="user[password]" id="password"
         class="form-control <?php if (!empty($errors['password'])) echo 'is-invalid'; ?>"
         placeholder="Create a secure password"
-        required aria-required="true" autocomplete="new-password">
+        <?php echo empty($user->user_id) ? 'required aria-required="true"' : ''; ?>
+        autocomplete="new-password">
 
       <!-- Password Strength Meter -->
       <div id="password-strength-meter" class="progress mt-2 d-none" style="height: 6px;">
@@ -72,7 +73,8 @@ if (!isset($user)) {
       <input type="password" name="user[confirm_password]" id="confirm_password"
         class="form-control <?php if (!empty($errors['confirm_password'])) echo 'is-invalid'; ?>"
         placeholder="Re-type your password"
-        required aria-required="true" autocomplete="new-password">
+        <?php echo empty($user->user_id) ? 'required aria-required="true"' : ''; ?>
+        autocomplete="new-password">
       <div id="confirm-password-feedback" class="form-text d-none mt-1"></div>
     </div>
   </div>
