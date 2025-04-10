@@ -89,7 +89,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                 <td><?= h($user->email_address); ?></td>
                 <td>
                   <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
-                  <a href="edit.php?id=<?= h($user->user_id); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
+                  <a href="<?= url_for('/vendors/profile.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
                   <!-- Suspend Button -->
                   <button class="btn btn-danger btn-sm suspend-btn"
                     data-bs-toggle="modal"
