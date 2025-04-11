@@ -96,7 +96,6 @@ $unit_groups = [
         </div>
       </div>
 
-
       <!-- Right Column: Image Upload & Product Status -->
       <div class="col-md-4">
         <h5>Add an Image</h5>
@@ -111,7 +110,7 @@ $unit_groups = [
             <p class="text-muted">No image uploaded.</p>
           <?php } ?>
           <label class="form-label mt-3">Upload New Image</label>
-          <input type="file" name="product_image" class="form-control">
+          <input type="file" name="product_image" class="form-control" id="product_image">
         </div>
 
         <div class="form-check mt-3">
@@ -124,7 +123,6 @@ $unit_groups = [
   </fieldset>
 </div>
 
-<!-- Ensure this is outside the .container but inside <body> -->
 <div class="modal fade" id="addUnitModal" tabindex="-1" aria-labelledby="addUnitModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

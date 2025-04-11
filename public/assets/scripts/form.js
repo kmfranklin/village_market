@@ -173,3 +173,70 @@ document.addEventListener('DOMContentLoaded', function () {
     passwordInput.addEventListener('input', validateMatch);
   }
 });
+
+/**
+ * Compress an image file using Canvas.
+ *
+ * @param {File} file - Original image file
+ * @param {number} quality - Compression quality
+ * @param {number} maxWidth - Maximum width in pixels
+ * @returns {Promise<File>} - Compressed File
+ */
+async function compressImage(file, quality = 0.6, maxWidth = 1600) {
+  const img = new Image();
+  const objectURL = URL.createObjectURL(file);
+  img.src = objectURL;
+
+  await new Promise(resolve => {
+    img.onload = resolve;
+  });
+
+  const scale = Math.min(1, maxWidth / img.width);
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width * scale;
+  canvas.height = img.height * scale;
+
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+  return new Promise(resolve => {
+    canvas.toBlob(
+      blob => {
+        const compressedFile = new File([blob], file.name, { type: 'image/jpeg' });
+        URL.revokeObjectURL(objectURL); // Cleanup
+        resolve(compressedFile);
+      },
+      'image/jpeg',
+      quality
+    );
+  });
+}
+
+/**
+ * Replace the selected file with a compressed version.
+ *
+ * @param {HTMLInputElement} input - File input element
+ */
+function handleImageCompression(input) {
+  input.addEventListener('change', async () => {
+    const file = input.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+
+    const compressed = await compressImage(file, 0.7, 1600);
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(compressed);
+    input.files = dataTransfer.files;
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const logoInput = document.getElementById('logo');
+  const businessImageInput = document.getElementById('business_image');
+  const homepageHeroInput = document.getElementById('hero_image_upload');
+  const productImageInput = document.getElementById('product_image');
+
+  if (logoInput) handleImageCompression(logoInput);
+  if (businessImageInput) handleImageCompression(businessImageInput);
+  if (homepageHeroInput) handleImageCompression(homepageHeroInput);
+  if (productImageInput) handleImageCompression(productImageInput);
+});

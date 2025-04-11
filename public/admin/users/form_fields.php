@@ -39,7 +39,6 @@ if (!isset($user)) {
         class="form-control <?php if (!empty($errors['phone_number'])) echo 'is-invalid'; ?>"
         value="<?php echo h($user->phone_number); ?>"
         placeholder="e.g. 123-456-7890"
-        pattern="^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$"
         required aria-required="true">
     </div>
 

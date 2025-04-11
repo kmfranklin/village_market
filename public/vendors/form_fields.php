@@ -32,10 +32,15 @@
       <label for="business_phone" class="form-label">
         Business Phone Number <span class="text-danger">*</span>
       </label>
-      <input type="text" name="vendor[business_phone_number]" id="business_phone"
+      <input
+        type="tel"
+        name="vendor[business_phone_number]"
+        id="business_phone"
         class="form-control <?php if (!empty($errors['business_phone_number'])) echo 'is-invalid'; ?>"
         value="<?php echo h($vendor->business_phone_number); ?>"
-        placeholder="e.g., (555) 123-4567" required aria-required="true">
+        placeholder="e.g. 123-456-7890"
+        required
+        aria-required="true">
       <?php if (!empty($errors['business_phone_number'])): ?>
         <div class="invalid-feedback"><?php echo h($errors['business_phone_number']); ?></div>
       <?php endif; ?>
@@ -154,7 +159,7 @@
           <p class="text-muted">No logo uploaded.</p>
         <?php endif; ?>
         <label class="form-label mt-3">Upload New Logo</label>
-        <input type="file" name="logo" class="form-control">
+        <input type="file" name="logo" class="form-control" id="logo">
       </div>
     </div>
 
@@ -176,7 +181,7 @@
           <p class="text-muted">No image uploaded.</p>
         <?php endif; ?>
         <label class="form-label mt-3">Upload New Image</label>
-        <input type="file" name="business_image" class="form-control">
+        <input type="file" name="business_image" class="form-control" id="business_image">
       </div>
     </div>
   </div>
