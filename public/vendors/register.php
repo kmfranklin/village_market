@@ -41,6 +41,20 @@ if (is_post_request()) {
 
   $errors = array_merge($user_errors, $vendor_errors);
 
+  // Check reCAPTCHA
+  $recaptcha_response = $_POST['g-recaptcha-response'] ?? '';
+
+  if (empty($recaptcha_response)) {
+    $errors[] = "Please complete the CAPTCHA.";
+  } else {
+    $verify_url = "https://www.google.com/recaptcha/api/siteverify?secret=" . RECAPTCHA_SECRET_KEY . "&response=" . $recaptcha_response;
+    $response_data = json_decode(file_get_contents($verify_url), true);
+
+    if (!$response_data['success']) {
+      $errors[] = "CAPTCHA verification failed. Please try again.";
+    }
+  }
+
   if (empty($errors)) {
     DatabaseObject::$database->begin_transaction();
     try {
@@ -100,6 +114,9 @@ include($is_admin ? SHARED_PATH . '/admin_header.php' : SHARED_PATH . '/public_h
           <form action="<?= h($_SERVER['PHP_SELF']); ?>" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
             <?php include('../admin/users/form_fields.php'); ?>
             <?php include('./form_fields.php'); ?>
+            <div class="mb-3 d-flex justify-content-end">
+              <div class="g-recaptcha" data-sitekey="<?php echo h(RECAPTCHA_SITE_KEY); ?>"></div>
+            </div>
 
             <div class="d-flex justify-content-between mt-3">
               <a href="<?= url_for($is_admin ? '/admin/vendors/manage.php' : '/index.php'); ?>" class="btn btn-outline-secondary">

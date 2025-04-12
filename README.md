@@ -143,6 +143,7 @@ All dependencies are managed via **Composer** and **NPM**.
 - **[Dotenv (vlucas/phpdotenv)](https://github.com/vlucas/phpdotenv)** - manages `.env` credentials
 - **[Cloudinary](https://cloudinary.com/)** - handles image hosting and optimization
 - **[Flatpickr](https://flatpickr.js.org)** - vendor calendar date picker
+- **[Google reCAPTCHA v2](https://www.google.com/recaptcha/about/)** - prevents bot submissions on public forms
 
 ---
 
@@ -192,7 +193,16 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-7. Open http://localhost/village_market in a browser to start the application
+7. Configure Google reCAPTCHA v2
+
+- Add your reCAPTCHA site and secret keys to your .env file:
+
+```
+RECAPTCHA_SITE_KEY=your_site_key
+RECAPTCHA_SECRET_KEY=your_secret_key
+```
+
+8. Open http://localhost/village_market in a browser to start the application
 
 ---
 

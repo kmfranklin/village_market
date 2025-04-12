@@ -1,6 +1,6 @@
 <?php
 
-require_once PRIVATE_PATH . '/cloudinary_config.php';
+require_once PRIVATE_PATH . '/config.php';
 
 use Cloudinary\Api\Upload\UploadApi;
 
