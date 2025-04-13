@@ -69,7 +69,9 @@ $category_result = $filter_results['category_result'];
       <?php endforeach; ?>
     </div>
 
-    <p id="no-results" class="text-center text-muted mt-5" style="display: none;">
+    <div id="product-pagination" class="pagination justify-content-center mt-4"></div>
+
+    <p id="no-results" class="text-center text-muted mt-5">
       No matching products found. Try adjusting your filters.
     </p>
   </section>

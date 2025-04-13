@@ -127,7 +127,7 @@ $market_date_result = $database->query("
 
     <nav id="vendor-pagination" class="pagination justify-content-center mt-4"></nav>
 
-    <p id="no-results" class="text-center text-muted mt-5" style="display: none;">
+    <p id="no-results" class="text-center text-muted mt-5">
       No matching vendors found. Try adjusting your filters.
     </p>
   </section>
