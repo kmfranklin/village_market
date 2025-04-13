@@ -1,5 +1,13 @@
 <?php
 require_once '../private/initialize.php';
+
+$url = $_GET['url'] ?? '';
+if (!empty($url) && $url !== '') {
+  http_response_code(404);
+  include('404.php');
+  exit;
+}
+
 $page_title = "Home";
 include_header($session, $page_title);
 

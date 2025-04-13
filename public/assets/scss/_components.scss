@@ -322,3 +322,24 @@
   object-fit: contain;
   padding: 0.5rem;
 }
+
+// Custom 404 page
+
+.page-404 {
+  padding: 4rem 1rem;
+  text-align: center;
+
+  h1 {
+    color: #dc3545 !important;
+    font-size: 6rem !important;
+  }
+
+  p {
+    color: #333 !important;
+    font-size: 1.25rem !important;
+  }
+
+  a.btn {
+    margin-top: 1rem;
+  }
+}
