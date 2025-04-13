@@ -8,6 +8,11 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
+  const vendorContainer = document.getElementById('vendor-card-container');
+  const vendorCardsExist = document.querySelectorAll('#vendors .vendor-card').length > 0;
+
+  if (!vendorContainer || !vendorCardsExist) return;
+
   const vendorsPerPage = 9;
   let currentPage = 1;
   let filteredVendors = [];
