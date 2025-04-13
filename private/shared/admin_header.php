@@ -68,7 +68,7 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="<?= url_for('/vendors.php'); ?>">
+                  <a class="dropdown-item" href="<?= url_for('/vendors/index.php'); ?>">
                     Browse Vendors
                   </a>
                 </li>

@@ -298,3 +298,27 @@
 .flatpickr-disabled {
   color: rgba(72, 72, 72, 0.4) !important;
 }
+
+// Pagination
+.pagination button.active {
+  background-color: var(--bs-primary) !important;
+  border-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+.pagination button {
+  color: var(--bs-primary) !important;
+}
+
+.pagination button:hover {
+  background-color: var(--hover-green) !important;
+  color: white !important;
+}
+
+// Vendor card
+.vendor-logo {
+  background-color: #f8f8f8;
+  height: 200px;
+  object-fit: contain;
+  padding: 0.5rem;
+}

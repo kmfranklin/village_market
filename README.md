@@ -92,6 +92,15 @@ The Village Market Web Application is a full-stack platform designed to support 
 
 ---
 
+### Public Marketplace
+
+- Browse all active vendors in a responsive, card-based layout
+- Keyword search by vendor name
+- Filter by upcoming market date (based on vendor attendance selections)
+- Sort alphabetically (A-Z or Z-A)
+- JavaScript pagination and dynamic search/filter application
+- Fully functional with or without JavaScript enabled (PHP fallback)
+
 ### Image & Asset Management
 
 - Product and vendor images uploaded to Cloudinary
@@ -248,8 +257,3 @@ RECAPTCHA_SECRET_KEY=your_secret_key
 - Override vendor attendance data
 - Filter vendors by attendance date
 - Notifications system (pending vendors, support requests, etc.)
-
-### Public Marketplace
-
-- Filterable vendor directory
-- Browse by date to see which vendors will be at the next market
