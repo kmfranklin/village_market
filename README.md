@@ -20,6 +20,7 @@ The Village Market Web Application is a full-stack platform designed to support 
 - [Installation & Setup](#installation--setup)
 - [Development & Deployment Notes](#development--deployment-notes)
 - [Future Development Plans](#future-development-plans)
+- [Legal / Disclaimers](#legal--disclaimers)
 
 ---
 
@@ -257,3 +258,14 @@ RECAPTCHA_SECRET_KEY=your_secret_key
 - Override vendor attendance data
 - Filter vendors by attendance date
 - Notifications system (pending vendors, support requests, etc.)
+
+---
+
+## Legal / Disclaimers
+
+This application was developed as a student project for the WEB-289 Internet Technologies Project course at A-B Tech.
+
+For more information about data use and policies, please refer to the following pages:
+
+- [Terms of Service](https://villagemarkethub.com/terms.php)
+- [Privacy Policy](https://villagemarkethub.com/privacy.php)
