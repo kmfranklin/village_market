@@ -244,7 +244,7 @@ include_header($session, $page_title);
           </h2>
           <div id="faqCollapse13" class="accordion-collapse collapse" aria-labelledby="faqHeading13" data-bs-parent="#vendorFAQ">
             <div class="accordion-body">
-              Our team is happy to help! Visit our <a href="/contact.php">Contact Us page</a> to reach a market coordinator directly.
+              Our team is happy to help! Visit our <a href="../contact.php">Contact Us page</a> to reach a market coordinator directly.
             </div>
           </div>
         </div>
@@ -253,7 +253,7 @@ include_header($session, $page_title);
     </section>
 
     <section class="mt-5">
-      <p class="fw-bold">Still need help? <a href="/contact.php">Contact us</a> — we'll be glad to assist.</p>
+      <p class="fw-bold">Still need help? <a href="../contact.php">Contact us</a> — we'll be glad to assist.</p>
     </section>
   </div>
 </main>
