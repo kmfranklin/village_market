@@ -33,11 +33,11 @@ $unit_groups = [
           <!-- Product Name -->
           <label for="product_name" class="form-label">Product Name</label>
           <input type="text" id="product_name" name="product[product_name]"
-            class="form-control" value="<?php echo h($_POST['product']['product_name'] ?? $product->product_name ?? ''); ?>" required>
+            class="form-control" value="<?php echo h($_POST['product']['product_name'] ?? $product->product_name ?? ''); ?>" spellcheck="true" required>
 
           <!-- Description -->
           <label for="product_description" class="form-label mt-3">Description</label>
-          <textarea id="product_description" name="product[product_description]" class="form-control" required><?php echo h($_POST['product']['product_description'] ?? $product->product_description ?? ''); ?></textarea>
+          <textarea id="product_description" name="product[product_description]" class="form-control" spellcheck="true" required><?php echo h($_POST['product']['product_description'] ?? $product->product_description ?? ''); ?></textarea>
 
           <!-- Category -->
           <label for="category_id" class="form-label mt-3">Category</label>
