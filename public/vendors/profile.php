@@ -81,6 +81,11 @@ if (is_post_request()) {
   // Redirect to the correct page based on user role after update
   if ($valid) {
     $session->message("Profile updated successfully.");
+    // If the current user updated their own profile, refresh session display values
+    if ($session->user_id == $user->user_id) {
+      $_SESSION['first_name'] = $user->first_name;
+      $_SESSION['last_name'] = $user->last_name;
+    }
     $redirect_url = ($session->is_admin() || $session->is_super_admin())
       ? url_for('/admin/vendors/manage.php')
       : url_for('/vendors/dashboard.php');

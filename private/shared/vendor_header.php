@@ -81,8 +81,7 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
                 <li>
                   <p class="dropdown-header"><?= htmlspecialchars($first_name . ' ' . $last_name); ?></p>
                 </li>
-                <li><a class="dropdown-item" href="<?= url_for('/profile.php'); ?>">Profile</a></li>
-                <li><a class="dropdown-item" href="<?= url_for('/change_password.php'); ?>">Change Password</a></li>
+                <li><a class="dropdown-item" href="<?= url_for('/vendors/profile.php'); ?>">Edit Profile</a></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
