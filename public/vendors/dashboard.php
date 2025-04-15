@@ -26,13 +26,14 @@ if ($session->message()) : ?>
 
 <main role="main" class="container mt-4">
 
-  <header>
-    <h1 class="text-primary"><?= h($vendor->business_name); ?> Dashboard</h1>
-    <p class="lead">Manage your products, profile, and market attendance with ease.</p>
-  </header>
+  <!-- Welcome Panel -->
+  <div class="mb-4 p-4 bg-white rounded shadow-sm">
+    <h2 class="h4 mb-2">Welcome back, <?= h($vendor->business_name); ?>!</h2>
+    <p class="mb-0 text-muted">Use your dashboard to manage your products, update your profile, and set your market schedule.</p>
+  </div>
 
+  <!-- Quick Action Cards -->
   <section class="row mt-4">
-
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body">
@@ -61,7 +62,7 @@ if ($session->message()) : ?>
       <div class="card shadow-sm">
         <div class="card-body">
           <h2 class="card-title">Market Attendance</h2>
-          <p class="card-text">Confirm which markets you’ll be attending.</p>
+          <p class="card-text">Confirm which markets you'll be attending.</p>
           <a href="<?= url_for('/vendors/attendance/manage.php'); ?>" class="btn btn-primary" aria-label="Manage Market Attendance">
             Manage Attendance
           </a>
@@ -69,6 +70,26 @@ if ($session->message()) : ?>
       </div>
     </div>
   </section>
+
+  <!-- FAQ Callout -->
+  <div class="mt-5 p-4 bg-white rounded shadow-sm">
+    <h3 class="h5 mb-2">Need Help?</h3>
+    <p class="mb-3">
+      Check out the <a href="<?= url_for('/vendors/faq.php'); ?>">Vendor FAQ</a> for help with product listings, market requirements, and more.
+    </p>
+    <a href="<?= url_for('/vendors/faq.php'); ?>" class="btn btn-outline-primary btn-sm">View Vendor FAQs</a>
+  </div>
+
+  <!-- Tips Block -->
+  <div class="mt-5 mb-5 p-4 bg-white rounded shadow-sm">
+    <h3 class="h5 mb-3">Tips for Today</h3>
+    <ul class="mb-0">
+      <li>Confirm your availability for next month before the end of the week.</li>
+      <li>Upload high-quality product images to improve visibility.</li>
+      <li>Double-check your contact details — they appear on your public profile.</li>
+    </ul>
+  </div>
+
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

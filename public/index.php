@@ -104,9 +104,9 @@ while ($row = $result->fetch_assoc()) {
     <h1 class="hero-heading">Welcome to the Village Market!</h1>
     <p class="hero-subheading">Celebrate local flavors and support small businesses in our community.</p>
 
-    <div class="hero-buttons">
-      <a href="products.php" class="hero-btn">Shop the Market</a>
-      <a href="vendors.php" class="hero-btn">Explore Vendors</a>
+    <div class="cta-buttons">
+      <a href="products.php" class="cta-btn">Shop the Market</a>
+      <a href="vendors.php" class="cta-btn">Explore Vendors</a>
     </div>
 
     <?php if (!empty($announcement)) : ?>
@@ -192,18 +192,32 @@ while ($row = $result->fetch_assoc()) {
   </div>
 </section>
 
+<!-- Become a Vendor CTA -->
+<section id="become-vendor" class="py-5">
+  <div class="container">
+    <div class="row align-items-center g-4">
 
-<?php if (!$session->is_logged_in()) : ?>
-  <!-- Become a Vendor CTA -->
-  <section id="become-vendor" class="py-5">
-    <div class="container">
-      <div class="cta-card text-center p-4" data-aos="zoom-in-up">
-        <h2 class="mb-3">Interested in Joining the Market?</h2>
-        <p class="mb-4">Share your passion with our community and become part of the Village Market family.</p>
-        <a href="vendors/register.php" class="btn btn-primary" data-aos="zoom-in" data-aos-delay="300">Become a Vendor</a>
+      <!-- Left Column: Text & Buttons -->
+      <div class="col-md-6">
+        <div class="cta-card p-4 text-center">
+          <h2 class="mb-3">Interested in Joining the Market?</h2>
+          <p class="mb-4">
+            Share your passion with our community and become part of the Village Market family.
+          </p>
+          <div class="cta-buttons d-flex flex-wrap gap-3 justify-content-center">
+            <a href="vendors/register.php" class="cta-btn">Become a Vendor</a>
+            <a href="vendors/faq.php" class="cta-btn">Vendor Info & FAQs</a>
+          </div>
+        </div>
       </div>
+
+      <!-- Right Column: Image -->
+      <div class="col-md-6 text-center">
+        <img src="assets/images/home-vendor-cta.jpeg" alt="Vendors at farmers market with fresh produce." class="img-fluid rounded shadow-sm w-100">
+      </div>
+
     </div>
-  </section>
-<?php endif; ?>
+  </div>
+</section>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

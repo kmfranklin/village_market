@@ -21,6 +21,11 @@
   }
 }
 
+.btn-outline-primary:hover {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
 .bg-success {
   background-color: var(--bs-success) !important;
 }
@@ -342,4 +347,53 @@
   a.btn {
     margin-top: 1rem;
   }
+}
+
+// FAQs
+.vendor-faq-image {
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+}
+
+#vendorFAQ h3 {
+  border-top: 2px solid var(--bs-secondary);
+  color: var(--bs-primary);
+  font-weight: bold;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+.accordion-button {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.accordion-button:not(.collapsed) {
+  color: var(--bs-primary);
+  background-color: #e8f5e9;
+  box-shadow: inset 0 -1px 0 #dee2e6;
+}
+
+.accordion-button:hover {
+  background-color: #f1f1f1;
+}
+
+/* Accordion Body */
+.accordion-body {
+  background-color: #fff;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Accordion Item Wrapper */
+.accordion-item {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+  margin-bottom: 1rem;
 }

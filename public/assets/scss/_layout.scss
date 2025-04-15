@@ -53,26 +53,26 @@
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
 }
 
-.hero-buttons {
+.cta-buttons {
   display: flex;
   gap: 20px;
   justify-content: center;
   margin: 0 15px;
 }
 
-.hero-btn {
+.cta-btn {
   background: var(--bs-primary);
   border-radius: 5px;
   color: white;
   display: inline-block;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 400;
   padding: 12px 20px;
   text-decoration: none;
   transition: background 0.3s ease;
 }
 
-.hero-btn:hover {
+.cta-btn:hover {
   background: var(--hover-green);
 }
 

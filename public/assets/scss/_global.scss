@@ -24,6 +24,20 @@ main {
   flex: 1;
 }
 
+main a:not(.btn),
+.card a:not(.btn),
+footer a {
+  color: var(--bs-primary);
+  text-decoration: none;
+}
+
+main a:not(.btn):hover,
+.card a:not(.btn):hover,
+footer a:hover {
+  color: var(--bs-secondary);
+  text-decoration: underline;
+}
+
 .text-primary {
   color: var(--bs-primary) !important;
 }
@@ -43,15 +57,6 @@ footer {
     padding: 0;
     li {
       margin-bottom: 0.5rem;
-    }
-  }
-
-  a {
-    color: var(--bs-primary);
-    text-decoration: none;
-    &:hover {
-      color: var(--bs-secondary);
-      text-decoration: underline;
     }
   }
 }

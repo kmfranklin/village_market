@@ -40,7 +40,7 @@ $contact_zip = htmlspecialchars($address_data['contact_zip'] ?? '');
         </a>
         <p class="mt-2 mb-0 text-muted">&copy; <?= date('Y'); ?> Village Market</p>
         <p class="mb-0 small">
-          <a href="<?= url_for('/terms.php'); ?>">Terms of Service</a> |
+          <a href="<?= url_for('/tos.php'); ?>">Terms of Service</a> |
           <a href="<?= url_for('/privacy.php'); ?>">Privacy Policy</a>
         </p>
       </div>
