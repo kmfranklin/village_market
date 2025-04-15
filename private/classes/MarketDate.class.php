@@ -4,6 +4,7 @@ class MarketDate extends DatabaseObject
 {
   protected static $table_name = 'market_date';
   protected static $db_columns = ['market_date_id', 'market_date', 'is_active'];
+  protected static $primary_key = 'market_date_id';
 
   public $market_date_id;
   public $market_date;

@@ -304,6 +304,53 @@
   color: rgba(72, 72, 72, 0.4) !important;
 }
 
+// Vendor dashboard Flatpickr calendar displays
+/* Hide prev/next arrows */
+.readonly-calendar .flatpickr-prev-month,
+.readonly-calendar .flatpickr-next-month {
+  display: none !important;
+}
+
+/* Make dropdowns look like text, not interactive */
+.readonly-calendar select.flatpickr-monthDropdown-months,
+.readonly-calendar .numInputWrapper input {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Remove spinner buttons */
+.readonly-calendar .arrowUp,
+.readonly-calendar .arrowDown {
+  display: none !important;
+}
+
+/* Center the month/year */
+.readonly-calendar .flatpickr-current-month {
+  justify-content: center;
+}
+
+/* Remove click hover effect */
+.readonly-calendar .flatpickr-day:hover {
+  background: transparent;
+  cursor: default;
+}
+
+/* Force default cursor on all calendar elements */
+.readonly-calendar .flatpickr-day,
+.readonly-calendar .flatpickr-disabled,
+.readonly-calendar .flatpickr-day.flatpickr-disabled,
+.readonly-calendar .flatpickr-day.selected {
+  cursor: default !important;
+}
+
 // Pagination
 .pagination button.active {
   background-color: var(--bs-primary) !important;
