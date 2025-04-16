@@ -161,4 +161,53 @@ class Product extends DatabaseObject
       return false;
     }
   }
+
+  public static function build_basic_product_query($options = [])
+  {
+    global $database;
+
+    $is_admin = $options['is_admin'] ?? false;
+    $current_vendor_id = $options['current_vendor_id'] ?? null;
+    $search_term = $_GET['search'] ?? '';
+    $category_id = $_GET['category_id'] ?? '';
+    $vendor_id = $_GET['vendor_id'] ?? '';
+    $sort = $_GET['sort'] ?? '';
+
+    $sql = "SELECT p.*, c.category_name, v.business_name
+            FROM product p
+            JOIN category c ON p.category_id = c.category_id
+            JOIN vendor v ON p.vendor_id = v.vendor_id";
+
+    $sql .= " WHERE 1=1";
+
+    if (!$is_admin && $current_vendor_id) {
+      $sql .= " AND p.vendor_id = '" . $database->real_escape_string($current_vendor_id) . "'";
+    }
+
+    if ($is_admin && !empty($vendor_id)) {
+      $sql .= " AND p.vendor_id = '" . $database->real_escape_string($vendor_id) . "'";
+    }
+
+    if (!empty($search_term)) {
+      $sql .= " AND p.product_name LIKE '%" . $database->real_escape_string($search_term) . "%'";
+    }
+
+    if (!empty($category_id)) {
+      $sql .= " AND p.category_id = '" . $database->real_escape_string($category_id) . "'";
+    }
+
+    switch ($sort) {
+      case 'name_asc':
+        $sql .= " ORDER BY p.product_name ASC";
+        break;
+      case 'name_desc':
+        $sql .= " ORDER BY p.product_name DESC";
+        break;
+      default:
+        $sql .= " ORDER BY p.product_name ASC";
+        break;
+    }
+
+    return $sql;
+  }
 }

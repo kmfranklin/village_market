@@ -31,11 +31,13 @@ function get_filtered_products_query($database, $options = [])
   $sort = $_GET['sort'] ?? '';
   $is_admin = $options['is_admin'] ?? false;
   $current_vendor_id = $options['current_vendor_id'] ?? null;
+  $next_market_date_id = $options['next_market_date_id'] ?? null;
 
   $sql = "SELECT p.*, c.category_name, v.business_name
-          FROM product p
-          JOIN category c ON p.category_id = c.category_id
-          JOIN vendor v ON p.vendor_id = v.vendor_id";
+        FROM product p
+        JOIN category c ON p.category_id = c.category_id
+        JOIN vendor v ON p.vendor_id = v.vendor_id
+        JOIN market_attendance ma ON v.vendor_id = ma.vendor_id";
 
   // Only join users if we need to check their account_status
   if (!$is_admin && !$current_vendor_id) {
@@ -46,6 +48,12 @@ function get_filtered_products_query($database, $options = [])
 
   // Restrict to active products
   $sql .= " AND p.is_active = 1";
+
+  // Show only products from vendors confirmed for the next market date
+  $sql .= " AND ma.is_confirmed = 1";
+  if ($next_market_date_id !== null) {
+    $sql .= " AND ma.market_date_id = '" . $database->real_escape_string($next_market_date_id) . "'";
+  }
 
   // For public-facing pages, hide products from suspended/pending vendors
   if (!$is_admin && !$current_vendor_id) {
@@ -107,14 +115,16 @@ function get_filter_dropdowns($database)
   $category_result = $database->query($category_sql);
 
   $vendor_sql = "
-  SELECT v.* 
-  FROM vendor v
-  JOIN user u ON v.user_id = u.user_id
-  JOIN product p ON v.vendor_id = p.vendor_id
-  WHERE u.account_status = 'active'
-    AND p.is_active = 1
-  GROUP BY v.vendor_id
-  ORDER BY v.business_name ASC
+    SELECT v.* 
+    FROM vendor v
+    JOIN user u ON v.user_id = u.user_id
+    JOIN product p ON v.vendor_id = p.vendor_id
+    JOIN market_attendance ma ON v.vendor_id = ma.vendor_id
+    WHERE u.account_status = 'active'
+      AND p.is_active = 1
+      AND ma.is_confirmed = 1
+    GROUP BY v.vendor_id
+    ORDER BY v.business_name ASC
   ";
   $vendor_result = $database->query($vendor_sql);
 

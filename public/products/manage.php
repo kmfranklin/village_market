@@ -31,7 +31,7 @@ if (!$is_admin) {
   $options['current_vendor_id'] = $vendor->vendor_id;
 }
 
-$sql = get_filtered_products_query($database, $options);
+$sql = Product::build_basic_product_query($options);
 $products = Product::find_by_sql($sql);
 
 // Separate active and inactive products

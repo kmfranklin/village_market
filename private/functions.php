@@ -205,6 +205,23 @@ function get_next_market_date()
   return $next_market ? $next_market['market_date'] : null;
 }
 
+function get_next_market_date_id()
+{
+  global $database;
+
+  $sql = "SELECT market_date_id FROM market_date WHERE market_date >= CURDATE() ORDER BY market_date ASC LIMIT 1";
+  $result = $database->query($sql);
+  $next_market = $result->fetch_assoc();
+
+  if (!$next_market) {
+    generate_market_dates();
+    $result = $database->query($sql);
+    $next_market = $result->fetch_assoc();
+  }
+
+  return $next_market ? $next_market['market_date_id'] : null;
+}
+
 /**
  * Generates market dates for the next 6 months if none exist.
  * Adjust the day based on your actual market schedule.

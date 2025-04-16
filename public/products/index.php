@@ -1,13 +1,20 @@
 <?php
 require_once('../../private/initialize.php');
 
-$page_title = 'All Products';
+$page_title = 'Browse Products';
 include_header($session, $page_title);
 echo display_session_message();
 
+// Get next market date
+$market_date = get_next_market_date();
+$next_market_date_id = get_next_market_date_id();
+
 // Get filtered products
 require_once(SHARED_PATH . '/product_filters.php');
-$sql = get_filtered_products_query($database);
+$sql = get_filtered_products_query($database, [
+  'next_market_date_id' => $next_market_date_id
+]);
+
 $product_result = $database->query($sql);
 
 // Get filter dropdowns
@@ -17,7 +24,8 @@ $category_result = $filter_results['category_result'];
 ?>
 
 <main class="container my-4">
-  <h1 class="mb-4">Browse All Products</h1>
+  <h1 class="mb-4">Browse Products Available at the Next Market</h1>
+  <p class="lead">Showing products from vendors confirmed for <?php echo date('F j, Y', strtotime($market_date)); ?>.</p>
 
   <?php
   // Set flags for filter form
