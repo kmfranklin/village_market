@@ -376,7 +376,6 @@
 }
 
 // Custom 404 page
-
 .page-404 {
   padding: 4rem 1rem;
   text-align: center;
@@ -433,14 +432,14 @@
 /* Accordion Body */
 .accordion-body {
   background-color: #fff;
-  padding: 1rem 1.25rem;
   border-top: 1px solid #dee2e6;
+  padding: 1rem 1.25rem;
 }
 
 /* Accordion Item Wrapper */
 .accordion-item {
-  border-radius: 0.5rem;
-  overflow: hidden;
   border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
   margin-bottom: 1rem;
+  overflow: hidden;
 }
