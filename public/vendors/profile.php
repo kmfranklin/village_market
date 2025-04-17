@@ -112,5 +112,6 @@ if (is_post_request()) {
       <button type="submit" class="btn btn-primary">Save Profile</button>
     </div>
   </form>
+</main>
 
-  <?php include(SHARED_PATH . '/footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

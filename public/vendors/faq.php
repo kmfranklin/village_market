@@ -253,7 +253,8 @@ include_header($session, $page_title);
     </section>
 
     <section class="mt-5">
-      <p class="fw-bold">Still need help? <a href="../contact.php">Contact us</a> — we'll be glad to assist.</p>
+      <h2>Still need help?</h2>
+      <p><a href="../contact.php">Contact us</a> — we'll be glad to assist.</p>
     </section>
   </div>
 </main>

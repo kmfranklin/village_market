@@ -23,7 +23,7 @@ require_once('../private/shared/public_header.php');
           <form action="process_forgot_password.php" method="POST">
             <div class="mb-3">
               <label for="email" class="form-label">Email Address</label>
-              <input type="email" name="email" class="form-control" required>
+              <input type="email" name="email" class="form-control" id="email" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Reset Password</button>
           </form>

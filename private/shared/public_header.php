@@ -30,7 +30,7 @@ $current_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
             alt="Village Market Logo" height="60">
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNav" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 

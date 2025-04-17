@@ -33,7 +33,7 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
       <div class="container-fluid">
         <a class="navbar-brand" href="<?= url_for('/index.php'); ?>">
           <img src="<?= url_for('/assets/images/village_market_logo_nav.png'); ?>"
-            alt="Village Market Logo" height="60" aria-valuetext="Village Market">
+            alt="Village Market Logo" height="60">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav" aria-label="Open Navigation">
           <span class="navbar-toggler-icon"></span>

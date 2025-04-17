@@ -209,6 +209,7 @@ include_header($session);
       <input type="hidden" name="hero_image_id" id="hero_image_id" value="<?php echo htmlspecialchars($homepage['hero_image_id'] ?? ''); ?>">
 
       <button type="submit" class="btn btn-primary w-auto">Update Homepage</button>
+    </div>
   </form>
 
   <!-- Image Gallery Modal -->

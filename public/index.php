@@ -169,9 +169,9 @@ while ($row = $result->fetch_assoc()) {
             onerror="this.onerror=null;this.src='<?= url_for('/assets/images/product_placeholder.png'); ?>';">
 
           <div class="card-body homepage-product-card">
-            <h5 class="card-title text-capitalize">
+            <h3 class="card-title text-capitalize">
               <?= htmlspecialchars($product['product_name']) ?>
-            </h5>
+            </h3>
             <?php
             $desc = $product['product_description'];
             $truncated = strlen($desc) > 100 ? substr($desc, 0, 100) . '…' : $desc;

@@ -9,8 +9,6 @@ $contact_zip = htmlspecialchars($address_data['contact_zip'] ?? '');
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
-</body>
-
 <footer class="bg-light py-4 mt-auto">
   <div class="container">
     <div class="row">
@@ -47,3 +45,4 @@ $contact_zip = htmlspecialchars($address_data['contact_zip'] ?? '');
     </div>
   </div>
 </footer>
+</body>
