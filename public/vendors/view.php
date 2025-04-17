@@ -88,7 +88,7 @@ if ($vendor->state_id) {
               <?php if ($is_admin || $is_owner || $vendor->show_phone): ?>
                 <tr>
                   <th>Phone:</th>
-                  <td><?php echo h($vendor->business_phone_number); ?></td>
+                  <td><?php echo Vendor::format_phone($vendor->business_phone_number); ?></td>
                 </tr>
               <?php endif; ?>
 

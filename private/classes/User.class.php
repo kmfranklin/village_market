@@ -84,12 +84,14 @@ class User extends DatabaseObject
 
   public function create()
   {
+    $this->apply_formatting();
     $this->hash_password();
     return parent::create();
   }
 
   public function update()
   {
+    $this->apply_formatting();
     if (!empty($this->password)) {
       $this->hash_password();
     }
@@ -291,5 +293,24 @@ class User extends DatabaseObject
     $sql .= "LIMIT 1";
     $obj_array = static::find_by_sql($sql);
     return !empty($obj_array) ? array_shift($obj_array) : false;
+  }
+
+  /**
+   * Normalizes phone number to XXXXXXXXXX format before storing.
+   */
+  private function normalize_phone_number($phone)
+  {
+    return preg_replace('/\D/', '', $phone);
+  }
+
+  /**
+   * Applies formatting to text fields before saving.
+   */
+  private function apply_formatting()
+  {
+    $this->first_name = ucwords(strtolower(trim($this->first_name)));
+    $this->last_name = ucwords(strtolower(trim($this->last_name)));
+    $this->email_address = strtolower(trim($this->email_address));
+    $this->phone_number = $this->normalize_phone_number($this->phone_number);
   }
 }

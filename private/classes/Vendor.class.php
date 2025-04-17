@@ -238,4 +238,21 @@ class Vendor extends DatabaseObject
   {
     return mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
   }
+
+  /**
+   * Formats a numeric phone number (XXXXXXXXXX) into XXX-XXX-XXXX.
+   *
+   * @param string $number Raw numeric phone string (10 digits).
+   * @return string Formatted phone number or original if invalid.
+   */
+  public static function format_phone($number)
+  {
+    $number = preg_replace('/\D/', '', $number); // Just in case
+    if (strlen($number) === 10) {
+      return substr($number, 0, 3) . '-' .
+        substr($number, 3, 3) . '-' .
+        substr($number, 6);
+    }
+    return $number; // fallback if not 10 digits
+  }
 }
