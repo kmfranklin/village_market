@@ -90,7 +90,6 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                 <td>
                   <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <a href="<?= url_for('/vendors/profile.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
-                  <!-- Suspend Button -->
                   <button class="btn btn-danger btn-sm suspend-btn"
                     data-bs-toggle="modal"
                     data-bs-target="#suspend-modal"
@@ -100,6 +99,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                     data-suspend-url="<?= url_for('/admin/vendors/suspend.php'); ?>">
                     Suspend
                   </button>
+                  <a href="<?= url_for('/vendors/attendance/manage.php?vendor_id=' . h($vendor->vendor_id)); ?>" class="btn btn-outline-secondary btn-sm">Attendance</a>
                 </td>
               </tr>
             <?php endforeach; ?>

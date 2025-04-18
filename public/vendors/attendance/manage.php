@@ -1,19 +1,31 @@
 <?php require_once('../../../private/initialize.php');
 
-// Redirect if not logged in or not a vendor
-if (!$session->is_logged_in()) {
+// Redirect if not logged in or not a vendor or admin
+if (
+  !$session->is_logged_in() ||
+  (!$session->is_vendor() && !$session->is_admin() && !$session->is_super_admin())
+) {
   redirect_to(url_for('/login.php'));
 }
 
-if (!$session->is_vendor()) {
-  redirect_to(url_for('/login.php'));
+// Resolve vendor ID
+if ($session->is_vendor()) {
+  $user_id = $session->get_user_id();
+  $vendor = Vendor::find_by_user_id($user_id);
+  $vendor_id = $vendor ? $vendor->vendor_id : null;
+} elseif ($session->is_admin() || $session->is_super_admin()) {
+  $vendor_id = $_GET['vendor_id'] ?? null;
+  $vendor = $vendor_id ? Vendor::find_by_id($vendor_id) : null;
 }
 
-$vendor = Vendor::find_by_user_id($session->user_id);
-if (!$vendor) {
-  redirect_to(url_for('/vendor/index.php'));
+/** @var Vendor $vendor */
+
+if (!isset($vendor) || !$vendor) {
+  $session->message("Vendor not found.");
+  redirect_to(url_for('/index.php'));
 }
 
+// Handle form submission
 if (is_post_request()) {
   $submitted_dates = $_POST['market_dates'] ?? [];
   $submitted_dates = array_map('intval', $submitted_dates);
@@ -25,12 +37,14 @@ if (is_post_request()) {
     $attendance->vendor_id = $vendor->vendor_id;
     $attendance->market_date_id = $market_date_id;
     $attendance->is_confirmed = 1;
-    $attendance->attendance_id = null;
     $attendance->save();
   }
 
   $_SESSION['message'] = "Attendance updated successfully.";
-  redirect_to(url_for('/vendors/attendance/manage.php'));
+  redirect_to(url_for(
+    '/vendors/attendance/manage.php' .
+      ($session->is_admin() || $session->is_super_admin() ? '?vendor_id=' . $vendor->vendor_id : '')
+  ));
 }
 
 $upcoming_dates = MarketDate::upcoming();
@@ -41,8 +55,8 @@ include(SHARED_PATH . '/vendor_header.php');
 ?>
 
 <main class="container my-4">
-  <h1 class="mb-3">Manage Your Attendance</h1>
-  <p>Select the market dates you plan to attend.</p>
+  <h1 class="mb-3">Manage Attendance for <?php echo h($vendor->business_name); ?></h1>
+  <p>Select the market dates this vendor plans to attend.</p>
 
   <?php if (isset($_SESSION['message'])): ?>
     <div class="alert alert-success">
@@ -52,17 +66,22 @@ include(SHARED_PATH . '/vendor_header.php');
   <?php endif; ?>
 
   <div class="row">
-    <!-- Attendance Form (Left Column) -->
+    <!-- Attendance Form -->
     <div class="col-lg-8">
-      <form action="<?php echo url_for('/vendors/attendance/manage.php'); ?>" method="post">
+      <form action="<?php echo url_for('/vendors/attendance/manage.php' . ($session->is_admin() || $session->is_super_admin() ? '?vendor_id=' . h($vendor->vendor_id) : '')); ?>" method="post">
         <?php include('form_fields.php'); ?>
 
         <button type="submit" class="btn btn-primary mt-3">Save Attendance</button>
-        <a href="<?php echo url_for('/vendors/dashboard.php'); ?>" class="btn btn-secondary mt-3 ms-2">Return to Dashboard</a>
+        <?php
+        $return_url = $session->is_admin() || $session->is_super_admin()
+          ? url_for('/admin/vendors/manage.php')
+          : url_for('/vendors/dashboard.php');
+        ?>
+        <a href="<?php echo $return_url; ?>" class="btn btn-secondary mt-3 ms-2">Return to Dashboard</a>
       </form>
     </div>
 
-    <!-- Calendar Sidebar (Right Column) -->
+    <!-- Calendar Sidebar -->
     <div class="col-lg-4 mt-4 mt-lg-0 d-flex justify-content-center align-items-start">
       <div id="market-calendar" class="w-100 flatpickr-input" readonly></div>
     </div>
