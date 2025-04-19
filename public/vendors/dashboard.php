@@ -15,6 +15,15 @@ $vendor = Vendor::find_by_user_id($user_id);
 $selected_market_date_ids = MarketAttendance::find_by_vendor($vendor->vendor_id);
 $calendar_dates = [];
 
+// Check days to determine if it's the last week of the month
+$today = new DateTime();
+$last_day = new DateTime('last day of this month');
+$interval = $last_day->diff($today)->days;
+
+// Only show banner if we're in the final 7 days of the month, and the vendor has not dismissed it already
+$reminder_dismissed = isset($_COOKIE['attendance_reminder_dismissed']) && $_COOKIE['attendance_reminder_dismissed'] === 'true';
+$show_attendance_reminder = !$reminder_dismissed && $interval <= 7;
+
 foreach ($selected_market_date_ids as $id) {
   $market_date = MarketDate::find_by_id($id);
   if ($market_date && !empty($market_date->market_date)) {
@@ -39,9 +48,21 @@ if ($session->message()) : ?>
 
   <!-- Welcome Panel -->
   <div class="mb-4 p-4 bg-white rounded shadow-sm">
-    <h2 class="h4 mb-2">Welcome back, <?= h($vendor->business_name); ?>!</h2>
+    <h1 class="h4 mb-2">Welcome back, <?= h($vendor->business_name); ?>!</h1>
     <p class="mb-0 text-muted">Use your dashboard to manage your products, update your profile, and set your market schedule.</p>
   </div>
+
+  <?php if ($show_attendance_reminder): ?>
+    <div class="alert alert-warning alert-dismissable fade show d-flex justify-content-between align-items-center">
+      <div>
+        <strong>Reminder:</strong> It's time to update your attendance for next month's market dates!
+      </div>
+      <a href="<?= url_for('/vendors/attendance/manage.php'); ?>" class="btn btn-sm btn-secondary">
+        Update Attendance
+      </a>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <?php endif; ?>
 
   <!-- Quick Action Cards -->
   <section class="row mt-4 mb-5">
