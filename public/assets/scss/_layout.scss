@@ -63,12 +63,12 @@
 .cta-btn {
   background: var(--bs-primary);
   border-radius: 5px;
-  color: white;
+  color: white !important;
   display: inline-block;
   font-size: 1rem;
   font-weight: 400;
   padding: 12px 20px;
-  text-decoration: none;
+  text-decoration: none !important;
   transition: background 0.3s ease;
 }
 

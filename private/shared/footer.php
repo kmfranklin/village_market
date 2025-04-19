@@ -31,10 +31,10 @@ $contact_zip = htmlspecialchars($address_data['contact_zip'] ?? '');
 
       <div class="col-md-4 text-end">
         <a href="https://github.com/kmfranklin" target="_blank" class="social-icon mx-2" aria-label="GitHub link">
-          <i class="bi bi-github" style="font-size: 1.5rem;"></i>
+          <i class="bi bi-github"></i>
         </a>
         <a href="https://www.linkedin.com/in/kevin-franklin/" target="_blank" class="social-icon mx-2" aria-label="LinkedIn link">
-          <i class="bi bi-linkedin" style="font-size: 1.5rem;"></i>
+          <i class="bi bi-linkedin"></i>
         </a>
         <p class="mt-2 mb-0 text-muted">&copy; <?= date('Y'); ?> Village Market</p>
         <p class="mb-0 small">

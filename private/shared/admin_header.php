@@ -14,17 +14,9 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= isset($page_title) ? h($page_title) . ' | Admin Panel — Village Market' : 'Admin Panel — Village Market'; ?></title>
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  </noscript>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="<?= url_for('/assets/scss/main.min.css'); ?>">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" defer></script>
-  <script src="<?= url_for('/assets/scripts/main.min.js'); ?>" defer></script>
+  <?php $page_title = $page_title ?? 'Admin Panel'; ?>
+  <title><?= h($page_title) ?> | Village Market</title>
+  <?php include(SHARED_PATH . '/includes/head_assets.php'); ?>
 </head>
 
 <body>
@@ -102,17 +94,7 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
 
             <li class="nav-item dropdown">
               <button class="nav-link dropdown-toggle user-dropdown-btn" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <?php
-                // Ensure session variables are available
-                $first_name = $_SESSION['first_name'] ?? 'User';
-                $last_name = $_SESSION['last_name'] ?? '';
-
-                // Get user's initials
-                $first_initial = strtoupper(substr($first_name, 0, 1));
-                $last_initial = strtoupper(substr($last_name, 0, 1));
-
-                echo '<span class="user-initials">' . $first_initial . $last_initial . '</span>';
-                ?>
+                <?php echo '<span class="user-initials">' . $first_initial . $last_initial . '</span>'; ?>
               </button>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li>
@@ -134,3 +116,5 @@ $last_initial = strtoupper(substr($last_name, 0, 1));
       </div>
     </nav>
   </header>
+
+  <main role="main" id="main">
