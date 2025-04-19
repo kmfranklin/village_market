@@ -40,7 +40,7 @@ $market_date_id = $_GET['market_date_id'] ?? '';
       <button type="submit" class="btn btn-primary">Apply</button>
     </div>
 
-    <a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn btn-outline-secondary">Clear</a>
+    <a href="<?= h($_SERVER['PHP_SELF']) ?>" class="btn btn-outline-secondary">Clear</a>
   </div>
 
 </form>

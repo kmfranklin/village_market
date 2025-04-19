@@ -54,6 +54,6 @@ $is_admin = $is_admin ?? false;
       </select>
     </div>
     <button type="submit" class="btn btn-primary" id="apply-button">Apply</button>
-    <a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn btn-outline-secondary">Clear</a>
+    <a href="<?= h($_SERVER['PHP_SELF']) ?>" class="btn btn-outline-secondary">Clear</a>
   </div>
 </form>
