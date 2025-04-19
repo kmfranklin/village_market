@@ -1,5 +1,7 @@
 <?php
 require_once '../private/initialize.php';
+$page_title = "Home";
+require_once(SHARED_PATH . '/include_header.php');
 
 $url = $_GET['url'] ?? '';
 if (!empty($url) && $url !== '') {
@@ -7,9 +9,6 @@ if (!empty($url) && $url !== '') {
   include('404.php');
   exit;
 }
-
-$page_title = "Home";
-include_header($session, $page_title);
 
 echo display_session_message();
 
@@ -77,7 +76,7 @@ while ($row = $result->fetch_assoc()) {
   $products[] = $row;
 }
 ?>
-
+</div>
 <!-- Hero Section -->
 <section id="hero">
   <?php
@@ -105,8 +104,8 @@ while ($row = $result->fetch_assoc()) {
     <p class="hero-subheading">Celebrate local flavors and support small businesses in our community.</p>
 
     <div class="cta-buttons">
-      <a href="products.php" class="cta-btn">Shop the Market</a>
-      <a href="vendors.php" class="cta-btn">Explore Vendors</a>
+      <a href="products/index.php" class="cta-btn">Shop the Market</a>
+      <a href="vendors/index.php" class="cta-btn">Explore Vendors</a>
     </div>
 
     <?php if (!empty($announcement)) : ?>
@@ -118,106 +117,109 @@ while ($row = $result->fetch_assoc()) {
 
 </section>
 
-<!-- Market Info Section -->
-<section id="market-info" class="container my-5">
-  <div class="row align-items-center justify-content-around">
+<div class="container my-5">
+  <!-- Market Info Section -->
+  <section id="market-info" class="container my-5">
+    <div class="row align-items-center justify-content-around">
 
-    <div class="col-md-6">
-      <h2 class="text-left">Discover Fresh, Local Goods</h2>
-      <p class="text-left">Experience the heart of our community at the Village Market, where local farmers, bakers, and artisans come together to share their passion for fresh, high-quality goods.</p>
-      <p class="text-left">Join us in celebrating local flavors and supporting small businesses. We're proud to be a gathering place for friends, families, and neighbors.</p>
-    </div>
-
-    <!-- Right Column: Market Event Box -->
-    <div class="col-md-4">
-      <div class="market-event p-4 shadow rounded">
-        <h2 class="mb-3">Next Market Day</h2>
-
-        <?php if (!empty($next_market_date)) : ?>
-          <p class="market-date-text">
-            <strong><?php echo date('F j, Y', strtotime($next_market_date)); ?></strong>
-          </p>
-        <?php else : ?>
-          <p>No upcoming market dates available.</p>
-        <?php endif; ?>
-
-        <h3 class="mt-3">Market Hours</h3>
-        <p><?php echo htmlspecialchars($market_hours); ?></p>
-
-        <h3 class="mt-3">Location</h3>
-        <p><?php echo htmlspecialchars($contact_mailing_address) . ', ' . htmlspecialchars($contact_city) . ', ' . htmlspecialchars($contact_state) . ' ' . htmlspecialchars($contact_zip); ?></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Featured Products Section -->
-<section id="products" class="container my-5">
-  <h2 class="text-center mb-4">Discover Fresh Finds</h2>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-    <?php foreach ($products as $product): ?>
-      <div class="col">
-        <div class="card h-100 shadow-sm d-flex flex-column">
-          <?php
-          $image_url = !empty($product['product_image_url'])
-            ? htmlspecialchars($product['product_image_url'])
-            : url_for('/assets/images/product_placeholder.webp');
-          ?>
-          <img src="<?= $image_url ?>"
-            class="card-img-top"
-            alt="<?= htmlspecialchars($product['product_name']) ?>"
-            onerror="this.onerror=null;this.src='<?= url_for('/assets/images/product_placeholder.png'); ?>';">
-
-          <div class="card-body homepage-product-card">
-            <h3 class="card-title text-capitalize">
-              <?= htmlspecialchars($product['product_name']) ?>
-            </h3>
-            <?php
-            $desc = $product['product_description'];
-            $truncated = strlen($desc) > 100 ? substr($desc, 0, 100) . '…' : $desc;
-            ?>
-            <p class="card-text"><?= htmlspecialchars($truncated) ?></p>
-            <p class="text-muted small">
-              Sold by: <strong><?= htmlspecialchars($product['vendor_name']); ?></strong>
-            </p>
-            <a href="products/view.php?id=<?= $product['product_id'] ?>" class="btn btn-primary w-100">View Product</a>
-          </div>
-        </div>
-      </div>
-    <?php endforeach; ?>
-  </div>
-
-  <div class="text-center my-5">
-    <a href="products/index.php" class="btn btn-primary">View All Products</a>
-  </div>
-</section>
-
-<!-- Become a Vendor CTA -->
-<section id="become-vendor" class="py-5">
-  <div class="container">
-    <div class="row align-items-center g-4">
-
-      <!-- Left Column: Text & Buttons -->
       <div class="col-md-6">
-        <div class="cta-card p-4 text-center">
-          <h2 class="mb-3">Interested in Joining the Market?</h2>
-          <p class="mb-4">
-            Share your passion with our community and become part of the Village Market family.
-          </p>
-          <div class="cta-buttons d-flex flex-wrap gap-3 justify-content-center">
-            <a href="vendors/register.php" class="cta-btn">Become a Vendor</a>
-            <a href="vendors/faq.php" class="cta-btn">Vendor Info & FAQs</a>
-          </div>
+        <h2 class="text-left">Discover Fresh, Local Goods</h2>
+        <p class="text-left">Experience the heart of our community at the Village Market, where local farmers, bakers, and artisans come together to share their passion for fresh, high-quality goods.</p>
+        <p class="text-left">Join us in celebrating local flavors and supporting small businesses. We're proud to be a gathering place for friends, families, and neighbors.</p>
+      </div>
+
+      <!-- Right Column: Market Event Box -->
+      <div class="col-md-4">
+        <div class="market-event p-4 shadow rounded">
+          <h2 class="mb-3">Next Market Day</h2>
+
+          <?php if (!empty($next_market_date)) : ?>
+            <p class="market-date-text">
+              <strong><?php echo date('F j, Y', strtotime($next_market_date)); ?></strong>
+            </p>
+          <?php else : ?>
+            <p>No upcoming market dates available.</p>
+          <?php endif; ?>
+
+          <h3 class="mt-3">Market Hours</h3>
+          <p><?php echo htmlspecialchars($market_hours); ?></p>
+
+          <h3 class="mt-3">Location</h3>
+          <p><?php echo htmlspecialchars($contact_mailing_address) . ', ' . htmlspecialchars($contact_city) . ', ' . htmlspecialchars($contact_state) . ' ' . htmlspecialchars($contact_zip); ?></p>
         </div>
       </div>
-
-      <!-- Right Column: Image -->
-      <div class="col-md-6 text-center">
-        <img src="assets/images/home-vendor-cta.jpeg" alt="Vendors at farmers market with fresh produce." class="img-fluid rounded shadow-sm w-100">
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section id="products" class="container my-5">
+    <h2 class="text-center mb-4">Discover Fresh Finds</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <?php foreach ($products as $product): ?>
+        <div class="col">
+          <div class="card h-100 shadow-sm d-flex flex-column">
+            <?php
+            $image_url = !empty($product['product_image_url'])
+              ? htmlspecialchars($product['product_image_url'])
+              : url_for('/assets/images/product_placeholder.webp');
+            ?>
+            <img src="<?= $image_url ?>"
+              class="card-img-top"
+              alt="<?= htmlspecialchars($product['product_name']) ?>"
+              onerror="this.onerror=null;this.src='<?= url_for('/assets/images/product_placeholder.png'); ?>';">
+
+            <div class="card-body homepage-product-card">
+              <h3 class="card-title text-capitalize">
+                <?= htmlspecialchars($product['product_name']) ?>
+              </h3>
+              <?php
+              $desc = $product['product_description'];
+              $truncated = strlen($desc) > 100 ? substr($desc, 0, 100) . '…' : $desc;
+              ?>
+              <p class="card-text"><?= htmlspecialchars($truncated) ?></p>
+              <p class="text-muted small">
+                Sold by: <strong><?= htmlspecialchars($product['vendor_name']); ?></strong>
+              </p>
+              <a href="products/view.php?id=<?= $product['product_id'] ?>" class="btn btn-primary w-100">View Product</a>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+
+    <div class="text-center my-5">
+      <a href="products/index.php" class="btn btn-primary">View All Products</a>
+    </div>
+  </section>
+
+  <!-- Become a Vendor CTA -->
+  <section id="become-vendor" class="py-5">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <!-- Left Column: Text & Buttons -->
+        <div class="col-md-6">
+          <div class="cta-card p-4 text-center">
+            <h2 class="mb-3">Interested in Joining the Market?</h2>
+            <p class="mb-4">
+              Share your passion with our community and become part of the Village Market family.
+            </p>
+            <div class="cta-buttons d-flex flex-wrap gap-3 justify-content-center">
+              <a href="vendors/register.php" class="cta-btn">Become a Vendor</a>
+              <a href="vendors/faq.php" class="cta-btn">Vendor Info & FAQs</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Image -->
+        <div class="col-md-6 text-center">
+          <img src="assets/images/home-vendor-cta.jpeg" alt="Vendors at farmers market with fresh produce." class="img-fluid rounded shadow-sm w-100">
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+</main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

@@ -1,6 +1,7 @@
 <?php
 require_once('../private/initialize.php');
-require_once('../private/shared/public_header.php');
+$page_title = "Reset Password";
+require_once(SHARED_PATH . '/include_header.php');
 
 $token = $_GET['token'] ?? '';
 
@@ -52,37 +53,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<main role="main" id="main">
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm p-4">
-          <h1 class="mb-3 text-center">Reset Password</h1>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm p-4">
+        <h1 class="mb-3 text-center">Reset Password</h1>
 
-          <?php if (isset($_SESSION['message'])): ?>
-            <div class="alert alert-danger text-center">
-              <?php echo $_SESSION['message']; ?>
-            </div>
-            <?php unset($_SESSION['message']); ?>
-          <?php endif; ?>
+        <?php if (isset($_SESSION['message'])): ?>
+          <div class="alert alert-danger text-center">
+            <?php echo h($_SESSION['message']); ?>
+          </div>
+          <?php unset($_SESSION['message']); ?>
+        <?php endif; ?>
 
-          <form action="reset_password.php?token=<?php echo htmlspecialchars($token); ?>" method="POST">
-            <div class="mb-3">
-              <label for="new_password" class="form-label">New Password</label>
-              <input type="password" name="new_password" id="new_password" class="form-control" minlength="12" required>
-            </div>
+        <form action="reset_password.php?token=<?php echo h($token); ?>" method="POST">
+          <div class="mb-3">
+            <label for="new_password" class="form-label">New Password</label>
+            <input type="password" name="new_password" id="new_password" class="form-control" minlength="12" required>
+          </div>
 
-            <div class="mb-3">
-              <label for="confirm_password" class="form-label">Confirm Password</label>
-              <input type="password" name="confirm_password" id="confirm_password" class="form-control" minlength="12" required>
-            </div>
+          <div class="mb-3">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            <input type="password" name="confirm_password" id="confirm_password" class="form-control" minlength="12" required>
+          </div>
 
-            <button type="submit" class="btn btn-primary w-100">Reset Password</button>
-          </form>
-        </div>
+          <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 </main>
 
-<?php require_once('../private/shared/footer.php'); ?>
+<?php include(SHARED_PATH . '/footer.php'); ?>

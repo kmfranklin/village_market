@@ -1,5 +1,7 @@
 <?php
 require_once('../private/initialize.php');
+$page_title = 'Log In';
+require_once(SHARED_PATH . '/include_header.php');
 
 $errors = [];
 $email_address = '';
@@ -60,50 +62,46 @@ function redirect_user($user)
     $errors[] = "Unexpected error: Your account role cannot be recognized. Please contact an Administrator.";
   }
 }
-
-$page_title = 'Log In';
-include(SHARED_PATH . '/public_header.php');
 ?>
 
-<main role="main" id="main">
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card shadow-sm p-4">
-          <h1 class="text-center mb-4">Log In</h1>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm p-4">
+        <h1 class="text-center mb-4">Log In</h1>
 
-          <?php if (!empty($errors)) { ?>
-            <div class="alert alert-danger">
-              <ul class="mb-0">
-                <?php foreach ($errors as $error) { ?>
-                  <li><?php echo h($error); ?></li>
-                <?php } ?>
-              </ul>
-            </div>
-          <?php } ?>
-
-          <form action="login.php" method="post">
-            <div class="mb-3">
-              <label for="email_address" class="form-label">Email Address</label>
-              <input type="email" id="email_address" name="email_address"
-                class="form-control" value="<?php echo h($email_address); ?>" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" id="password" name="password" class="form-control" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Log In</button>
-          </form>
-
-          <div class="text-center mt-3">
-            <a href="forgot_password.php" class="btn btn-link">Forgot your password?</a>
+        <?php if (!empty($errors)) { ?>
+          <div class="alert alert-danger">
+            <ul class="mb-0">
+              <?php foreach ($errors as $error) { ?>
+                <li><?php echo h($error); ?></li>
+              <?php } ?>
+            </ul>
           </div>
+        <?php } ?>
+
+        <form action="login.php" method="post">
+          <div class="mb-3">
+            <label for="email_address" class="form-label">Email Address</label>
+            <input type="email" id="email_address" name="email_address"
+              class="form-control" value="<?php echo h($email_address); ?>" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Log In</button>
+        </form>
+
+        <div class="text-center mt-3">
+          <a href="forgot_password.php" class="btn btn-link">Forgot your password?</a>
         </div>
       </div>
     </div>
   </div>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
