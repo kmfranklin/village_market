@@ -13,10 +13,10 @@ if (!$session->is_admin() && !$session->is_super_admin()) {
 
 // Page content for admins and super admins
 $page_title = "{$session->first_name}'s Dashboard";
-include_header($session);
+require_once(SHARED_PATH . '/include_header.php');
 ?>
 
-<main role="main" class="container mt-4 dashboard">
+<div class="container my-5">
   <header class="text-center">
     <h1 class="text-primary"><?= h($session->first_name); ?>'s Admin Dashboard</h1>
     <p class="lead">Manage vendors, products, and market details efficiently.</p>
@@ -64,6 +64,7 @@ include_header($session);
     </div>
 
   </section>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

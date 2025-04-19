@@ -1,5 +1,7 @@
 <?php
 require_once('../../../private/initialize.php');
+$page_title = 'Manage Vendors';
+require_once(SHARED_PATH . '/include_header.php');
 
 if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_admin())) {
   redirect_to(url_for('/login.php'));
@@ -21,9 +23,6 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
   }
 }
 
-$page_title = 'Manage Vendors';
-include_header($session);
-
 // Fetch vendors
 $pending_vendors = Vendor::find_vendors_by_status('pending');
 $active_vendors = Vendor::find_vendors_by_status('active');
@@ -31,12 +30,11 @@ $suspended_vendors = Vendor::find_vendors_by_status('suspended');
 $rejected_vendors = Vendor::find_vendors_by_status('rejected');
 ?>
 
-<main role="main" class="container mt-4">
-  <!-- Page Heading -->
-  <header class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="text-primary">Manage Vendors</h1>
-    <a href="<?php echo url_for('/vendors/register.php'); ?>" class="btn btn-primary" aria-label="Add Vendor">+ Add Vendor</a>
-  </header>
+<div class="container my-5">
+  <h1 class="text-primary">Manage Vendors</h1>
+  <div class="d-flex justify-content-end my-3">
+    <a href="../../vendors/register.php" class="btn btn-primary" aria-label="Add New Vendor">+ Add Vendor</a>
+  </div>
 
   <!-- Session Message -->
   <?php echo display_session_message(); ?>
@@ -262,9 +260,9 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
       </div>
     </div>
   </div>
-</main>
+  </main>
 
-<?php include(SHARED_PATH . '/modals/suspend_modal.php'); ?>
-<?php include(SHARED_PATH . '/modals/restore_modal.php'); ?>
-<?php include(SHARED_PATH . '/modals/delete_modal.php'); ?>
-<?php include(SHARED_PATH . '/footer.php'); ?>
+  <?php include(SHARED_PATH . '/modals/suspend_modal.php'); ?>
+  <?php include(SHARED_PATH . '/modals/restore_modal.php'); ?>
+  <?php include(SHARED_PATH . '/modals/delete_modal.php'); ?>
+  <?php include(SHARED_PATH . '/footer.php'); ?>

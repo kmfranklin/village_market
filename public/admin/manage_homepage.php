@@ -1,5 +1,7 @@
 <?php
 require_once('../../private/initialize.php');
+$page_title = 'Manage Homepage';
+require_once(SHARED_PATH . '/include_header.php');
 
 if (!$session->is_logged_in() || (!$session->is_admin() && !$session->is_super_admin())) {
   redirect_to(url_for('/login.php'));
@@ -98,14 +100,11 @@ if (!empty($homepage['hero_image_id'])) {
 $image_query = "SELECT * FROM cms_image ORDER BY uploaded_at DESC";
 $image_result = $database->query($image_query);
 
-include_header($session);
 ?>
+<div class="container my-5">
+  <h1 class="text-primary">Manage Homepage Content</h1>
+  <p class="lead">Update market information, contact details, and the hero image.</p>
 
-<main role="main" class="container my-4">
-  <header>
-    <h1 class="text-primary">Manage Homepage Content</h1>
-    <p class="lead">Update market information, contact details, and the hero image.</p>
-  </header>
 
   <?php if (!empty($_SESSION['message'])) : ?>
     <div class="alert alert-success"><?php echo $_SESSION['message'];
@@ -246,6 +245,7 @@ include_header($session);
       </div>
     </div>
   </div>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

@@ -1,22 +1,21 @@
 <?php
 require_once('../../../private/initialize.php');
+$page_title = 'Add Admin';
+require_once(SHARED_PATH . '/include_header.php');
 
 if (!$session->is_logged_in() || !$session->is_super_admin()) {
   redirect_to(url_for('/login.php'));
 }
 
-$page_title = 'Add Admin';
-include_header($session);
-
 $user = new User();
-$user->role_id = User::ADMIN; // force role_id
+$user->role_id = User::ADMIN;
 
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $user_args = $_POST['user'] ?? [];
   $user_args['role_id'] = User::ADMIN;
-  $user_args['account_status'] = 'active'; // no approval flow for admins
+  $user_args['account_status'] = 'active';
   $user = new User($user_args);
 
   if ($user->create()) {
@@ -28,11 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<main role="main" class="container mt-4">
-  <header class="mb-4">
-    <h1 class="text-primary">Add Admin</h1>
-    <p class="lead">Use the form below to add and activate a new admin user.</p>
-  </header>
+<div class="container my-5">
+  <h1 class="text-primary">Add Admin</h1>
+  <p class="lead">Use the form below to add and activate a new admin user.</p>
 
   <?php if (!empty($errors)) : ?>
     <div class="alert alert-danger">
@@ -57,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     </div>
   </form>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

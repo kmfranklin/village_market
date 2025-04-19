@@ -1,27 +1,24 @@
 <?php
 require_once('../../../private/initialize.php');
+$page_title = 'Manage Admin Users';
+require_once(SHARED_PATH . '/include_header.php');
 
 if (!$session->is_logged_in() || !$session->is_super_admin()) {
   redirect_to(url_for('/login.php'));
   exit;
 }
 
-$page_title = 'Manage Admin Users';
-include_header($session);
-
 // Fetch admin users by status
 $active_admins = User::find_by_status('active', User::ADMIN);
 $suspended_admins = User::find_by_status('suspended', User::ADMIN);
 ?>
 
-<main role="main" class="container mt-4">
-  <!-- Page Heading -->
-  <header class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="text-primary">Manage Admins</h1>
+<div class="container my-5">
+  <h1 class="text-primary">Manage Admins</h1>
+  <div class="d-flex justify-content-end my-3">
     <a href="new.php" class="btn btn-primary" aria-label="Add New Admin">+ Add Admin</a>
-  </header>
+  </div>
 
-  <!-- Session Message -->
   <?php echo display_session_message(); ?>
 
   <!-- Tabs for Admin Management -->
@@ -124,6 +121,7 @@ $suspended_admins = User::find_by_status('suspended', User::ADMIN);
     </div>
 
   </div>
+</div>
 </main>
 
 <!-- Shared modals -->

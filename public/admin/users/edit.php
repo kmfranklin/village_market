@@ -1,6 +1,8 @@
 <?php
 require_once '../../../private/initialize.php';
 require_login();
+$page_title = 'Edit Profile';
+require_once(SHARED_PATH . '/include_header.php');
 
 $id = $_GET['id'] ?? null;
 
@@ -38,12 +40,9 @@ if (is_post_request()) {
     redirect_to(url_for('/admin/dashboard.php'));
   }
 }
-
-$page_title = 'Edit Profile';
-include_header($session, $page_title);
 ?>
 
-<main role="main" class="container mt-5">
+<div class="container my-5">
   <h1>Edit Your Profile</h1>
 
   <?php echo display_errors($errors); ?>
@@ -54,6 +53,7 @@ include_header($session, $page_title);
       <button type="submit" class="btn btn-primary">Save Changes</button>
     </div>
   </form>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
