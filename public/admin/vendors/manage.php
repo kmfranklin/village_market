@@ -236,10 +236,12 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
                   <!-- Restore Button -->
                   <button class="btn btn-primary btn-sm restore-btn"
                     data-bs-toggle="modal"
-                    data-bs-target="#restore-modal-user-<?= h($user->user_id); ?>">
+                    data-bs-target="#restore-modal"
+                    data-user-id="<?= h($user->user_id); ?>"
+                    data-entity-name="<?= h($vendor->business_name); ?>"
+                    data-restore-url="<?= url_for('/admin/vendors/restore.php'); ?>">
                     Restore
                   </button>
-                  <?php display_restore_modal('vendor', url_for('/admin/vendors/restore.php'), $user->user_id, $vendor->business_name); ?>
 
                   <!-- Delete Button -->
                   <button class="btn btn-danger btn-sm delete-btn"
