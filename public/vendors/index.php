@@ -1,8 +1,8 @@
 <?php
 require_once('../../private/initialize.php');
+$page_title = 'Browse Vendors';
+require_once(SHARED_PATH . '/include_header.php');
 
-$page_title = 'All Vendors';
-include_header($session, $page_title);
 echo display_session_message();
 
 // Filters
@@ -77,7 +77,7 @@ $market_date_result = $database->query("
 ");
 ?>
 
-<main class="container my-4">
+<div class="container my-5">
   <h1 class="mb-4">Browse All Vendors</h1>
 
   <?php
@@ -131,6 +131,7 @@ $market_date_result = $database->query("
       No matching vendors found. Try adjusting your filters.
     </p>
   </section>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

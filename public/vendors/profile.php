@@ -2,7 +2,8 @@
 require_once '../../private/initialize.php';
 
 $page_title = "Edit My Profile";
-include_header($session, $page_title);
+require_once(SHARED_PATH . '/include_header.php');
+
 echo display_session_message();
 
 // Check if the user is signed in and is a vendor or admin
@@ -96,7 +97,7 @@ if (is_post_request()) {
 }
 ?>
 
-<main role="main" class="container mt-4">
+<div class="container my-5">
   <h1 class="text-primary">
     <?= $session->is_admin() || $session->is_super_admin() ? 'Edit Vendor Profile' : 'Update Your Profile'; ?>
   </h1>
@@ -112,6 +113,7 @@ if (is_post_request()) {
       <button type="submit" class="btn btn-primary">Save Profile</button>
     </div>
   </form>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

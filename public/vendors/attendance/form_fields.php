@@ -4,25 +4,25 @@ $current_year = date('Y');
 
 $next_month = date('n', strtotime('+1 month'));
 $next_year = date('Y', strtotime('+1 month'));
+
+$upcoming_dates = $upcoming_dates ?? [];
+
+$dates_to_show = array_filter($upcoming_dates, function ($date) use ($current_month, $current_year, $next_month, $next_year) {
+  $d = strtotime($date->market_date);
+  $month = date('n', $d);
+  $year = date('Y', $d);
+  return ($month == $current_month && $year == $current_year) || ($month == $next_month && $year == $next_year);
+});
+
+// Group by month/year
+$grouped = [];
+foreach ($dates_to_show as $date) {
+  $key = date('F Y', strtotime($date->market_date));
+  $grouped[$key][] = $date;
+}
 ?>
 
 <div class="row">
-  <?php
-  $dates_to_show = array_filter($upcoming_dates, function ($date) use ($current_month, $current_year, $next_month, $next_year) {
-    $d = strtotime($date->market_date);
-    $month = date('n', $d);
-    $year = date('Y', $d);
-    return ($month == $current_month && $year == $current_year) || ($month == $next_month && $year == $next_year);
-  });
-
-  // Group by month/year
-  $grouped = [];
-  foreach ($dates_to_show as $date) {
-    $key = date('F Y', strtotime($date->market_date));
-    $grouped[$key][] = $date;
-  }
-  ?>
-
   <?php foreach ($grouped as $month_label => $dates): ?>
     <div class="col-12 mb-3">
       <h5 class="mt-4"><?php echo h($month_label); ?></h5>

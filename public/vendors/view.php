@@ -2,7 +2,7 @@
 require_once('../../private/initialize.php');
 
 $page_title = 'Vendor Profile';
-include_header($session, $page_title);
+require_once(SHARED_PATH . '/include_header.php');
 
 // Get vendor ID from URL
 $user_id = $_GET['id'] ?? '';
@@ -55,10 +55,8 @@ if ($vendor->state_id) {
   </div>
 <?php endif; ?>
 
-<main role="main" class="container mt-4">
-  <header class="mb-4">
-    <h1 class="text-primary"><?php echo h($vendor->business_name); ?> - Vendor Details</h1>
-  </header>
+<div class="container my-5">
+  <h1 class="text-primary mb-4"><?php echo h($vendor->business_name); ?> - Vendor Details</h1>
 
   <div class="row">
     <!-- Vendor Information -->
@@ -133,6 +131,7 @@ if ($vendor->state_id) {
       &larr; Back to Vendors
     </a>
   <?php endif; ?>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

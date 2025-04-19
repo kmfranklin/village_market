@@ -85,10 +85,10 @@ if (is_post_request()) {
 }
 
 $page_title = $is_admin ? 'Add Vendor' : 'Vendor Registration';
-include($is_admin ? SHARED_PATH . '/admin_header.php' : SHARED_PATH . '/public_header.php');
+require_once(SHARED_PATH . '/include_header.php');
 ?>
 
-<main class="container my-4">
+<div class="container my-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card shadow-sm">
@@ -129,6 +129,7 @@ include($is_admin ? SHARED_PATH . '/admin_header.php' : SHARED_PATH . '/public_h
       </div>
     </div>
   </div>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

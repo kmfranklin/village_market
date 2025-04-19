@@ -12,6 +12,9 @@ if (!$session->is_vendor()) {
 $user_id = $session->get_user_id();
 $vendor = Vendor::find_by_user_id($user_id);
 
+$page_title = "{$vendor->business_name}'s Dashboard";
+include(SHARED_PATH . '/vendor_header.php');
+
 $selected_market_date_ids = MarketAttendance::find_by_vendor($vendor->vendor_id);
 $calendar_dates = [];
 
@@ -32,9 +35,6 @@ foreach ($selected_market_date_ids as $id) {
   }
 }
 
-$page_title = "{$vendor->business_name}'s Dashboard";
-include(SHARED_PATH . '/vendor_header.php');
-
 if ($session->message()) : ?>
   <div class="d-flex justify-content-center">
     <div class="alert alert-success alert-dismissible fade show alert-centered" role="alert">
@@ -44,8 +44,7 @@ if ($session->message()) : ?>
   </div>
 <?php endif; ?>
 
-<main role="main" class="container mt-4">
-
+<div class="container my-5">
   <!-- Welcome Panel -->
   <div class="mb-4 p-4 bg-white rounded shadow-sm">
     <h1 class="h4 mb-2">Welcome back, <?= h($vendor->business_name); ?>!</h1>
@@ -106,7 +105,6 @@ if ($session->message()) : ?>
   <div class="row mt-5">
     <!-- Left: FAQ + Tips -->
     <div class="col-md-7">
-      <!-- FAQ Callout -->
       <div class="p-4 bg-white rounded shadow-sm mb-4">
         <h3 class="h5 mb-2">Need Help?</h3>
         <p class="mb-3">
@@ -115,7 +113,6 @@ if ($session->message()) : ?>
         <a href="<?= url_for('/vendors/faq.php'); ?>" class="btn btn-outline-primary btn-sm">View Vendor FAQs</a>
       </div>
 
-      <!-- Tips Block -->
       <div class="p-4 bg-white rounded shadow-sm">
         <h3 class="h5 mb-3">Tips for Today</h3>
         <ul class="mb-0">
@@ -136,11 +133,10 @@ if ($session->message()) : ?>
       </div>
     </div>
   </div>
+  </main>
 
-</main>
+  <script type="application/json" id="vendor-calendar-dates">
+    <?= json_encode($calendar_dates); ?>
+  </script>
 
-<script type="application/json" id="vendor-calendar-dates">
-  <?= json_encode($calendar_dates); ?>
-</script>
-
-<?php include(SHARED_PATH . '/footer.php'); ?>
+  <?php include(SHARED_PATH . '/footer.php'); ?>
