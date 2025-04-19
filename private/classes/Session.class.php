@@ -15,6 +15,12 @@ class Session
     $this->check_stored_login();
   }
 
+  /**
+   * Logs in the user by setting session variables and properties.
+   * 
+   * @param User $user The user object to log in.
+   * @return bool Always returns true.
+   */
   public function login($user)
   {
     if ($user) {
@@ -24,16 +30,25 @@ class Session
       $this->last_name = $_SESSION['last_name'] = $user->last_name;
       $this->role_id = $_SESSION['role_id'] = $user->role_id;
       $this->last_login = $_SESSION['last_login'] = time();
-      echo "Session login successful! User role ID: " . $this->role_id . "<br>";
     }
     return true;
   }
 
+  /**
+   * Checks if a user is logged in and the session is still valid.
+   * 
+   * @return bool True if logged in and session is fresh, false otherwise.
+   */
   public function is_logged_in()
   {
     return isset($this->user_id) && $this->last_login_is_recent();
   }
 
+  /**
+   * Logs out the current user and clears all session data.
+   * 
+   * @return bool True on success.
+   */
   public function logout()
   {
     unset($_SESSION['user_id'], $_SESSION['first_name'], $_SESSION['last_name'], $_SESSION['last_login'], $_SESSION['role_id']);
@@ -75,24 +90,38 @@ class Session
     unset($_SESSION['message']);
   }
 
+  /**
+   * Checks if the logged-in user is a super admin.
+   * 
+   * @return bool
+   */
   public function is_super_admin()
   {
     $user = User::find_by_id($this->user_id);
     return $user && $user->is_super_admin();
   }
 
+  /**
+   * Checks if the logged-in user is an admin.
+   * 
+   * @return bool
+   */
   public function is_admin()
   {
     $user = User::find_by_id($this->user_id);
     return $user && $user->is_admin();
   }
 
+  /**
+   * Checks if the logged-in user is a vendor.
+   * 
+   * @return bool
+   */
   public function is_vendor()
   {
     $user = User::find_by_id($this->user_id);
     return $user && $user->is_vendor();
   }
-
 
   public function get_user_id()
   {

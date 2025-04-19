@@ -21,7 +21,7 @@ class DatabaseObject
     }
 
     if (!empty($params)) {
-      $types = str_repeat('s', count($params)); // Assuming all params are strings
+      $types = str_repeat('s', count($params));
       $stmt->bind_param($types, ...$params);
     }
 

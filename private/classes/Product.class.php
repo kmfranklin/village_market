@@ -42,7 +42,6 @@ class Product extends DatabaseObject
    * @param int $vendor_id The vendor's user ID.
    * @return array List of products.
    */
-
   static public function find_by_vendor($vendor_id)
   {
     $sql = "SELECT * FROM " . static::$table_name . " WHERE vendor_id = ?";
@@ -54,7 +53,6 @@ class Product extends DatabaseObject
    *
    * @return array List of validation errors.
    */
-
   protected function validate()
   {
     $this->errors = [];
@@ -74,6 +72,12 @@ class Product extends DatabaseObject
     return $this->errors;
   }
 
+  /**
+   * Retrieve all product categories from the database.
+   * 
+   * @return array List of categories with keys matching DB columns.
+   * @throws Exception If database is not set or query fails.
+   */
   public static function get_categories()
   {
     if (!isset(self::$database)) {
@@ -114,6 +118,12 @@ class Product extends DatabaseObject
     return $category ? $category->category_name : 'Unknown';
   }
 
+  /**
+   * Uploads a product image using ImageUploader (Cloudinary).
+   * 
+   * @param array $file $_FILES-style associative array.
+   * @return bool True if upload was successful, false otherwise.
+   */
   public function upload_image($file)
   {
     // Use ImageUploader to upload the image to Cloudinary

@@ -52,31 +52,60 @@ class User extends DatabaseObject
     }
   }
 
+  /**
+   * Checks if the user has the admin role.
+   *
+   * @return bool True if admin, false otherwise.
+   */
   public function is_admin()
   {
     return $this->role_id == self::ADMIN;
   }
 
+  /**
+   * Checks if the user has the vendor role.
+   *
+   * @return bool True if vendor, false otherwise.
+   */
   public function is_vendor()
   {
     return $this->role_id == self::VENDOR;
   }
 
+  /**
+   * Checks if the user has the super admin role.
+   *
+   * @return bool True if super admin, false otherwise.
+   */
   public function is_super_admin()
   {
     return $this->role_id == self::SUPER_ADMIN;
   }
 
+  /**
+   * Returns the user's full name.
+   *
+   * @return string First and last name concatenated.
+   */
   public function full_name()
   {
     return "{$this->first_name} {$this->last_name}";
   }
 
+  /**
+   * Hashes the user's password using bcrypt.
+   */
   protected function hash_password()
   {
     $this->password_hashed = password_hash($this->password, PASSWORD_BCRYPT);
   }
 
+  /**
+   * Verifies a raw password against the stored hash.
+   *
+   * @param string $password The raw password to verify.
+   * @return bool True if match, false otherwise.
+   */
   public function verify_password($password)
   {
     return password_verify($password, $this->password_hashed);
@@ -185,7 +214,6 @@ class User extends DatabaseObject
     return $this->errors;
   }
 
-
   public function merge_attributes($args = [])
   {
     foreach ($args as $key => $value) {
@@ -195,6 +223,12 @@ class User extends DatabaseObject
     }
   }
 
+  /**
+   * Finds a user by their ID.
+   *
+   * @param int $user_id
+   * @return User|false
+   */
   public static function find_by_id($user_id)
   {
     if (is_null($user_id)) {
@@ -208,6 +242,12 @@ class User extends DatabaseObject
     return !empty($obj_array) ? array_shift($obj_array) : false;
   }
 
+  /**
+   * Finds a user by email address (case-insensitive).
+   *
+   * @param string $email
+   * @return User|false
+   */
   static public function find_by_email($email)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";
@@ -232,7 +272,10 @@ class User extends DatabaseObject
   }
 
   /**
-   * Approves a vendor by changing their status to active
+   * Approves a pending vendor account by updating their account status to 'active'.
+   * Also disables the password requirement flag before updating.
+   *
+   * @return bool True if the status was updated successfully, false otherwise.
    */
   public function approve_vendor()
   {
@@ -245,7 +288,10 @@ class User extends DatabaseObject
   }
 
   /**
-   * Rejects a vendor by changing their status to rejected
+   * Rejects a pending vendor account by updating their account status to 'rejected'.
+   * Also disables the password requirement flag before updating.
+   *
+   * @return bool True if the status was updated successfully, false otherwise.
    */
   public function reject_vendor()
   {
@@ -258,7 +304,9 @@ class User extends DatabaseObject
   }
 
   /**
-   * Suspends a vendor by changing their status to 'suspended'
+   * Suspends an active vendor account by updating their account status to 'suspended'.
+   *
+   * @return bool True if the status was updated successfully, false otherwise.
    */
   public function suspend_vendor()
   {
@@ -270,7 +318,9 @@ class User extends DatabaseObject
   }
 
   /**
-   * Restores a suspended vendor by changing their status back to 'active'
+   * Restores a suspended vendor account by updating their account status to 'active'.
+   *
+   * @return bool True if the status was updated successfully, false otherwise.
    */
   public function restore_vendor()
   {
@@ -281,6 +331,13 @@ class User extends DatabaseObject
     return false;
   }
 
+  /**
+   * Checks if an email address already exists in the user table, optionally excluding a specific user.
+   *
+   * @param string $email The email address to check.
+   * @param int|null $exclude_user_id Optional user ID to exclude from the check (useful when updating).
+   * @return User|false The existing user object if found, or false if the email is available.
+   */
   public static function email_exists($email, $exclude_user_id = null)
   {
     $sql = "SELECT * FROM " . static::$table_name . " ";

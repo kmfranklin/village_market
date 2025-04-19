@@ -115,6 +115,12 @@ class Vendor extends DatabaseObject
     return !empty($obj_array) ? array_shift($obj_array) : false;
   }
 
+  /**
+   * Finds a vendor by their associated user ID.
+   * 
+   * @param int $user_id The user ID associated with the vendor.
+   * @return Vendor|false Returns the vendor object if found, false otherwise.
+   */
   public static function find_by_user_id($user_id)
   {
     $sql = "SELECT * FROM vendor WHERE user_id = ?";
@@ -123,11 +129,24 @@ class Vendor extends DatabaseObject
     return !empty($result) ? array_shift($result) : false;
   }
 
+  /**
+   * Retrieves all vendors with a specific account status.
+   * 
+   * @param string $status Account status to filter by (e.g., 'active', 'suspended').
+   * @return array List of vendor User objects.
+   */
   public static function find_vendors_by_status($status)
   {
     return User::find_by_status($status, User::VENDOR);
   }
 
+  /**
+   * Checks if a vendor email already exists in the database.
+   * 
+   * @param string $email The business email to check.
+   * @param int|null $exclude_vendor_id Optional ID to exclude from the check.
+   * @return Vendor|false Returns the vendor object if found, false otherwise.
+   */
   public static function business_email_exists($email, $exclude_vendor_id = null)
   {
     $sql = "SELECT * FROM vendor WHERE LOWER(business_email_address) = LOWER('" . self::$database->escape_string($email) . "')";
@@ -149,7 +168,7 @@ class Vendor extends DatabaseObject
    * - vendor record
    * - user record
    *
-   * @return bool True on success, false if any step fails
+   * @return bool True on success, false if any step fails.
    */
   public function delete()
   {
