@@ -1,13 +1,12 @@
 <?php
 require_once('../../private/initialize.php');
+$page_title = "Manage Products";
+require_once(SHARED_PATH . '/include_header.php');
 
 if (!$session->is_logged_in() || (!$session->is_vendor() && !$session->is_admin() && !$session->is_super_admin())) {
   redirect_to(url_for('/login.php'));
 }
-
-$page_title = 'Manage Products';
 $is_admin = $session->is_admin() || $session->is_super_admin();
-include_header($session);
 
 // Get filter dropdowns
 require_once(SHARED_PATH . '/product_filters.php');
@@ -46,13 +45,11 @@ foreach ($products as $product) {
   }
 }
 ?>
-
-<main role="main" class="container mt-4">
-  <!-- Page Heading -->
-  <header class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="text-primary">Manage Products</h1>
+<div class="container my-5">
+  <h1 class="text-primary">Manage Products</h1>
+  <div class="d-flex justify-content-end my-3">
     <a href="new.php" class="btn btn-primary" aria-label="Add New Product">+ Add Product</a>
-  </header>
+  </div>
 
   <?php echo display_session_message(); ?>
 
@@ -177,7 +174,7 @@ foreach ($products as $product) {
       </table>
     <?php } ?>
   </div>
-</main>
+  </main>
 
-<?php include(SHARED_PATH . '/modals/delete_modal.php'); ?>
-<?php include(SHARED_PATH . '/footer.php'); ?>
+  <?php include(SHARED_PATH . '/modals/delete_modal.php'); ?>
+  <?php include(SHARED_PATH . '/footer.php'); ?>

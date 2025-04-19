@@ -35,22 +35,23 @@ $logged_in_vendor = $session->is_vendor() ? Vendor::find_by_user_id($session->ge
 $can_manage = $session->is_admin() || $session->is_super_admin() ||
   ($session->is_vendor() && $logged_in_vendor && $logged_in_vendor->vendor_id == $vendor->vendor_id);
 
-$page_title = "Product Details: " . h($product->product_name);
-include_header($session);
+$page_title = h($product->product_name) . ": Product Details";
+require_once(SHARED_PATH . '/include_header.php');
 ?>
 
-<main role="main" class="container mt-4">
-  <header class="mb-2 d-flex align-items-center justify-content-between">
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h1 class="text-primary">Product Details</h1>
-      <h2 class="text-secondary"><?= h($product->product_name); ?></h2>
+      <h1 class="text-primary mb-1">Product Details</h1>
+      <h2 class="text-secondary m-0"><?= h($product->product_name); ?></h2>
     </div>
+
     <?php if ($can_manage) : ?>
-      <div class="d-flex flex-column align-items-end">
-        <a href="edit.php?id=<?= h($product->product_id); ?>" class="btn btn-sm btn-primary mb-2 w-100 btn-fixed-width">
+      <div class="d-flex flex-column" style="min-width: 120px;">
+        <a href="edit.php?id=<?= h($product->product_id); ?>" class="btn btn-sm btn-primary mb-2 w-100">
           Edit
         </a>
-        <button class="btn btn-danger btn-sm w-100 delete-btn"
+        <button class="btn btn-sm btn-danger w-100 delete-btn"
           data-bs-toggle="modal"
           data-bs-target="#delete-modal"
           data-entity="product"
@@ -62,8 +63,8 @@ include_header($session);
         </button>
       </div>
     <?php endif; ?>
+  </div>
 
-  </header>
 
   <!-- Product Details -->
   <div class="card shadow-sm">
@@ -149,7 +150,7 @@ include_header($session);
       </a>
     <?php endif; ?>
   </div>
-
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/modals/delete_modal.php'); ?>

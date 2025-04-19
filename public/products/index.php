@@ -1,8 +1,8 @@
 <?php
 require_once('../../private/initialize.php');
-
 $page_title = 'Browse Products';
-include_header($session, $page_title);
+require_once(SHARED_PATH . '/include_header.php');
+
 echo display_session_message();
 
 // Get next market date
@@ -23,7 +23,7 @@ $vendor_result = $filter_results['vendor_result'];
 $category_result = $filter_results['category_result'];
 ?>
 
-<main class="container my-4">
+<div class="container my-5">
   <h1 class="mb-4">Browse Products Available at the Next Market</h1>
   <p class="lead">Showing products from vendors confirmed for <?php echo date('F j, Y', strtotime($market_date)); ?>.</p>
 
@@ -83,6 +83,7 @@ $category_result = $filter_results['category_result'];
       No matching products found. Try adjusting your filters.
     </p>
   </section>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

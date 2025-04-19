@@ -1,5 +1,7 @@
 <?php
 require_once('../../private/initialize.php');
+$page_title = "Edit Product";
+require_once(SHARED_PATH . '/include_header.php');
 
 if (!$session->is_logged_in()) {
   redirect_to(url_for('/login.php'));
@@ -53,32 +55,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 }
-
-$page_title = "Edit Product: " . h($product->product_name);
-include_header($session);
 ?>
 
-<main role="main" id="main">
-  <div class="container my-4">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h1 class="mb-4">Edit Product</h1>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="mb-4">Edit Product</h1>
 
-        <?php echo display_session_message(); ?>
+      <?php echo display_session_message(); ?>
 
-        <form action="edit.php?id=<?php echo h($product->product_id); ?>" method="post" enctype="multipart/form-data">
-          <div class="row">
-            <?php include('form_fields.php'); ?>
-          </div>
+      <form action="edit.php?id=<?php echo h($product->product_id); ?>" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <?php include('form_fields.php'); ?>
+        </div>
 
-          <div class="d-flex gap-3 mt-4">
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-            <a href="view.php?id=<?php echo h($product->product_id); ?>" class="btn btn-outline-secondary">Cancel</a>
-          </div>
-        </form>
-      </div>
+        <div class="d-flex gap-3 mt-4">
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <a href="view.php?id=<?php echo h($product->product_id); ?>" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>

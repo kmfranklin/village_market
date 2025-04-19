@@ -1,5 +1,7 @@
 <?php
 require_once('../../private/initialize.php');
+$page_title = "Add New Product";
+require_once(SHARED_PATH . '/include_header.php');
 
 if (!$session->is_logged_in() || (!$session->is_vendor() && !$session->is_admin() && !$session->is_super_admin())) {
   redirect_to(url_for('/login.php'));
@@ -8,8 +10,6 @@ if (!$session->is_logged_in() || (!$session->is_vendor() && !$session->is_admin(
 $errors = [];
 $product = new Product($_POST['product'] ?? []);
 $is_admin = $session->is_admin() || $session->is_super_admin();
-
-include_header($session);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $product_args = $_POST['product'];
@@ -61,51 +61,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<main role="main" id="main">
-  <div class="container mt-4">
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h1 class="mb-4">Add Product</h1>
-        <p>Use the form below to add a new product.</p>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="mb-4">Add Product</h1>
+      <p>Use the form below to add a new product.</p>
 
-        <?php echo display_errors($errors); ?>
+      <?php echo display_errors($errors); ?>
 
-        <form action="new.php" method="post" enctype="multipart/form-data">
-          <div class="row">
-            <?php if ($is_admin) { ?>
-              <div class="mb-3">
-                <label for="vendor_id" class="form-label">Vendor</label>
-                <select name="vendor_id" id="vendor_id" class="form-select" required>
-                  <option value="">Select a Vendor</option>
-                  <?php
-                  // Only get active vendors
-                  $sql = "SELECT v.* FROM vendor v ";
-                  $sql .= "JOIN user u ON v.user_id = u.user_id ";
-                  $sql .= "WHERE u.account_status = 'active' ";
-                  $sql .= "AND u.role_id = 1 ";
-                  $sql .= "ORDER BY v.business_name ASC";
-                  foreach (Vendor::find_by_sql($sql) as $vendor) {
-                  ?>
-                    <option value="<?= h($vendor->vendor_id); ?>"
-                      <?= (isset($_POST['vendor_id']) && $_POST['vendor_id'] == $vendor->vendor_id) ? 'selected' : ''; ?>>
-                      <?= h($vendor->business_name); ?>
-                    </option>
-                  <?php } ?>
-                </select>
-              </div>
-            <?php } ?>
+      <form action="new.php" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <?php if ($is_admin) { ?>
+            <div class="mb-3">
+              <label for="vendor_id" class="form-label">Vendor</label>
+              <select name="vendor_id" id="vendor_id" class="form-select" required>
+                <option value="">Select a Vendor</option>
+                <?php
+                // Only get active vendors
+                $sql = "SELECT v.* FROM vendor v ";
+                $sql .= "JOIN user u ON v.user_id = u.user_id ";
+                $sql .= "WHERE u.account_status = 'active' ";
+                $sql .= "AND u.role_id = 1 ";
+                $sql .= "ORDER BY v.business_name ASC";
+                foreach (Vendor::find_by_sql($sql) as $vendor) {
+                ?>
+                  <option value="<?= h($vendor->vendor_id); ?>"
+                    <?= (isset($_POST['vendor_id']) && $_POST['vendor_id'] == $vendor->vendor_id) ? 'selected' : ''; ?>>
+                    <?= h($vendor->business_name); ?>
+                  </option>
+                <?php } ?>
+              </select>
+            </div>
+          <?php } ?>
 
-            <?php include('form_fields.php'); ?>
-          </div>
+          <?php include('form_fields.php'); ?>
+        </div>
 
-          <div class="d-flex gap-3 mt-4">
-            <button type="submit" class="btn btn-primary">Add Product</button>
-            <a href="manage.php" class="btn btn-outline-secondary">Cancel</a>
-          </div>
-        </form>
-      </div>
+        <div class="d-flex gap-3 mt-4">
+          <button type="submit" class="btn btn-primary">Add Product</button>
+          <a href="manage.php" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 </main>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
