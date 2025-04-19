@@ -48,6 +48,13 @@ function has_length_less_than($value, $max)
   return $length < $max;
 }
 
+/**
+ * Checks whether a string's length matches an exact value.
+ *
+ * @param string $value The string to check.
+ * @param int $exact The exact length the string must match.
+ * @return bool True if the string length equals $exact, false otherwise.
+ */
 function has_length_exactly($value, $exact)
 {
   $length = strlen($value);
