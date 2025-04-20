@@ -79,14 +79,29 @@ class DatabaseObject
       return false;
     }
 
-    $attributes = $this->sanitized_attributes();
-    $sql = "INSERT INTO " . static::$table_name . " (" . join(', ', array_keys($attributes)) . ") ";
-    $sql .= "VALUES ('" . join("', '", array_values($attributes)) . "')";
+    $attributes = $this->attributes();
+    $columns = array_keys($attributes);
+    $placeholders = array_fill(0, count($columns), '?');
 
-    $result = static::$database->query($sql);
-    if ($result) {
-      $this->{static::$primary_key} = static::$database->insert_id;
+    $sql = "INSERT INTO " . static::$table_name;
+    $sql .= " (" . join(', ', $columns) . ") ";
+    $sql .= "VALUES (" . join(', ', $placeholders) . ")";
+
+    $stmt = self::$database->prepare($sql);
+    if ($stmt === false) {
+      throw new Exception("Prepare failed: " . self::$database->error);
     }
+
+    $types = str_repeat('s', count($columns));
+    $values = array_values($attributes);
+    $stmt->bind_param($types, ...$values);
+
+    $result = $stmt->execute();
+    if ($result) {
+      $this->{static::$primary_key} = self::$database->insert_id;
+    }
+
+    $stmt->close();
     return $result;
   }
 
@@ -97,16 +112,26 @@ class DatabaseObject
       return false;
     }
 
-    $attributes = $this->sanitized_attributes();
-    $attribute_pairs = [];
-    foreach ($attributes as $key => $value) {
-      $attribute_pairs[] = "{$key} = '" . self::$database->escape_string($value) . "'";
+    $attributes = $this->attributes();
+    $columns = array_keys($attributes);
+
+    $set_clause = join(', ', array_map(fn($col) => "$col = ?", $columns));
+    $sql = "UPDATE " . static::$table_name . " SET $set_clause";
+    $sql .= " WHERE " . static::$primary_key . " = ? LIMIT 1";
+
+    $stmt = self::$database->prepare($sql);
+    if ($stmt === false) {
+      throw new Exception("Prepare failed: " . self::$database->error);
     }
 
-    $sql = "UPDATE " . static::$table_name . " SET " . join(", ", $attribute_pairs);
-    $sql .= " WHERE " . static::$primary_key . " = '" . self::$database->escape_string($this->{static::$primary_key}) . "' LIMIT 1";
+    $types = str_repeat('s', count($columns)) . 'i';
+    $values = array_values($attributes);
+    $values[] = $this->{static::$primary_key};
 
-    return self::$database->query($sql);
+    $stmt->bind_param($types, ...$values);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
   }
 
   public function save()
