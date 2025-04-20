@@ -1,6 +1,10 @@
 # Village Market Web Application
 
-The Village Market Web Application is a full-stack platform designed to support a local farmers' market. Vendors can register their businesses, list their products, and manage attendance. Admins oversee vendor approvals, product listings, and homepage content, while the general public can browse products and vendor info through a searchable, responsive interface.
+A full-stack web application for managing a local farmers market, built as a final project for WEB-289 (Internet Technologies Project). The app provides distinct views and functionality for the general public, vendors, admins, and super admins.
+
+## Live Site
+
+[The Village Market](https://villagemarkethub.com)
 
 ## Table of Contents
 
@@ -28,131 +32,147 @@ The Village Market Web Application is a full-stack platform designed to support 
 
 ### Authentication
 
-- Single login system with role-based redirection (Vendor, Admin, Super Admin)
+- Single login system with role-based redirection (`Vendor`, `Admin`, `Super Admin`)
 - Session-based access control using a standardized `Session` class
 - Personalized dashboards and logout links based on user role
+- Server-side and client-side validation using PHP and JavaScript
 
 ---
 
 ### Vendor Dashboard
 
-- Submit business profile and upload a logo
-- Add, edit, and manage products and pricing
-- Select weekly market attendance dates via Flatpickr calendar
+- Register and manage business profile (logo, description, contact info)
+- Add, edit, and delete products and price units
+- Upload product images with automatic optimization
+- Select weekly attendance dates via an interactive Flatpickr calendar
+- View selected dates in a read-only dashboard calendar
 
 ---
 
 ### Admin Dashboard
 
-- Approve or reject vendor applications
-- View and manage all vendors, products, and listings
-- Override vendor product listings when necessary
-- Manage homepage content (hours, contact, hero image, announcements)
-- [In progress] Filter vendors by date and override attendance calendar
+- Review and approve/reject vendor registrations
+- Edit or override vendor attendance and product listings
+- Manage homepage content (hero image, hours, contact, announcements)
+- Add, suspend, restore, or delete vendor accounts and products
 
 ---
 
 ### Product Management
 
-**Vendors:**
+**Vendor Tools:**
 
-- Add/edit/delete products with names, descriptions, and categories
-- Upload product images
-- Set pricing per unit (e.g., per pound, dozen)
+- Add/edit/delete products with name, description, and category
+- Upload product images hosted via Cloudinary
+- Assign single or multiple price units as needed (e.g., per pound, per dozen)
 
-**Admins:**
+**Admin Tools:**
 
-- Manage all vendor product listings
+- View and manage all vendor product listings
 - Suspend, restore, or edit product details
-- Add new products and assign products to vendors from the admin panel
+- Add new products on behalf of vendors
 
 ---
 
 ### Vendor Management
 
-- Add vendors from the admin dashboard
-- Edit vendor business and contact info
-- Approve or reject pending vendor registrations
-- Suspend or permanently delete vendor accounts
+- Add/edit vendor details
+- Approve/reject new vendor applications
+- Suspend or delete vendors
+- Role-based logic ensures only Admins/Super Admins can perform these actions
 
 ---
 
 ### Homepage CMS
 
-- Edit market location, hours, contact email/phone, and mailing address
-- Upload and manage hero images via Cloudinary
-- Add optional homepage announcements
+- Editable via admin panel
+  - Market hours, location, contact info
+  - Optional announcements
+  - Hero image gallery using Cloudinary
+- Admins can upload new images or select from existing assets
 
 ---
 
 ### Search & Filter Features
 
-- Public-facing product listing supports keyword search, category/vendor filtering, and alphabetical sorting
-- Vendor and Admin dashboards support filtering products by category and searching by name
-- JavaScript-powered filtering with PHP fallback for accessibility
+- Search vendors and products by keyword
+- Filter products by vendor and category
+- Sort vendors/products alphabetically
+- Dynamic filtering with JavaScript, with full PHP fallback
+- JavaScript pagination system for public facing pages
 
 ---
 
 ### Public Marketplace
 
-- Browse all active vendors in a responsive, card-based layout
-- Keyword search by vendor name
-- Filter by upcoming market date (based on vendor attendance selections)
-- Sort alphabetically (A-Z or Z-A)
-- JavaScript pagination and dynamic search/filter application
-- Fully functional with or without JavaScript enabled (PHP fallback)
+- Browse all active vendors (with attendance intent set) and their public profiles
+- Search/filter functionality on both vendor and product listings
+- Full accessible and mobile-friendly display
 
 ### Image & Asset Management
 
-- Product and vendor images uploaded to Cloudinary
-- Images automatically resized and optimized for web delivery
-- Secure deletion from Cloudinary when a product is removed
-- SCSS compiled with Sass; JS bundled with ESBuild
-- All assets minified for faster performance
+- Cloudinary integration for:
+  - Product images
+  - Vendor logos
+  - Vendor profile and homepage hero images
+- Client-side image compression using Canvas API
+- Automatic resizing and optimization before upload
+- Deletion handled securely through the Cloudinary API
+- All JS and SCSS assets are compiled and minified for performance
 
 ---
 
 ### Forgot Password System
 
-- Password reset via secure, time-limited token (1 hour)
+- Password reset via time-sensitive token (1 hour)
 - Email delivery handled by PHPMailer (SMTP)
 - Token validated before allowing password update
 
 ### Accessibility & UI
 
-- Semantic HTML5 elements for screen reader support
-- Proper use of labels, ARIA landmarks, and keyboard-accessible components
-- Fully responsive, mobile-first layout using Bootstrap
-- Automatic alt text added if not provided by users during image uploads
+- WCAG 2.1 AA color contrast and keyboard navigation compliance
+- Semantic HTML5 and ARIA roles for screen reader support
+- Labels and `aria-*` attributes on form fields
+- Sticky forms with real-time error/confirmation messaging
+- Mobile-first responsive layout (Bootstrap 5)
+- Custom 404 page with market-themed messaging
 
 ---
 
 ## Database Schema
 
-The application uses a normalized relational schema structured to 3NF. It includes:
+The application uses a fully normalized relational schema in 3NF with:
 
-- Proper foreign key relationships
-- Normalized address and state data
-- Bridge tables for flexible product pricing and vendor attendance
+- Clear one-to-one, one-to-many, and many-to-many relationships
+- Foreign key constraints and optimized join tables
 
-View the live diagram:
+**Visual Schema:**
 [dbdiagram.io - Village Market Schema](https://dbdiagram.io/d/Village-Market-6779b24a5406798ef74936ae)
 
-Or refer to `sql/village_market.sql` for the complete schema.
+**SQL Dump:**
+See `sql/village_market.sql`
 
 ---
 
 ## Dependencies
 
-All dependencies are managed via **Composer** and **NPM**.
+All libraries and packages are managed via **Composer** and **NPM**.
+
+**Front-End & UI**
 
 - **[Bootstrap (via CDN)](https://getbootstrap.com/)** - layout and responsive utilities
+- **[Flatpickr](https://flatpickr.js.org)** - vendor calendar date picker
 - **[Sass (SCSS)](https://sass-lang.com/)** - compiled to `main.min.css`
 - **[ESBuild](https://esbuild.github.io/)** - minifies and bundles JS to `main.min.js`
-- **[PHPMailer](https://github.com/PHPMailer/PHPMailer)** - sends password reset emails
+
+**Back-End & Infrastructure**
+
+- **[PHP 8+](https://www.php.net/)** - server-side scripting language used to build all back-end logic
+- **[MySQL](https://www.mysql.com/)** - relational database system used to store application data
+- **[Composer](https://getcomposer.org/)** - dependency manager for PHP libraries
 - **[Dotenv (vlucas/phpdotenv)](https://github.com/vlucas/phpdotenv)** - manages `.env` credentials
-- **[Cloudinary](https://cloudinary.com/)** - handles image hosting and optimization
-- **[Flatpickr](https://flatpickr.js.org)** - vendor calendar date picker
+- **[PHPMailer](https://github.com/PHPMailer/PHPMailer)** - sends password reset emails via SMTP
+- **[Cloudinary SDK](https://cloudinary.com/)** - handles image upload, optimization, and delivery
 - **[Google reCAPTCHA v2](https://www.google.com/recaptcha/about/)** - prevents bot submissions on public forms
 
 ---
@@ -164,8 +184,9 @@ All dependencies are managed via **Composer** and **NPM**.
 - PHP 8+
 - MySQL/MariaDB
 - Apache (XAMPP preferred)
-- Composer (to manage dependencies)
-- A Cloudinary account and API key
+- Composer & Node.js
+- Cloudinary account and API key
+- Google reCAPTCHA v2 keys
 
 ### Getting Started
 
@@ -218,26 +239,15 @@ RECAPTCHA_SECRET_KEY=your_secret_key
 
 ## Development & Deployment Notes
 
-### JavaScript & SCSS Build Process
+- Minified CSS and JavaScript are not committed to the repository. They must be generated before deployment using the NPM scripts below.
 
-- **SCSS files** are stored in `assets/scss`, and Sass compiles them into `assets/scss/main.min.css`.
-- **JavaScript files** are stored in `assets/scripts`, and ESBuild bundles them into `assets/scripts/main.min.js`.
-- The `main.min.css` and `main.min.js` files are not committed to Git; they are generated at build time.
-- Run the following before deployment to ensure the latest minified files are included:
+```
+npm run sass      # Compiles SCSS to main.min.css
+npm run build-js  # Bundles and minifies JS to main.min.js
+```
 
-  - Compile SCSS:
-
-  ```
-  npm run sass
-  ```
-
-  - Bundle JS:
-
-  ```
-  npm run build-js
-  ```
-
-- For deployment, make sure the minified files are uploaded manually or generated on the server.
+- Environment-specific values (DB, SMTP, Cloudinary) are stored in `.env`
+- The app is fully functional on both localhost and live hosting
 
 ---
 
@@ -245,19 +255,16 @@ RECAPTCHA_SECRET_KEY=your_secret_key
 
 ### Authentication Enhancements
 
-- "Remember Me" functionality using secure tokens
-- In-dashboard password change support
+- Optional "Remember Me" with token-based auth
 
 ### Vendor Tools
 
-- Show list of selected attendance dates and products available
-- Attendance reminder notification (must select dates available for next month by the last week of current month)
+- View attendance/product history
 
 ### Admin Tools
 
-- Override vendor attendance data
 - Filter vendors by attendance date
-- Notifications system (pending vendors, support requests, etc.)
+- Dashboard alert system for pending market approvals, reminders to update CMS (seasonal announcements, event images, etc.), and more
 
 ---
 
