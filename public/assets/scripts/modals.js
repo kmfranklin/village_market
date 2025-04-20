@@ -1,3 +1,10 @@
+/**
+ * @file modals.js
+ *
+ * Handles all Bootstrap modal interactions across the application.
+ * Includes shared modals for suspend, restore, delete, hero image selection, and price unit configuration.
+ */
+
 document.addEventListener('DOMContentLoaded', function () {
   // Close modals when clicking "X" or "Cancel"
   document.querySelectorAll('.close-modal').forEach(button => {
@@ -13,6 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // Hero Image Modal (Gallery)
   const confirmButton = document.getElementById('confirmImageSelection');
   if (confirmButton) {
+    /**
+     * Handles hero image selection from the modal gallery.
+     *
+     * Updates preview image, hidden input values, and closes the modal.
+     */
     confirmButton.addEventListener('click', function () {
       const selectedImage = document.querySelector("input[name='hero_image_select']:checked");
       if (!selectedImage) return;
@@ -45,6 +57,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Bootstrap modal triggers via data attributes
   document.querySelectorAll("[data-bs-toggle='modal']").forEach(button => {
+    /**
+     * Opens Bootstrap modal based on `data-bs-target` attribute.
+     */
     button.addEventListener('click', function () {
       const targetModal = document.querySelector(this.getAttribute('data-bs-target'));
       if (targetModal) {
@@ -53,8 +68,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // ✅ Universal Suspend Modal (Admin or Vendor)
+  // Universal Suspend Modal (Admin or Vendor)
   document.querySelectorAll('.suspend-btn').forEach(button => {
+    /**
+     * Populates the suspend modal with entity-specific data.
+     *
+     * Replaces form content and sets action URL for submission.
+     */
     button.addEventListener('click', function () {
       const modal = document.getElementById('suspend-modal');
       if (!modal) return;
@@ -98,6 +118,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Universal Restore Modal Handler (Admin or Vendor)
   document.querySelectorAll('.restore-btn').forEach(button => {
+    /**
+     * Populates the restore modal with entity-specific data.
+     *
+     * Replaces form content and sets action URL for submission.
+     */
     button.addEventListener('click', function () {
       const modal = document.getElementById('restore-modal');
       if (!modal) return;
@@ -130,7 +155,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Shared Delete Modal Handler
+  /**
+   * Initializes the shared delete modal for all entities.
+   *
+   * Populates modal fields based on button data attributes and sets form action URL.
+   */
   function initializeDeleteModal() {
     const deleteModal = document.getElementById('delete-modal');
     const deleteForm = document.getElementById('delete-form');
@@ -189,6 +218,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   document.querySelectorAll('.unit-btn').forEach(button => {
+    /**
+     * Toggles unit selection in the modal and reflects it visually.
+     *
+     * Adds or removes the unit ID from the selected set and updates button style.
+     */
     button.addEventListener('click', function () {
       const unitId = this.getAttribute('data-unit-id');
 
@@ -235,6 +269,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /**
+   * Handles removal of a selected price unit entry.
+   *
+   * Updates button style and removes input group from the DOM.
+   */
   document.getElementById('selectedUnitsContainer')?.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-unit')) {
       const unitDiv = e.target.closest('[data-unit-id]');
@@ -245,10 +284,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Close modal on outside click
-  document.addEventListener('click', function (event) {
+  /**
+   * Closes open modals when clicking on the modal background.
+   *
+   * Targets elements with `.modal` class and hides them using Bootstrap API.
+   */
+  document.addEventListener('click', function (e) {
     document.querySelectorAll('.modal').forEach(modal => {
-      if (event.target === modal) {
+      if (e.target === modal) {
         const bsModal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
         bsModal.hide();
       }

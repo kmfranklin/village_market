@@ -1,5 +1,8 @@
 /**
+ * @file product_table_filters.js
+ *
  * Filters product table rows based on search input and dropdown selections.
+ * Also toggles the "No results" alert when no matching rows are found.
  *
  * Used on: products/manage.php
  */
@@ -19,6 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
     submitButton.style.display = 'none';
   }
 
+  /**
+   * Filters visible product table rows based on input values.
+   *
+   * Matches against product name, vendor, and category.
+   * Also handles toggling of the table and alert if no results match.
+   */
   function filterTable() {
     const searchTerm = searchInput?.value.trim().toLowerCase() || '';
     const selectedCategory = categorySelect?.value || '';
@@ -57,6 +66,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  /**
+   * Returns a debounced version of a function.
+   *
+   * Ensures the function is only called after a delay with no new calls.
+   *
+   * @param {Function} func - Function to debounce
+   * @param {number} wait - Delay time in milliseconds
+   * @returns {Function}
+   */
   function debounce(func, wait) {
     let timeout;
     return function (...args) {

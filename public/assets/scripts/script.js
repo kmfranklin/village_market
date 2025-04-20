@@ -6,10 +6,3 @@ import './sort_handler.js';
 import './vendor_filter.js';
 import './dashboard.js';
 import './form.js';
-
-document.addEventListener('DOMContentLoaded', function () {
-  AOS.init({
-    once: true,
-    duration: 800,
-  });
-});

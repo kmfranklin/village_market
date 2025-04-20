@@ -28,15 +28,13 @@ $category_result = $filter_results['category_result'];
   <p class="lead">Showing products from vendors confirmed for <?php echo date('F j, Y', strtotime($market_date)); ?>.</p>
 
   <?php
-  // Set flags for filter form
-  $is_public_page = true;  // This indicates it's the public products page
+  $is_public_page = true;
   include(SHARED_PATH . '/product_filter_form.php');
   ?>
 
   <section id="products" class="container my-5">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
       <?php
-      // Add this before the foreach loop
       if ($product_result->num_rows === 0) {
         echo "No products found";
       }

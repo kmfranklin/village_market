@@ -1,5 +1,8 @@
 /**
+ * @file product_card_filter.js
+ *
  * Filters product cards based on search input and dropdown selections.
+ * Includes pagination logic and handles live updates on input change.
  *
  * Used on: products/index.php
  */
@@ -20,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
   let filteredProducts = [];
 
   /**
-   * Filters product cards based on search and dropdowns.
+   * Filters product cards based on search term, vendor, and category dropdowns.
+   *
+   * Applies all active filters and updates the `filteredProducts` array, then triggers rendering.
    */
   function filterProducts() {
     const search = searchInput?.value.trim().toLowerCase() || '';
@@ -44,7 +49,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * Renders current page of products.
+   * Renders the filtered product cards for the current page.
+   *
+   * Replaces the product grid content and triggers pagination rendering.
    */
   function renderProducts() {
     productContainer.innerHTML = '';

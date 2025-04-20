@@ -1,5 +1,8 @@
 /**
+ * @file sort_handler.js
+ *
  * Hides the "Apply" button and auto-submits the form when the sort dropdown changes.
+ * Enhances filter UX by removing the need to manually apply sort changes.
  *
  * Used on: any page with a filter form and sort dropdown (cards or tables).
  */

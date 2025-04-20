@@ -1,7 +1,8 @@
 /**
- * Filters vendor cards based on search input, date selection, and sort order.
+ * @file vendor_filter.js
  *
- * Hides non-matching cards and toggles the "no results" message and pagination.
+ * Filters vendor cards based on search input, date selection, and sort order.
+ * Dynamically paginates and sorts matching vendors, toggles empty state and pagination display.
  * JavaScript must be enabled for dynamic filtering; otherwise, PHP fallback applies.
  *
  * Used on: vendors/index.php
@@ -81,7 +82,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * Renders currently filtered and sorted vendors.
+   * Renders the current page of filtered and sorted vendor cards.
+   *
+   * Clears existing content, displays matching cards, and updates pagination and empty state.
    */
   function renderFilteredVendors() {
     const sortType = sortSelect?.value || '';
@@ -98,7 +101,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /**
-   * Filters vendor cards by search and date.
+   * Filters vendor cards by search term and selected market date.
+   *
+   * Updates the `filteredVendors` array and resets pagination to page 1.
    */
   function filterVendors() {
     const search = searchInput?.value.trim().toLowerCase() || '';

@@ -1,3 +1,10 @@
+/**
+ * @file form.js
+ *
+ * Enhances form functionality across the site.
+ * Handles attendance calendar sync, password strength meter, password match check, and image compression.
+ */
+
 import flatpickr from 'flatpickr';
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -33,7 +40,11 @@ document.addEventListener('DOMContentLoaded', function () {
       defaultDate: selectedDates,
 
       /**
-       * Sync calendar selection → checkboxes
+       * Updates checkboxes based on calendar selection.
+       *
+       * Syncs Flatpickr's selected dates to corresponding checkboxes.
+       *
+       * @param {Date[]} selectedDates - Dates selected in the Flatpickr calendar
        */
       onChange: function (selectedDates) {
         if (suppressCheckboxSync) return;
@@ -48,7 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     /**
-     * Sync checkbox changes → calendar selections
+     * Updates the calendar when a checkbox is toggled.
+     *
+     * Reflects checkbox changes back into Flatpickr, maintaining visual sync and
+     * preventing auto-jumping unless required.
      */
     checkboxes.forEach(checkbox => {
       checkbox.addEventListener('change', function () {
@@ -99,6 +113,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const bar = document.querySelector('#password-strength-bar');
   const checklist = document.querySelector('#password-checklist');
 
+  /**
+   * Toggles checklist item styling based on password rule result.
+   *
+   * @param {string} id - The checklist item element ID
+   * @param {boolean} passed - Whether the password rule passed
+   */
   function toggleChecklist(id, passed) {
     const item = document.getElementById(id);
     if (item) {
@@ -108,6 +128,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (passwordInput && meter && bar && checklist) {
+    /**
+     * Evaluates password strength on user input.
+     *
+     * Calculates a score based on length and character variety, updates progress bar
+     * and checklist to reflect password strength in real time.
+     */
     passwordInput.addEventListener('input', function () {
       const password = passwordInput.value;
       const lengthCheck = password.length >= 12;
@@ -145,6 +171,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const confirmInput = document.querySelector('#confirm_password');
   const confirmFeedback = document.querySelector('#confirm-password-feedback');
 
+  /**
+   * Validates that the confirm password field matches the main password.
+   *
+   * Updates feedback text and field styles based on match status.
+   */
   function validateMatch() {
     if (!passwordInput || !confirmInput || !confirmFeedback) return;
 
@@ -203,7 +234,7 @@ async function compressImage(file, quality = 0.6, maxWidth = 1600) {
     canvas.toBlob(
       blob => {
         const compressedFile = new File([blob], file.name, { type: 'image/jpeg' });
-        URL.revokeObjectURL(objectURL); // Cleanup
+        URL.revokeObjectURL(objectURL);
         resolve(compressedFile);
       },
       'image/jpeg',
@@ -229,14 +260,13 @@ function handleImageCompression(input) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const logoInput = document.getElementById('logo');
-  const businessImageInput = document.getElementById('business_image');
-  const homepageHeroInput = document.getElementById('hero_image_upload');
-  const productImageInput = document.getElementById('product_image');
+// Image compression handlers
+const logoInput = document.getElementById('logo');
+const businessImageInput = document.getElementById('business_image');
+const homepageHeroInput = document.getElementById('hero_image_upload');
+const productImageInput = document.getElementById('product_image');
 
-  if (logoInput) handleImageCompression(logoInput);
-  if (businessImageInput) handleImageCompression(businessImageInput);
-  if (homepageHeroInput) handleImageCompression(homepageHeroInput);
-  if (productImageInput) handleImageCompression(productImageInput);
-});
+if (logoInput) handleImageCompression(logoInput);
+if (businessImageInput) handleImageCompression(businessImageInput);
+if (homepageHeroInput) handleImageCompression(homepageHeroInput);
+if (productImageInput) handleImageCompression(productImageInput);
