@@ -130,10 +130,17 @@ class Product extends DatabaseObject
     $upload_result = ImageUploader::upload($file, 'product_images/', 'product_');
 
     if ($upload_result['success']) {
-      $this->product_image_url = $upload_result['url']; // Save URL to database
-      return ['success' => true, 'message' => "Image uploaded successfully."];
+      $this->product_image_url = $upload_result['url']; // Save URL to object
+      return [
+        'success' => true,
+        'message' => "Image uploaded successfully.",
+        'url' => $upload_result['url'] // Return it for use in edit.php
+      ];
     } else {
-      return ['success' => false, 'message' => $upload_result['message']];
+      return [
+        'success' => false,
+        'message' => $upload_result['message']
+      ];
     }
   }
 

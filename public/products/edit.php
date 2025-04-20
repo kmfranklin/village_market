@@ -49,6 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ProductPriceUnit::update_product_prices($product->product_id, $_POST['product_price_unit']);
   }
 
+  if (!empty($_FILES['product_image']['name'])) {
+    $upload_result = $product->upload_image($_FILES['product_image']);
+    if (!$upload_result['success']) {
+      $errors[] = $upload_result['message'];
+    } else {
+      $product->product_image_url = $upload_result['url'];
+    }
+  }
+
   if (empty($errors) && $product->update()) {
     $_SESSION['message'] = "Product updated successfully.";
     redirect_to("manage.php");
