@@ -184,6 +184,15 @@
     .dropdown.show .dropdown-menu {
       display: block;
     }
+
+    ul {
+      justify-content: center;
+    }
+
+    .btn {
+      margin: 0px auto 20px;
+      padding: 5px 10px !important;
+    }
   }
 
   .dropdown-menu {

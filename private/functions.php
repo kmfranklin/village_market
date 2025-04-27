@@ -171,7 +171,7 @@ function get_next_market_date_id()
 {
   global $database;
 
-  $sql = "SELECT market_date_id FROM market_date WHERE market_date >= CURDATE() ORDER BY market_date ASC LIMIT 1";
+  $sql = "SELECT market_date_id FROM market_date WHERE market_date > CURDATE() ORDER BY market_date ASC LIMIT 1";
   $result = $database->query($sql);
   $next_market = $result->fetch_assoc();
 

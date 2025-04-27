@@ -75,3 +75,10 @@ footer {
 #no-results {
   display: none;
 }
+
+@media screen and (max-width: 992px) {
+  footer .col-md-4 {
+    text-align: center !important;
+    margin-top: 25px;
+  }
+}

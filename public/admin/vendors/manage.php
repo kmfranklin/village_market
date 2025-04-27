@@ -68,7 +68,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
             <tr>
               <th scope="col">Business Name</th>
               <th scope="col">Owner</th>
-              <th scope="col">Email</th>
+              <th scope="col" class="email-cells">Email</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -84,7 +84,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
               <tr>
                 <td><?= h($vendor->business_name); ?></td>
                 <td><?= h($user->full_name()); ?></td>
-                <td><?= h($user->email_address); ?></td>
+                <td class="email-cells"><?= h($user->email_address); ?></td>
                 <td>
                   <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <a href="<?= url_for('/vendors/profile.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">Edit</a>
@@ -116,7 +116,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
             <tr>
               <th scope="col">Business Name</th>
               <th scope="col">Owner</th>
-              <th scope="col">Email</th>
+              <th scope="col" class="email-cells">Email</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -132,7 +132,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
               <tr>
                 <td><?= h($vendor->business_name); ?></td>
                 <td><?= h($user->full_name()); ?></td>
-                <td><?= h($user->email_address); ?></td>
+                <td class="email-cells"><?= h($user->email_address); ?></td>
                 <td>
                   <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <a href="manage.php?action=approve&id=<?= h($user->user_id); ?>" class="btn btn-primary btn-sm">Approve</a>
@@ -155,7 +155,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
             <tr>
               <th scope="col">Business Name</th>
               <th scope="col">Owner</th>
-              <th scope="col">Email</th>
+              <th scope="col" class="email-cells">Email</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -171,7 +171,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
               <tr>
                 <td><?= h($vendor->business_name); ?></td>
                 <td><?= h($user->full_name()); ?></td>
-                <td><?= h($user->email_address); ?></td>
+                <td class="email-cells"><?= h($user->email_address); ?></td>
                 <td>
                   <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <!-- Restore Button -->
@@ -212,7 +212,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
             <tr>
               <th scope="col">Business Name</th>
               <th scope="col">Owner</th>
-              <th scope="col">Email</th>
+              <th scope="col" class="email-cells">Email</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
@@ -228,7 +228,7 @@ $rejected_vendors = Vendor::find_vendors_by_status('rejected');
               <tr>
                 <td><?= h($vendor->business_name); ?></td>
                 <td><?= h($user->full_name()); ?></td>
-                <td><?= h($user->email_address); ?></td>
+                <td class="email-cells"><?= h($user->email_address); ?></td>
                 <td>
                   <a href="<?= url_for('/vendors/view.php?id=' . h($user->user_id)); ?>" class="btn btn-outline-secondary btn-sm">View</a>
                   <!-- Restore Button -->

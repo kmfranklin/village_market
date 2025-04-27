@@ -104,3 +104,10 @@
   font-weight: 300;
   margin-bottom: 15px;
 }
+
+// Vendor Management view
+@media screen and (max-width: 992px) {
+  .email-cells {
+    display: none;
+  }
+}
